@@ -1,7 +1,7 @@
 /* Responsive sizing variables */
 .game-root {
   --tile: clamp(44px, min(8vw, 7vh), 88px);
-  --ground: calc(var(--tile) * 1.5);
+  --ground: calc(var(--tile) * 1.5 + 24px);
   --para-far: 0px;
   --para-near: 0px;
 }
@@ -18,7 +18,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  bottom: var(--ground);
+  bottom: calc(var(--ground) - 24px);
   height: calc(var(--tile) * 2.8);
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -32,8 +32,9 @@
   opacity: 0.9;
 }
 .world-viewport::after {
-  background-image: url('/mountains-near.svg');
+  background-image: url('/mountains-near-new.png');
   background-position-x: var(--para-near);
+  bottom: calc(var(--ground) - 20px);
   opacity: 0.95;
 }
 
@@ -61,34 +62,34 @@
 
 .player {
   position: absolute;
-  bottom: var(--ground);
+  bottom: calc(var(--ground) - 24px);
   width: calc(var(--tile) * 0.625);
   height: var(--tile);
   margin-left: calc(-0.5 * var(--tile) * 0.625); /* center on x */
-  background: linear-gradient(180deg, #e6d2a2 0 32px, #4a6fa1 32px 64px);
-  border: 2px solid rgba(0, 0, 0, 0.5);
-  border-radius: 6px;
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.35);
+  background-image: url('/sprites/player.svg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
 }
 
 .encounter {
   position: absolute;
-  bottom: var(--ground);
+  bottom: calc(var(--ground) - 24px);
   width: calc(var(--tile) * 0.75);
   height: calc(var(--tile) * 0.75);
   margin-left: calc(-0.5 * var(--tile) * 0.75);
-  border-radius: 8px;
-  border: 2px solid rgba(0, 0, 0, 0.45);
-  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: contain;
 }
 .encounter-npc {
-  background: #7fb069;
+  background-image: url('/sprites/npc.svg');
 }
 .encounter-monster {
-  background: #c23b22;
+  background-image: url('/sprites/monster.svg');
 }
 .encounter-chest {
-  background: #caa35a;
+  background-image: url('/sprites/chest.svg');
 }
 .encounter.resolved {
   filter: grayscale(1) brightness(0.6);
@@ -97,14 +98,9 @@
 
 .hud {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 12px;
-  padding: 12px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
+  left: 12px;
+  bottom: 12px;
+  width: 120px;
   z-index: 2;
 }
 
@@ -113,36 +109,84 @@
   width: 100%;
   height: 52px;
   font-size: 18px;
-  font-weight: 700;
-  color: #0e0f12;
-  background: #f0cc54;
+  font-weight: 800;
+  color: #1a1a1a;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #f0cc54 100%);
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 6px 0 #b3902f;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 0 #b3902f,
+    0 12px 20px rgba(0, 0, 0, 0.15),
+    inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+.step-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s ease;
+}
+.step-btn:hover {
+  background: linear-gradient(135deg, #ffed4e 0%, #ffd700 50%, #f0cc54 100%);
+  box-shadow:
+    0 10px 0 #b3902f,
+    0 16px 25px rgba(0, 0, 0, 0.2),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+.step-btn:hover::before {
+  left: 100%;
 }
 .step-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 5px 0 #b3902f;
+  transform: translateY(4px);
+  box-shadow:
+    0 4px 0 #b3902f,
+    0 8px 15px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 .step-btn:disabled {
-  filter: grayscale(1);
-  opacity: 0.8;
+  filter: grayscale(0.8) brightness(0.7);
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow:
+    0 6px 0 #8a7a2a,
+    0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .log {
-  max-height: 52px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  max-height: 200px;
   overflow: auto;
   color: #d7d7d7;
-  font-size: 12px;
-  line-height: 1.2;
-  padding: 8px 10px;
-  background: rgba(0, 0, 0, 0.35);
-  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 12px 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  z-index: 2;
 }
 .log-line {
+  margin-bottom: 4px;
+  padding: 2px 0;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.log-line:last-child {
+  margin-bottom: 0;
 }
 
 .modal-overlay {

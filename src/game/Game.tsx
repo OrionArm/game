@@ -169,18 +169,20 @@ export default function Game() {
         </div>
       </div>
 
+      {/* Log */}
+      <div className="log">
+        {log.map((line, i) => (
+          <div className="log-line" key={i}>
+            {line}
+          </div>
+        ))}
+      </div>
+
       {/* HUD */}
       <div className="hud">
         <button className="step-btn" onClick={stepForward} disabled={encounterState.active}>
           Ход
         </button>
-        <div className="log">
-          {log.map((line, i) => (
-            <div className="log-line" key={i}>
-              {line}
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Modal */}
