@@ -23,10 +23,16 @@ function randomBetween(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-function generateEncounters(count: number): Encounter[] {
+// Mock server function to simulate API call
+async function fetchEncountersFromServer(): Promise<Encounter[]> {
+  // Simulate network delay
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
   const types: EncounterType[] = ['npc', 'monster', 'chest'];
   const encounters: Encounter[] = [];
   const used: number[] = [];
+  const count = 18;
+
   for (let i = 0; i < count; i++) {
     // ensure they are at least some steps apart
     let x = Math.round(randomBetween(8, (WORLD_LENGTH_PX - 8) / STEP_PX)) * STEP_PX;
@@ -60,11 +66,30 @@ export default function Game() {
     return Math.max(START_X, viewHalf + SAFE_MARGIN_PX);
   });
   const [log, setLog] = useState<string[]>(['Добро пожаловать в приключение!']);
-  const encounters = useMemo(() => generateEncounters(18), []);
+  const [encounters, setEncounters] = useState<Encounter[]>([]);
+  const [loading, setLoading] = useState(true);
   const [encounterState, setEncounterState] = useState<{
     active: boolean;
     encounter: Encounter | null;
   }>({ active: false, encounter: null });
+
+  // Fetch encounters from server on component mount
+  useEffect(() => {
+    async function loadEncounters() {
+      try {
+        setLoading(true);
+        const serverEncounters = await fetchEncountersFromServer();
+        setEncounters(serverEncounters);
+        setLog((prev) => ['Встречи загружены с сервера!', ...prev]);
+      } catch (error) {
+        setLog((prev) => ['Ошибка загрузки встреч!', ...prev]);
+        console.error('Failed to fetch encounters:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadEncounters();
+  }, []);
 
   // Smooth camera follow
   useEffect(() => {
@@ -103,8 +128,26 @@ export default function Game() {
   }, [playerX, encounters, encounterState.active]);
 
   function stepForward() {
-    if (encounterState.active) return; // block movement during modal
+    if (encounterState.active || loading) return; // block movement during modal or loading
+
+    // Optimistic update: move player immediately
     setPlayerX((x) => Math.min(x + STEP_PX, WORLD_LENGTH_PX));
+    setLog((prev) => ['Шаг сделан!', ...prev]);
+
+    // Fetch new encounters from server in background
+    setLoading(true);
+    fetchEncountersFromServer()
+      .then((newEncounters) => {
+        setEncounters(newEncounters);
+        setLog((prev) => ['Новые встречи загружены!', ...prev]);
+      })
+      .catch((error) => {
+        setLog((prev) => ['Ошибка загрузки новых встреч!', ...prev]);
+        console.error('Failed to fetch new encounters:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   function resolveEncounter(action: 'talk' | 'fight' | 'open' | 'ignore') {
@@ -180,7 +223,11 @@ export default function Game() {
 
       {/* HUD */}
       <div className="hud">
-        <button className="step-btn" onClick={stepForward} disabled={encounterState.active}>
+        <button
+          className="step-btn"
+          onClick={stepForward}
+          disabled={encounterState.active || loading}
+        >
           Ход
         </button>
       </div>
