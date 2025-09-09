@@ -53,6 +53,7 @@ function generateEncounters(count: number): Encounter[] {
 
 export default function Game() {
   const worldRef = useRef<HTMLDivElement | null>(null);
+  const viewportRef = useRef<HTMLDivElement | null>(null);
   const [playerX, setPlayerX] = useState(START_X);
   const [cameraX, setCameraX] = useState(() => {
     const viewHalf = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
@@ -82,6 +83,16 @@ export default function Game() {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [playerX]);
+
+  // Update parallax variables on camera change
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    const far = -cameraX * 0.2; // distant layer moves slower
+    const near = -cameraX * 0.5; // nearer layer moves faster
+    vp.style.setProperty('--para-far', `${far}px`);
+    vp.style.setProperty('--para-near', `${near}px`);
+  }, [cameraX]);
 
   // Check encounter when player moves
   useEffect(() => {
@@ -136,7 +147,7 @@ export default function Game() {
 
   return (
     <div className="game-root">
-      <div className="world-viewport">
+      <div ref={viewportRef} className="world-viewport">
         <div ref={worldRef} className="world" style={worldStyle}>
           {/* Background layers */}
           <div className="sky" />

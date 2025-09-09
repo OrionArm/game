@@ -1,16 +1,40 @@
+/* Responsive sizing variables */
 .game-root {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: linear-gradient(#0b1020, #0e0f12);
-  touch-action: manipulation;
+  --tile: clamp(44px, min(8vw, 7vh), 88px);
+  --ground: calc(var(--tile) * 1.5);
+  --para-far: 0px;
+  --para-near: 0px;
 }
 
 .world-viewport {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  background: linear-gradient(180deg, #263b6a 0%, #1a2440 100%);
+}
+.world-viewport::before,
+.world-viewport::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--ground);
+  height: calc(var(--tile) * 2.8);
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position-y: bottom;
+  pointer-events: none;
+  z-index: 0;
+}
+.world-viewport::before {
+  background-image: url('/mountains-far.svg');
+  background-position-x: var(--para-far);
+  opacity: 0.9;
+}
+.world-viewport::after {
+  background-image: url('/mountains-near.svg');
+  background-position-x: var(--para-near);
+  opacity: 0.95;
 }
 
 .world {
@@ -19,42 +43,28 @@
   left: 0;
   height: 100%;
   will-change: transform;
+  z-index: 1;
 }
 
-.sky {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, #263b6a 0%, #1a2440 100%);
-}
-
+.sky,
 .mountains {
-  position: absolute;
-  bottom: 96px;
-  height: 160px;
-  width: 20000px;
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.09) 0 18px,
-    rgba(255, 255, 255, 0.04) 18px 36px
-  );
-  opacity: 0.3;
-  transform: translateZ(0) scale(1.02);
+  display: none;
 }
 
 .ground {
   position: absolute;
   bottom: 0;
-  height: 96px;
+  height: var(--ground);
   background: repeating-linear-gradient(90deg, #3b2f2f 0 32px, #443333 32px 64px);
   border-top: 4px solid rgba(0, 0, 0, 0.35);
 }
 
 .player {
   position: absolute;
-  bottom: 96px;
-  width: 40px;
-  height: 64px;
-  margin-left: -20px; /* center on x */
+  bottom: var(--ground);
+  width: calc(var(--tile) * 0.625);
+  height: var(--tile);
+  margin-left: calc(-0.5 * var(--tile) * 0.625); /* center on x */
   background: linear-gradient(180deg, #e6d2a2 0 32px, #4a6fa1 32px 64px);
   border: 2px solid rgba(0, 0, 0, 0.5);
   border-radius: 6px;
@@ -63,10 +73,10 @@
 
 .encounter {
   position: absolute;
-  bottom: 96px;
-  width: 48px;
-  height: 48px;
-  margin-left: -24px;
+  bottom: var(--ground);
+  width: calc(var(--tile) * 0.75);
+  height: calc(var(--tile) * 0.75);
+  margin-left: calc(-0.5 * var(--tile) * 0.75);
   border-radius: 8px;
   border: 2px solid rgba(0, 0, 0, 0.45);
   box-shadow: 0 6px 0 rgba(0, 0, 0, 0.25);
@@ -95,6 +105,7 @@
   gap: 12px;
   padding: 12px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
+  z-index: 2;
 }
 
 .step-btn {
