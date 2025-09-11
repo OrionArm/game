@@ -1,0 +1,49 @@
+/* Responsive sizing variables */
+.app {
+  --tile: clamp(44px, min(8vw, 7vh), 88px);
+  --ground: calc(var(--tile) * 1.5 + 24px);
+  --para-far: 0px;
+  --para-near: 0px;
+  /* z-index layers */
+  --z-bg: 0; /* viewport gradient */
+  --z-parallax-far: 1; /* far parallax layer */
+  --z-parallax-near: 2; /* near parallax layer */
+  --z-ground: 3; /* world and ground */
+  --z-encounter: 4;
+  --z-player: 5;
+  --z-overlay: 6;
+  --z-overlay-modal: 7;
+  /* asset urls */
+  --img-parallax-far: url('/far.svg');
+  --img-parallax-near: url('/near.svg');
+  --img-player: url('/player.svg');
+  --img-encounter-npc: url('/npc.svg');
+  --img-encounter-monster: url('/monster.svg');
+  --img-encounter-chest: url('/chest.svg');
+
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* UI overlay stack: holds LogPanel and HUD stats */
+.ui-overlay {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: var(--z-overlay);
+}
+
+.hud-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

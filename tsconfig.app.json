@@ -16,10 +16,7 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/game/*": ["src/game/*"],
-      "@/ui/*": ["src/ui/*"],
-      "@/state/*": ["src/state/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/*": ["src/*"],      
     },
 
     /* Linting */

@@ -1,0 +1,55 @@
+import styles from './app.module.css';
+import LogPanel from '@/features/log_panel';
+import EncounterModal from '@/features/encounter_modal';
+// import { ChestModal } from '@/features/chest_modal';
+import HUDStat from '@/features/HUD_stat';
+import World from '@/features/world';
+import Button from '@/shared/button';
+import { useGame, WORLD_LENGTH_PX } from '@/shared/useGame';
+
+export default function App() {
+  const {
+    worldRef,
+    viewportRef,
+    playerX,
+    log,
+    encounters,
+    loading,
+    activeEncounterId,
+    stepsCount,
+    goldAmount,
+    worldStyle,
+    stepForward,
+    resolveEncounter,
+  } = useGame();
+
+  const currentEncounter = activeEncounterId ? encounters.find(e => e.id === activeEncounterId) || null : null
+
+  return (
+    <div className={styles.app}>
+      <div className={styles['ui-overlay']}>
+        <div className={styles['hud-stats']}>
+          <HUDStat icon="🦶" label="Ходы" value={stepsCount} align="left" />
+          <HUDStat icon="💰" label="Золото" value={goldAmount} align="right" />
+        </div>
+        <LogPanel lines={log} />
+      </div>
+
+      <World
+        viewportRef={viewportRef}
+        worldRef={worldRef}
+        worldStyle={worldStyle}
+        encounters={encounters}
+        playerX={playerX}
+        worldLengthPx={WORLD_LENGTH_PX}
+      />
+
+      <Button onClick={stepForward} disabled={!!activeEncounterId || loading} />
+
+      <EncounterModal
+        encounter={currentEncounter}
+        onSelect={resolveEncounter}
+      />
+    </div>
+  );
+}
