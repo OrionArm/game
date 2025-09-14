@@ -1,5 +1,5 @@
-import type { EncounterType } from '@/shared/useGame';
-import Modal from '@/shared/modal';
+import type { EncounterType } from '@/shared/use_game';
+import Modal from '@/shared/ui/modal';
 import styles from './encounter_modal.module.css';
 import { ChestModal } from '../chest_modal';
 

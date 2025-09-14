@@ -4,8 +4,8 @@ import EncounterModal from '@/features/encounter_modal';
 // import { ChestModal } from '@/features/chest_modal';
 import HUDStat from '@/features/HUD_stat';
 import World from '@/features/world';
-import Button from '@/shared/button';
-import { useGame, WORLD_LENGTH_PX } from '@/shared/useGame';
+import Button from '@/shared/ui/button';
+import { useGame, WORLD_LENGTH_PX } from '@/shared/use_game';
 
 export default function App() {
   const {

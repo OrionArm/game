@@ -1,4 +1,4 @@
-import type { Encounter, EncounterType } from '../shared/useGame';
+import type { Encounter, EncounterType } from '../shared/use_game';
 
 // Simple in-memory store for encounters. Resets on page reload.
 class TempDb {

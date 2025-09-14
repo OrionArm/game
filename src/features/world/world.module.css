@@ -1,15 +1,3 @@
-/* Responsive sizing variables */
-.game-root {
-  --tile: clamp(44px, min(8vw, 7vh), 88px);
-  --ground: calc(var(--tile) * 1.5 + 24px);
-  --para-far: 0px;
-  --para-near: 0px;
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
 .world-viewport {
   position: absolute;
   inset: 0;
