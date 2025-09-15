@@ -30,6 +30,7 @@ export default function World({
   return (
     <div ref={viewportRef} className={styles['world-viewport']}>
       {/* Background layers (parallax on viewport, not translated with world) */}
+
       <div className={styles.layerFar} />
       <div className={styles.layerNear} />
       <div ref={worldRef} className={styles.world} style={worldStyle}>

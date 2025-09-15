@@ -30,10 +30,10 @@ class TempDb {
       const title = type === 'npc' ? 'Путник' : type === 'monster' ? 'Монстр' : 'Сундук';
       const description =
         type === 'npc'
-          ? 'Незнакомец машет рукой.'
+          ? 'Незнакомец машет рукой'
           : type === 'monster'
-            ? 'Враг преграждает путь.'
-            : 'Старый сундук покрыт пылью.';
+            ? 'Враг преграждает путь'
+            : 'Старый сундук покрытый пылью';
       generated.push({ id: `${type}-${x}-${i}`, x, type, resolved: false, title, description });
     }
     generated.sort((a, b) => a.x - b.x);

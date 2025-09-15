@@ -58,12 +58,12 @@ export const Chest = ({ onClose, description }: { onClose: () => void, descripti
         {/* Сундук */}
         <div className={styles.chestWrapper} onClick={handleChestClick}>
           <img
-            src="close-box.png"
+            src="open-box.svg"
             alt="Closed chest"
             className={`${styles.chest} ${isOpen ? styles.chestHidden : ''}`}
           />
           <img
-            src="open-box.png"
+            src="open-box.svg"
             alt="Open chest"
             className={`${styles.chest} ${isOpen ? '' : styles.chestHidden}`}
           />

@@ -24,12 +24,13 @@ dist-ssr
 *.sw?
 
 # Yarn Berry
-.yarn/install-state.gz
-.yarn/*.log
-.yarn/cache/*.zip
+.yarn/*
 !.yarn/cache
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+CI/CD
+.firebase
