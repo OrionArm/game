@@ -3,7 +3,13 @@ import styles from './chest.module.css';
 
 type Sparkle = { id: number; x: number; y: number; size: number; delay: number };
 
-export const Chest = ({ onClose, description }: { onClose: () => void, description: string }) => {
+export default function Chest({
+  onClose,
+  description,
+}: {
+  onClose: () => void;
+  description: string;
+}) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [sparkles, setSparkles] = useState<Sparkle[]>([]);
 
@@ -36,8 +42,8 @@ export const Chest = ({ onClose, description }: { onClose: () => void, descripti
   };
 
   return (
-      <div className={styles.container}>
-      <h1 className={styles.title}>{isOpen ? description: 'Волшебный Сундук с Сокровищами'}</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>{isOpen ? description : 'Волшебный Сундук с Сокровищами'}</h1>
 
       <div className={styles.chestContainer}>
         {/* Блестки */}
@@ -58,14 +64,16 @@ export const Chest = ({ onClose, description }: { onClose: () => void, descripti
         {/* Сундук */}
         <div className={styles.chestWrapper} onClick={handleChestClick}>
           <img
-            src="open-box.svg"
+            src="/open-box.svg"
             alt="Closed chest"
             className={`${styles.chest} ${isOpen ? styles.chestHidden : ''}`}
+            loading="eager"
           />
           <img
-            src="open-box.svg"
+            src="/open-box.svg"
             alt="Open chest"
             className={`${styles.chest} ${isOpen ? '' : styles.chestHidden}`}
+            loading="eager"
           />
         </div>
       </div>
@@ -78,6 +86,5 @@ export const Chest = ({ onClose, description }: { onClose: () => void, descripti
         )}
       </div>
     </div>
-
-  )
-};
+  );
+}

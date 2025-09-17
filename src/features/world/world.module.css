@@ -2,28 +2,19 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%);
+  /* background: linear-gradient(180deg, var(--color-sky-top) 0%, var(--color-sky-bottom) 100%); */
   z-index: var(--z-bg);
-}
-/* .layerSky {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: calc((var(--ground) - 24px) + (var(--tile) * 2.8));
+
   background-image: var(--img-parallax-far);
-  background-repeat: repeat;
-  background-size: auto calc(var(--tile) * 2.8);
-  background-position: calc(var(--para-far) * 0.22) bottom;
-  pointer-events: none;
-} */
+  background-position-x: var(--para-far);
+}
 
 .layerFar,
 .layerNear {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: calc(var(--ground) - 24px);
+  bottom: calc(var(--ground) - 14px);
   height: calc(var(--tile) * 2.8);
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -31,16 +22,10 @@
   pointer-events: none;
 }
 
-.layerFar {
-  background-image: var(--img-parallax-far);
-  background-position-x: var(--para-far);
-  opacity: 0.9;
-  z-index: var(--z-parallax-far);
-}
 .layerNear {
   background-image: var(--img-parallax-near);
   background-position-x: var(--para-near);
-  bottom: calc(var(--ground) - 20px);
+  bottom: calc(var(--ground) - 10px);
   opacity: 0.95;
   z-index: var(--z-parallax-near);
 }
@@ -97,7 +82,7 @@
 .encounter-monster {
   background-image: var(--img-encounter-monster);
 }
-.encounter-chest {
+.encounter-treasure {
   background-image: var(--img-encounter-chest);
 }
 .resolved {

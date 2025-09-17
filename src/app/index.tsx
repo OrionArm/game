@@ -1,36 +1,46 @@
 import styles from './app.module.css';
 import LogPanel from '@/features/log_panel';
-import EncounterModal from '@/features/encounter_modal';
-// import { ChestModal } from '@/features/chest_modal';
+import DialogModal from '@/features/dialog_modal';
 import HUDStat from '@/features/HUD_stat';
 import World from '@/features/world';
 import Button from '@/shared/ui/button';
-import { useGame, WORLD_LENGTH_PX } from '@/shared/use_game';
+import { useGame } from '@/app/use_game';
 
 export default function App() {
   const {
     worldRef,
     viewportRef,
     playerX,
+    currentDialog,
     log,
-    encounters,
     loading,
-    activeEncounterId,
-    stepsCount,
-    goldAmount,
+    playerState,
     worldStyle,
+    worldLengthPx,
+    encounters,
+    dialog,
+    showDialog,
+    handleDialogOption,
+    handleCloseDialog,
     stepForward,
+    currentEncounter,
     resolveEncounter,
   } = useGame();
-
-  const currentEncounter = activeEncounterId ? encounters.find(e => e.id === activeEncounterId) || null : null
 
   return (
     <div className={styles.app}>
       <div className={styles['ui-overlay']}>
         <div className={styles['hud-stats']}>
-          <HUDStat icon="🦶" label="Ходы" value={stepsCount} align="left" />
-          <HUDStat icon="💰" label="Золото" value={goldAmount} align="right" />
+          <HUDStat icon="🦶" label="Ходы" value={playerState?.position || 0} align="left" />
+          <HUDStat
+            icon="❤️"
+            label="Здоровье"
+            value={`${playerState?.health || 0}/${playerState?.maxHealth || 100}`}
+            align="left"
+          />
+          <HUDStat icon="⚡" label="Энергия" value={playerState?.energy || 0} align="left" />
+          <HUDStat icon="💰" label="Золото" value={playerState?.gold || 0} align="left" />
+          <HUDStat icon="💎" label="Кристаллы" value={playerState?.cristal || 0} align="left" />
         </div>
         <LogPanel lines={log} />
       </div>
@@ -41,14 +51,24 @@ export default function App() {
         worldStyle={worldStyle}
         encounters={encounters}
         playerX={playerX}
-        worldLengthPx={WORLD_LENGTH_PX}
+        worldLengthPx={worldLengthPx}
       />
 
-      <Button onClick={stepForward} disabled={!!activeEncounterId || loading} />
+      <Button
+        onClick={stepForward}
+        disabled={!!currentDialog || loading}
+        ready={!currentDialog && !loading && (playerState?.energy || 0) >= 10}
+      >
+        {(playerState?.energy || 0) < 10 ? 'Мало энергии' : 'Ход'}
+      </Button>
 
-      <EncounterModal
-        encounter={currentEncounter}
+      <DialogModal
+        dialog={dialog}
+        showDialog={showDialog}
+        onSelectOption={handleDialogOption}
+        onClose={handleCloseDialog}
         onSelect={resolveEncounter}
+        currentEncounter={currentEncounter}
       />
     </div>
   );

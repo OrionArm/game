@@ -1,0 +1,194 @@
+import type { DialogNode } from '@/services';
+import { useEffect, useCallback, useRef, useState } from 'react';
+
+const CAMERA_SMOOTHNESS = 0.18;
+const MANUAL_CAMERA_SMOOTHNESS = 0.12;
+const SAFE_MARGIN_PX = 64 * 3;
+const STEP_PX = 64;
+
+type UseParallaxProps = {
+  playerX: number;
+  worldLength: number;
+  cameraX: number;
+  setCameraX: (value: number | ((prev: number) => number)) => void;
+};
+
+type Props = UseParallaxProps & {
+  currentDialog?: DialogNode | null;
+  loading?: boolean;
+};
+
+export function useParallax({
+  playerX,
+  worldLength,
+  cameraX,
+  setCameraX,
+  currentDialog,
+  loading,
+}: Props) {
+  const viewportRef = useRef<HTMLDivElement | null>(null);
+  const [isManualControl, setIsManualControl] = useState(false);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [targetCameraX, setTargetCameraX] = useState<number | null>(null);
+
+  // Вычисляем длину мира в пикселях
+  const worldLengthPx = worldLength * STEP_PX;
+
+  // Функция для обновления параллакса
+  const updateParallax = useCallback(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    const far = -cameraX * 0.1;
+    const near = -cameraX * 0.3;
+    vp.style.setProperty('--para-far', `${far}px`);
+    vp.style.setProperty('--para-near', `${near}px`);
+  }, [cameraX]);
+
+  // Функция для анимации камеры
+  const animateCamera = useCallback(() => {
+    setCameraX((prev) => {
+      let target: number;
+      let smoothness: number;
+
+      if (isManualControl && targetCameraX !== null) {
+        // Ручное управление - движемся к целевой позиции
+        target = targetCameraX;
+        smoothness = MANUAL_CAMERA_SMOOTHNESS;
+      } else {
+        // Автоматическое следование за игроком
+        const viewHalf = window.innerWidth / 2;
+        const minTarget = viewHalf + SAFE_MARGIN_PX;
+        target = Math.max(playerX, minTarget);
+        smoothness = CAMERA_SMOOTHNESS;
+      }
+
+      const delta = target - prev;
+      const next = Math.abs(delta) < 0.5 ? target : prev + delta * smoothness;
+      return Math.max(0, Math.min(next, worldLengthPx));
+    });
+  }, [playerX, worldLengthPx, setCameraX, isManualControl, targetCameraX]);
+
+  // Функции для ручного управления камерой
+  const moveCameraLeft = useCallback(() => {
+    setIsManualControl(true);
+    setTargetCameraX((prev) => {
+      const step = STEP_PX * 2; // Движение на 2 тайла
+      const newTarget = prev ? Math.max(0, prev - step) : Math.max(0, cameraX - step);
+      return newTarget;
+    });
+  }, [cameraX]);
+
+  const moveCameraRight = useCallback(() => {
+    setIsManualControl(true);
+    setTargetCameraX((prev) => {
+      const step = STEP_PX * 2; // Движение на 2 тайла
+      const newTarget = prev
+        ? Math.min(worldLengthPx, prev + step)
+        : Math.min(worldLengthPx, cameraX + step);
+      return newTarget;
+    });
+  }, [cameraX, worldLengthPx]);
+
+  const resetCameraToPlayer = useCallback(() => {
+    setIsManualControl(false);
+    setTargetCameraX(null);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (currentDialog || loading) return; // Не обрабатываем клавиши во время диалогов или загрузки
+
+      switch (event.key) {
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+          event.preventDefault();
+          moveCameraLeft();
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+          event.preventDefault();
+          moveCameraRight();
+          break;
+        case ' ':
+        case 'Enter':
+          event.preventDefault();
+          resetCameraToPlayer();
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentDialog, loading, moveCameraLeft, moveCameraRight, resetCameraToPlayer]);
+
+  // Обработчики касаний для управления камерой
+  useEffect(() => {
+    const handleTouchStart = (event: TouchEvent) => {
+      if (currentDialog || loading) return;
+      const touch = event.touches[0];
+      setTouchStartX(touch.clientX);
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      if (currentDialog || loading || touchStartX === null) return;
+
+      const touch = event.changedTouches[0];
+      const touchEndX = touch.clientX;
+      const deltaX = touchEndX - touchStartX;
+      const threshold = 50; // Минимальное расстояние для срабатывания
+
+      if (Math.abs(deltaX) > threshold) {
+        if (deltaX > 0) {
+          moveCameraLeft();
+        } else {
+          moveCameraRight();
+        }
+      } else {
+        resetCameraToPlayer();
+      }
+
+      setTouchStartX(null);
+    };
+
+    const handleTouchCancel = () => {
+      setTouchStartX(null);
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('touchcancel', handleTouchCancel, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchcancel', handleTouchCancel);
+    };
+  }, [currentDialog, loading, touchStartX, moveCameraLeft, moveCameraRight, resetCameraToPlayer]);
+
+  // Анимация камеры
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      animateCamera();
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [animateCamera]);
+
+  // Обновление параллакса
+  useEffect(() => {
+    updateParallax();
+  }, [updateParallax]);
+
+  return {
+    viewportRef,
+    worldLengthPx,
+    moveCameraLeft,
+    moveCameraRight,
+    resetCameraToPlayer,
+    isManualControl,
+  };
+}

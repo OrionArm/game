@@ -19,16 +19,20 @@
   height: 52px;
   font-size: 18px;
   font-weight: 800;
-  color: var(--color-text-dark);
-  -webkit-text-fill-color:var(--color-text-dark);
+  color: var(--color-white);
+  -webkit-text-fill-color: var(--color-white);
 
-  
   /* sRGB interpolation for consistent look (Chrome/Safari) */
-  background: linear-gradient(in var(--gradient-space) 135deg, var(--color-gold-1) 0%, var(--color-gold-2) 50%, var(--color-gold-3) 100%);
+  background: linear-gradient(
+    in var(--gradient-space) 135deg,
+    var(--color-crimson-1) 0%,
+    var(--color-crimson-2) 50%,
+    var(--color-crimson-3) 100%
+  );
   border: none;
   border-radius: 16px;
   box-shadow:
-    0 8px 0 var(--color-gold-shadow),
+    0 8px 0 var(--color-crimson-shadow),
     0 12px 20px var(--black-a15),
     inset 0 2px 0 var(--white-a30);
   cursor: pointer;
@@ -36,22 +40,31 @@
   position: relative;
   overflow: hidden;
 }
+
+.btn.ready {
+  animation: buttonPulse 2s ease-in-out infinite;
+}
 .btn:hover {
-  color: #000;
-  -webkit-text-fill-color: #000;
-  background: linear-gradient(in var(--gradient-space) 135deg, var(--color-gold-2) 0%, var(--color-gold-1) 50%, var(--color-gold-3) 100%);
+  color: var(--color-white);
+  -webkit-text-fill-color: var(--color-white);
+  background: linear-gradient(
+    in var(--gradient-space) 135deg,
+    var(--color-crimson-2) 0%,
+    var(--color-crimson-1) 50%,
+    var(--color-crimson-3) 100%
+  );
   box-shadow:
-    0 10px 0 var(--color-gold-shadow),
+    0 10px 0 var(--color-crimson-shadow),
     0 16px 25px var(--black-a20),
     inset 0 2px 0 var(--white-a40);
   transform: translateY(-2px);
 }
 .btn:active {
-  color: #000;
-  -webkit-text-fill-color: #000;
+  color: var(--color-white);
+  -webkit-text-fill-color: var(--color-white);
   transform: translateY(4px);
   box-shadow:
-    0 4px 0 var(--color-gold-shadow),
+    0 4px 0 var(--color-crimson-shadow),
     0 8px 15px var(--black-a10),
     inset 0 1px 0 var(--white-a20);
 }
@@ -61,8 +74,25 @@
   cursor: not-allowed;
   transform: none;
   box-shadow:
-    0 6px 0 var(--color-gold-shadow-disabled),
+    0 6px 0 var(--color-crimson-shadow-disabled),
     0 8px 15px var(--black-a10);
   /* Prevent platform default dimming in Safari */
   -webkit-text-fill-color: currentColor;
+}
+
+@keyframes buttonPulse {
+  0%,
+  100% {
+    box-shadow:
+      0 8px 0 var(--color-crimson-shadow),
+      0 12px 20px var(--black-a15),
+      inset 0 2px 0 var(--white-a30);
+  }
+  50% {
+    box-shadow:
+      0 8px 0 var(--color-crimson-shadow),
+      0 12px 20px var(--black-a15),
+      inset 0 2px 0 var(--white-a30),
+      0 0 20px rgba(220, 38, 38, 0.4);
+  }
 }

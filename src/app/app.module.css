@@ -1,7 +1,7 @@
 /* Responsive sizing variables */
 .app {
   --tile: clamp(44px, min(8vw, 7vh), 88px);
-  --ground: calc(var(--tile) * 1.5 + 24px);
+  --ground: calc(var(--tile) * 1.5 + 2px);
   --para-far: 0px;
   --para-near: 0px;
 
@@ -29,5 +29,6 @@
 .hud-stats {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
 }

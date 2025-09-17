@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  color: white;
+  color: var(--color-white);
   font-family: 'Arial', sans-serif;
   text-align: center;
   padding: 20px;
@@ -99,6 +99,15 @@
   100% {
     transform: scale(0);
     opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 
