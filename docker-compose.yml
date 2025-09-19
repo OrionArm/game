@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: always
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend-dev
+    volumes:
+      - ./backend:/app/backend
+      - ./backend/migrations:/app/backend/migrations
+      - /app/node_modules
+      - /app/backend/node_modules
+    working_dir: /app/backend
+    env_file: .env
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/node_modules
+      - /app/frontend/node_modules
+    working_dir: /app/frontend
+    env_file: .env
+    ports:
+      - "${VITE_PORT}:${VITE_PORT}"
+
+volumes:
+  pgdata:
