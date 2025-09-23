@@ -4,7 +4,10 @@ import * as dotenv from 'dotenv';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 import { WinstonModule } from 'nest-winston';
 import { WinstonLoggerConfig } from './common/logger';
-dotenv.config({ path: '../.env' });
+import { WorldService } from './world/world.service';
+import * as path from 'path';
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 async function bootstrap() {
   const logger = WinstonModule.createLogger(WinstonLoggerConfig);
@@ -15,6 +18,15 @@ async function bootstrap() {
     origin: `http://localhost:${process.env.VITE_PORT}`,
     credentials: true,
   });
+
+  // Инициализируем состояние мира при запуске
+  try {
+    const worldService = app.get(WorldService);
+    await worldService.getWorldState();
+    logger.log('🌍 Состояние мира инициализировано');
+  } catch (error) {
+    logger.warn('⚠️ Не удалось инициализировать состояние мира:', error.message);
+  }
 
   await app.listen(process.env.PORT ?? 3000);
 }

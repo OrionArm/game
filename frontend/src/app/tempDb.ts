@@ -46,40 +46,7 @@ class TempDb {
     return this.encounters.map((e) => ({ ...e }));
   }
 
-  async markResolved(id: string): Promise<void> {
-    this.initIfNeeded();
-    const e = this.encounters.find((x) => x.id === id);
-    if (e) e.resolved = true;
-  }
 
-  async submitDecision(encounterId: string, action: 'talk' | 'fight' | 'open' | 'ignore') {
-    this.initIfNeeded();
-    // Simulate a small server processing delay
-    await new Promise((r) => setTimeout(r, 150));
-    // Mark resolved and return a simple outcome
-    const e = this.encounters.find((x) => x.id === encounterId);
-    if (e) e.resolved = true;
-    let outcome = '';
-    switch (e?.type) {
-      case 'npc':
-        outcome = action === 'talk' ? 'Подсказка получена' : 'Прошли мимо';
-        break;
-      case 'monster':
-        outcome = action === 'fight' ? 'Опыт получен' : 'Избежали боя';
-        break;
-      case 'chest':
-        outcome = action === 'open' ? 'Золото найдено' : 'Остался закрытым';
-        break;
-      default:
-        outcome = 'Нет результата';
-    }
-    return { success: true, outcome } as const;
-  }
-
-  reset() {
-    this.initialized = false;
-    this.encounters = [];
-  }
 }
 
 export const tempDb = new TempDb();

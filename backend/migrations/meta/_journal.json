@@ -8,6 +8,13 @@
       "when": 1758404561796,
       "tag": "0000_strange_warhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1758477388647,
+      "tag": "0001_polite_sentinel",
+      "breakpoints": true
     }
   ]
 }
