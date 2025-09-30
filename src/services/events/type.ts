@@ -42,7 +42,6 @@ export type EncounterInfo = {
   description: string;
 };
 
-// Типы тем для событий
 export type EventTopic =
   | 'Антифрод/осознанность'
   | 'Антифрод/социнжиниринг'
@@ -63,7 +62,6 @@ export type EventTopic =
   | 'Страхование жизни/НСЖ'
   | 'Платежи/валюта/страховка';
 
-// Базовый интерфейс для всех событий
 export interface BaseEvent {
   eventId: string;
   title: string;

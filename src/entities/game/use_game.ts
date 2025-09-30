@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { preload } from 'react-dom';
-import { fetchPlayerState, fetchWorldState, movePlayer } from './local_api';
-import { useParallax } from './use_parallax';
+import { fetchPlayerState, fetchWorldState, movePlayer } from '@/shared/local_api';
 import type { PlayerStateResponseDto } from '@/services/client_player_service';
-import { useDialog } from './use_dialog';
 import type { DialogNode, Encounter, EncounterInfo } from '@/services/events/type';
+import { useResourceLoader, type ResourceConfig } from './use_resource_loader';
+import { useParallax } from './use_parallax';
+import { useDialog } from './use_dialog';
 
 const STEP_PX = 64; // distance per step
 const START_TILES = 6; // start this many tiles from the left edge
@@ -18,6 +18,20 @@ const transformEncountersToPixels = (encounters: Encounter[]): Encounter[] => {
   }));
 };
 
+const RESOURCES_TO_PRELOAD: ResourceConfig[] = [
+  { src: '/player.svg', priority: 'high', type: 'character' },
+  { src: '/npc.svg', priority: 'high', type: 'npc' },
+  { src: '/far.svg', priority: 'high', type: 'background' },
+  { src: '/near.svg', priority: 'high', type: 'background' },
+  { src: '/near2.svg', priority: 'high', type: 'background' },
+
+  { src: '/monster.svg', priority: 'low', type: 'npc' },
+  { src: '/monster2.svg', priority: 'low', type: 'npc' },
+  { src: '/chest.svg', priority: 'low', type: 'interactive' },
+  { src: '/open-box.svg', priority: 'low', type: 'interactive' },
+  { src: '/gold-dollar-coin.svg', priority: 'low', type: 'currency' },
+];
+
 export function useGame() {
   const worldRef = useRef<HTMLDivElement>(null!);
   const [playerX, setPlayerX] = useState(START_X);
@@ -28,11 +42,27 @@ export function useGame() {
   });
   const [log, setLog] = useState<string[]>(['Добро пожаловать в приключение!']);
   const [loading, setLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingText, setLoadingText] = useState('Инициализация...');
   const [currentDialog, setCurrentDialog] = useState<DialogNode | null>(null);
   const [currentEncounter, setCurrentEncounter] = useState<EncounterInfo | null>(null);
   const [playerState, setPlayerState] = useState<PlayerStateResponseDto | null>(null);
   const [worldLength, setWorldLength] = useState<number>(200);
   const [encounters, setEncounters] = useState<Encounter[]>([]);
+
+  const { loading: resourcesLoading, isComplete: resourcesComplete } = useResourceLoader({
+    resources: RESOURCES_TO_PRELOAD,
+    onProgress: (progress, text) => {
+      setLoadingProgress(progress);
+      setLoadingText(text);
+    },
+    onComplete: () => {
+      setLoadingProgress(50);
+      setLoadingText('Ресурсы загружены');
+    },
+  });
+
+  const isOverallLoading = loading || resourcesLoading;
 
   const { viewportRef: parallaxViewportRef, worldLengthPx } = useParallax({
     playerX,
@@ -44,32 +74,41 @@ export function useGame() {
   });
 
   useEffect(() => {
-    preload('/open-box.svg', {
-      as: 'image',
-      fetchPriority: 'low',
-    });
-  }, []);
-
-  useEffect(() => {
     async function loadInitialData() {
+      if (!resourcesComplete) return;
+
       try {
         setLoading(true);
+        setLoadingProgress(60);
+        setLoadingText('Загрузка данных игры...');
+
         const [playerData, worldData] = await Promise.all([fetchPlayerState(), fetchWorldState()]);
+
+        setLoadingProgress(80);
+        setLoadingText('Настройка мира...');
+
         setPlayerState(playerData);
         setWorldLength(worldData.worldLength);
         setEncounters(transformEncountersToPixels(worldData.encounters));
         setPlayerX(playerData.position * STEP_PX + START_X);
 
+        setLoadingProgress(100);
+        setLoadingText('Готово!');
+
         setLog((prev) => [...prev, 'Состояние игрока и мира загружено!']);
+
+        // задержка для показа финального состояния
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
       } catch (error) {
         setLog((prev) => [...prev, 'Ошибка загрузки данных!']);
         console.error('Failed to fetch initial data:', error);
-      } finally {
         setLoading(false);
       }
     }
     loadInitialData();
-  }, []);
+  }, [resourcesComplete]);
 
   const stepForward = useCallback(() => {
     if (currentDialog || loading) return;
@@ -126,7 +165,9 @@ export function useGame() {
     cameraX,
     log,
     currentDialog,
-    loading,
+    loading: isOverallLoading,
+    loadingProgress,
+    loadingText,
     playerState,
     worldLength,
     encounters,

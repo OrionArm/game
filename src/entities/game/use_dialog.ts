@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import type { DialogNode } from '@/services';
 import type { PlayerStateResponseDto } from '@/services/client_player_service';
-import { processEncounterDialogChoice, processStepDialogChoice } from './local_api';
+import { processEncounterDialogChoice, processStepDialogChoice } from '../../shared/local_api';
 import type {
   DialogChoiceResponseDto,
   EncounterAction,

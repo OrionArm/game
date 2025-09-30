@@ -25,12 +25,11 @@ export default function LogPanel({ lines }: Props) {
         logRef.current.scrollTop = logRef.current.scrollHeight;
       }
 
-      // Очищаем предыдущий таймер
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
 
-      // Устанавливаем таймер для затухания всей панели через 5 секунд
+      // Устанавливаем таймер для затухания всей панели
       timerRef.current = setTimeout(() => {
         if (!isHoveredRef.current) {
           setIsFading(true);

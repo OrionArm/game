@@ -26,7 +26,6 @@ export default function DialogModal({
   const handleSelect = (action: EncounterAction) => () => onSelect(action);
   const handleIgnore = () => onSelect('ignore');
 
-  // Специальная обработка для сокровищ
   if (currentEncounter && currentEncounter.type === 'treasure') {
     return (
       <Modal isOpen onClose={handleIgnore} closeOnOverlayClick={false}>

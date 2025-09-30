@@ -1,11 +1,9 @@
 import { EventService } from './events/event_service';
 
-// Клиентские сервисы
 import { clientGameService } from './client_game_service';
 import { ClientPlayerService } from './client_player_service';
 import { ClientSessionService } from './client_session_service';
 
-// Экспортируем типы из events
 export type {
   DialogNode,
   DialogOption,

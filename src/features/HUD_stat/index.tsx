@@ -20,12 +20,10 @@ export default function HUDStat({ icon, label, value, align = 'left', className 
 
   useEffect(() => {
     if (value !== previousValue) {
-      // Очищаем предыдущий таймаут
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
 
-      // Определяем тип изменения
       const oldNum = typeof previousValue === 'number' ? previousValue : 0;
       const newNum = typeof value === 'number' ? value : 0;
 
@@ -36,13 +34,11 @@ export default function HUDStat({ icon, label, value, align = 'left', className 
           setAnimationClass(styles.decrease);
         }
       } else {
-        // Для строковых значений просто показываем общую анимацию изменения
         setAnimationClass(styles.change);
       }
 
       setIsAnimating(true);
 
-      // Сбрасываем анимацию через 1 секунду
       timeoutRef.current = setTimeout(() => {
         setAnimationClass('');
         setIsAnimating(false);
