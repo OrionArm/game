@@ -5,10 +5,12 @@
   --para-far: 0px;
   --para-near: 0px;
 
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 100dvh; /* Используем динамический viewport height для мобильных */
-  min-height: 100vh; /* Fallback для старых браузеров */
+  height: calc(100vh - 80px);
+  min-height: calc(100vh - 80px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -26,10 +28,9 @@
   justify-content: center;
 }
 
-/* UI overlay stack: holds LogPanel and HUD stats */
 .ui-overlay {
   position: absolute;
-  top: max(20px, env(safe-area-inset-top, 20px)); /* Учитываем безопасную зону */
+  top: max(20px, env(safe-area-inset-top, 20px));
   left: max(20px, env(safe-area-inset-left, 20px));
   right: max(20px, env(safe-area-inset-right, 20px));
   display: flex;
@@ -41,12 +42,17 @@
 .hud-stats {
   display: flex;
   align-items: center;
-  gap: 6px; /* Уменьшаем gap для мобильных */
+  gap: 6px;
   flex-wrap: wrap;
 }
 
 /* Адаптивность для мобильных устройств */
 @media (max-width: 768px) {
+  .game {
+    height: calc(100vh - 70px); /* Учитываем высоту BottomNavigation на мобильных */
+    min-height: calc(100vh - 70px);
+  }
+
   .hud-stats {
     gap: 4px;
     font-size: 12px;
@@ -54,5 +60,12 @@
 
   .ui-overlay {
     gap: 8px; /* Уменьшаем gap между элементами на мобильных */
+  }
+}
+
+@media (max-width: 480px) {
+  .game {
+    height: calc(100vh - 65px); /* Учитываем высоту BottomNavigation на маленьких экранах */
+    min-height: calc(100vh - 65px);
   }
 }

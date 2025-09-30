@@ -29,12 +29,25 @@
   --color-melissa: rgb(60, 255, 185); /* мелисса */
   --color-sakura: rgb(255, 130, 190); /* сакура */
 
+  /* === Z-INDEX СЛОИ === */
+  --z-bg: 1;
+  --z-parallax-near: 2;
+  --z-ground: 3;
+  --z-player: 4;
+  --z-encounter: 5;
+  --z-overlay: 6;
+  --z-modal: 7;
+  --z-overlay-modal: 8;
+  --z-navigation: 9;
+  --z-loading: 10;
+
   /* === ЦВЕТА ДЛЯ ФОНА === */
   --color-cumin: rgb(6, 6, 152); /* тмин */
   --color-iris: rgb(96, 136, 228); /* ирис */
   --color-viola: rgb(189, 206, 250); /* виола */
   --color-henbane: rgb(142, 152, 164); /* белена */
   --color-lily: rgb(222, 225, 238); /* лилия */
+  --color-slate: #37384d; /* сланец - темно-серый с фиолетовым оттенком */
 
   /* === ТЕМА КНОПКИ (малиновая) === */
   --color-crimson-1: rgb(221, 65, 219); /* основной малиновый */

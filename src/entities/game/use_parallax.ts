@@ -170,13 +170,30 @@ export function useParallax({
   // Анимация камеры
   useEffect(() => {
     let raf = 0;
+    let lastCameraX = cameraX;
+
     const tick = () => {
       animateCamera();
-      raf = requestAnimationFrame(tick);
+
+      // Проверяем, изменилась ли камера
+      if (Math.abs(cameraX - lastCameraX) > 0.1) {
+        lastCameraX = cameraX;
+        raf = requestAnimationFrame(tick);
+      } else {
+        // Останавливаем анимацию, если камера не движется
+        raf = 0;
+      }
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [animateCamera]);
+
+    // Запускаем анимацию только если камера должна двигаться
+    if (isManualControl || Math.abs(playerX - cameraX) > 1) {
+      raf = requestAnimationFrame(tick);
+    }
+
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [animateCamera, cameraX, playerX, isManualControl]);
 
   // Обновление параллакса
   useEffect(() => {

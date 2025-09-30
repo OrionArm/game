@@ -100,7 +100,11 @@ export function useResourceLoader({
       });
     });
 
-    const progressInterval = setInterval(updateProgress, 100);
+    const progressInterval = setInterval(() => {
+      if (!isComplete) {
+        updateProgress();
+      }
+    }, 200);
 
     Promise.all(preloadPromises)
       .then(() => {
@@ -126,7 +130,7 @@ export function useResourceLoader({
       });
 
     return () => clearInterval(progressInterval);
-  }, [resources, updateProgress, onComplete]);
+  }, [resources, updateProgress, onComplete, isComplete]);
 
   return {
     loading,

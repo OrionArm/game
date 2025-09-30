@@ -4,12 +4,9 @@ import DialogModal from '@/features/dialog_modal';
 import HUDStat from '@/features/HUD_stat';
 import World from '@/features/world';
 import Button from '@/shared/ui/button';
-import BottomNavigation from '@/features/bottom_navigation';
 import { useGameContext } from '@/entities/game/use_game_context';
-import { useState } from 'react';
 
 export default function GamePage() {
-  const [activeTab, setActiveTab] = useState('home');
   const {
     worldRef,
     viewportRef,
@@ -29,11 +26,6 @@ export default function GamePage() {
     currentEncounter,
     resolveEncounter,
   } = useGameContext();
-
-  const handleTabChange = (tabId: string) => {
-    setActiveTab(tabId);
-    console.log('Переключение на вкладку:', tabId);
-  };
 
   return (
     <div className={styles.game}>
@@ -80,8 +72,6 @@ export default function GamePage() {
           currentEncounter={currentEncounter}
         />
       </div>
-
-      <BottomNavigation activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
   );
 }

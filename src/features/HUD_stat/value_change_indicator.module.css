@@ -6,7 +6,7 @@
   border-radius: 12px;
   font-size: 12px;
   font-weight: 700;
-  z-index: 10;
+  z-index: var(--z-player);
   animation: floatUp 2s ease-out forwards;
   pointer-events: none;
   min-width: 20px;

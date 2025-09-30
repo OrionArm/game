@@ -133,7 +133,7 @@ export function useGame() {
       .finally(() => {
         setLoading(false);
       });
-  }, [currentDialog, loading, playerState, setLog, setPlayerState, setPlayerX, setCurrentDialog]);
+  }, [currentDialog, loading, playerState]);
 
   const {
     currentDialog: dialog,

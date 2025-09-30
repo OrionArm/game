@@ -1,5 +1,8 @@
 .bottomNavigation {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   height: 80px;
   background: var(--color-dialog-bg);
@@ -9,6 +12,7 @@
   justify-content: stretch;
   padding: 0;
   padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+  z-index: var(--z-navigation);
 }
 
 .navButton {

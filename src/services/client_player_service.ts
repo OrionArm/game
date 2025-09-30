@@ -71,20 +71,33 @@ export class ClientPlayerService {
     const newPlayer: PlayerStateResponseDto = {
       id: Date.now(),
       name: `Player_${this.sessionId.slice(0, 8)}`,
+      health: 100,
       maxHealth: 100,
       position: 0,
+      gold: 100,
+      cristal: 0,
+      energy: 200,
       updatedAt: new Date().toISOString(),
-      items: [],
+      items: [
+        // {
+        //   name: 'Защитный PIN-чекер',
+        //   id: '1',
+        //   description: 'Классный Защитный PIN-чекер',
+        //   image: 'https://via.placeholder.com/150',
+        // },
+        // {
+        //   name: 'Полис-щит',
+        //   id: '2',
+        //   description: 'Классный Полис-щит',
+        //   image: 'https://via.placeholder.com/150',
+        // },
+      ],
       flags: {
         friendContact: false,
         friendScamSpotted: true,
         friendFact: false,
         friendLegitHint: false,
       },
-      gold: 100,
-      cristal: 0,
-      health: 100,
-      energy: 200,
     };
 
     this.savePlayerState(newPlayer);
