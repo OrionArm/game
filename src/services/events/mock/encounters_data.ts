@@ -9,7 +9,7 @@ export const encounterData: EncounterEvent[] = [
       'Групповой чат друзей и сбор денег на подарок. Важна проверка личности и безопасный способ оплаты.',
     imageUrl: '/public/art/obj_old_friend.png',
     topic: 'Антифрод/социнжиниринг',
-    position: 3,
+    position: 5,
     dialogId: 'CH01_S1',
   },
   {
@@ -31,7 +31,7 @@ export const encounterData: EncounterEvent[] = [
       'Онлайн-курс с пробным периодом. Нужна дисциплина и настройка напоминаний, чтобы не переплачивать.',
     imageUrl: '/public/art/obj_course.png',
     topic: 'Подписки/долгосрочные цели',
-    position: 15,
+    position: 20,
     dialogId: 'CH06_S1',
   },
   {
@@ -42,7 +42,7 @@ export const encounterData: EncounterEvent[] = [
       'Магазин техники, расширенная гарантия и возвраты. Важно читать условия и проверять продавца.',
     imageUrl: '/public/art/obj_electronics.png',
     topic: 'Партнёры/страхование',
-    position: 25,
+    position: 30,
     dialogId: 'CH03_S1',
   },
   {
@@ -53,7 +53,7 @@ export const encounterData: EncounterEvent[] = [
       'Билеты, зарубежные платежи, связь и страховка. Подготовка экономит деньги и нервы.',
     imageUrl: '/public/art/obj_trip.png',
     topic: 'Платежи/валюта/страховка',
-    position: 35,
+    position: 38,
     dialogId: 'CH04_S1',
   },
   {

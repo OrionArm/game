@@ -1,13 +1,13 @@
 .item {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
+  gap: 6px; /* Уменьшаем gap для мобильных */
+  padding: 6px 10px; /* Уменьшаем padding для мобильных */
   background: var(--color-overlay-bg);
-  border-radius: 10px;
+  border-radius: 8px; /* Уменьшаем радиус для мобильных */
   border: 1px solid var(--color-overlay-border);
   color: var(--color-text-weak-2);
-  font-size: 14px;
+  font-size: 13px; /* Уменьшаем размер шрифта */
   line-height: 1;
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
@@ -23,7 +23,7 @@
 }
 
 .icon {
-  font-size: 18px;
+  font-size: 16px; /* Уменьшаем размер иконки */
   transition: transform 0.3s ease;
 }
 
@@ -205,5 +205,18 @@
   }
   100% {
     transform: scale(1);
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .item {
+    padding: 4px 8px; /* Еще больше уменьшаем padding */
+    font-size: 12px; /* Еще больше уменьшаем размер шрифта */
+    gap: 4px; /* Уменьшаем gap */
+  }
+
+  .icon {
+    font-size: 14px; /* Уменьшаем размер иконки */
   }
 }

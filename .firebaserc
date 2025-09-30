@@ -1,0 +1,13 @@
+{
+  "projects": {},
+  "targets": {
+    "th-game-5ae0a": {
+      "hosting": {
+        "client": [
+          "th-game-5ae0a"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

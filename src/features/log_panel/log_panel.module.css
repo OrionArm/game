@@ -1,12 +1,12 @@
 .log {
-  max-height: 100px;
+  max-height: 80px; /* Уменьшаем высоту для мобильных */
   overflow: auto;
   color: var(--color-text);
-  font-size: 14px;
+  font-size: 13px; /* Уменьшаем размер шрифта */
   line-height: 1.4;
-  padding: 12px 16px;
+  padding: 10px 14px; /* Уменьшаем padding */
   background: var(--color-overlay-bg);
-  border-radius: 12px;
+  border-radius: 10px; /* Уменьшаем радиус */
   border: 1px solid var(--color-overlay-border);
   backdrop-filter: blur(8px);
   opacity: 0.8;
@@ -57,5 +57,20 @@
   to {
     opacity: 0;
     transform: translateY(-10px);
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .log {
+    max-height: 60px; /* Еще больше уменьшаем высоту */
+    font-size: 12px; /* Еще больше уменьшаем размер шрифта */
+    padding: 8px 12px; /* Еще больше уменьшаем padding */
+    border-radius: 8px; /* Уменьшаем радиус */
+  }
+
+  .logLine {
+    margin-bottom: 2px; /* Уменьшаем отступ между строками */
+    padding: 1px 0;
   }
 }

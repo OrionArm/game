@@ -1,13 +1,13 @@
 .hud {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: max(12px, env(safe-area-inset-left, 12px));
+  bottom: max(12px, env(safe-area-inset-bottom, 12px));
   width: 120px;
   z-index: var(--z-overlay);
 }
 .hudRight {
   left: auto;
-  right: 12px;
+  right: max(12px, env(safe-area-inset-right, 12px));
 }
 .btn {
   -webkit-tap-highlight-color: transparent;
@@ -94,5 +94,22 @@
       0 12px 20px var(--black-a15),
       inset 0 2px 0 var(--white-a30),
       0 0 20px rgba(220, 38, 38, 0.4);
+  }
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+  .hud {
+    width: 100px; /* Уменьшаем ширину кнопки на мобильных */
+  }
+
+  .btn {
+    height: 48px; /* Уменьшаем высоту кнопки */
+    font-size: 16px; /* Уменьшаем размер шрифта */
+    border-radius: 12px; /* Уменьшаем радиус */
+  }
+
+  .btn:hover {
+    transform: translateY(-1px); /* Уменьшаем эффект hover на мобильных */
   }
 }
