@@ -1,13 +1,18 @@
 import { useState, useCallback } from 'react';
 import type { DialogNode } from '@/services';
 import type { PlayerStateResponseDto } from '@/services/client_player_service';
-import { processEncounterDialogChoice, processStepDialogChoice } from '../../shared/local_api';
+import {
+  processEncounterDialogChoice,
+  processStepDialogChoice,
+  addLogMessage,
+} from '../../shared/local_api';
 import type {
   DialogChoiceResponseDto,
   EncounterAction,
   EncounterInfo,
   HappenedEffects,
 } from '@/services/events/type';
+import { formatRewardsMessageWithNames } from '@/services/events/utils';
 
 type Props = {
   currentEncounter: EncounterInfo | null;
@@ -50,10 +55,18 @@ export function useDialog({
         } else {
           result = await processStepDialogChoice(currentDialog.id, optionId);
         }
-
         if (result) {
           if (result.happenedEffects) {
+            const dialogEffects = {
+              ...result.happenedEffects,
+              itemsGain: result.happenedEffects.itemsGain.map((item) => item.name),
+              itemsLose: result.happenedEffects.itemsLose.map((item) => item.name),
+            };
+
+            const effectsMessage = formatRewardsMessageWithNames(dialogEffects);
+            setLog((prev) => [...prev, effectsMessage]);
             setEffectsResult(result.happenedEffects);
+            addLogMessage(effectsMessage);
           }
 
           if (result.newState) {
@@ -81,7 +94,15 @@ export function useDialog({
         onDialogComplete();
       }
     },
-    [currentDialog, currentEncounter, setLog, setPlayerState, closeDialog, setCurrentDialog],
+    [
+      currentDialog,
+      currentEncounter,
+      setLog,
+      setPlayerState,
+      closeDialog,
+      setCurrentDialog,
+      setEffectsResult,
+    ],
   );
 
   const handleDialogOption = useCallback(
@@ -102,7 +123,7 @@ export function useDialog({
       setCurrentDialog(pendingNextDialog);
       setPendingNextDialog(null);
     }
-  }, [pendingNextDialog, setCurrentDialog]);
+  }, [pendingNextDialog, setCurrentDialog, setEffectsResult]);
 
   const resolveEncounter = useCallback(
     async (action: EncounterAction) => {

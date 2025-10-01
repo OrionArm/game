@@ -26,23 +26,21 @@ export class RankingService {
   static getRankedPlayers(currentPlayer?: PlayerRanking): PlayerRanking[] {
     const players = this.generateMockPlayers();
 
-    // Добавляем текущего игрока в список, если он передан
     if (currentPlayer) {
       players.push(currentPlayer);
     }
 
-    // Сортируем по комбинации золота и кристаллов (основной критерий рейтинга)
     return players.sort((a, b) => {
-      const scoreA = a.gold + a.cristal * 100 + a.position * 10;
-      const scoreB = b.gold + b.cristal * 100 + b.position * 10;
+      const scoreA = a.gold + a.cristal * 100;
+      const scoreB = b.gold + b.cristal * 100;
       return scoreB - scoreA;
     });
   }
 
   static getPlayerRank(currentPlayer: PlayerRanking, allPlayers: PlayerRanking[]): number {
     const sortedPlayers = [...allPlayers].sort((a, b) => {
-      const scoreA = a.gold + a.cristal * 100 + a.position * 10;
-      const scoreB = b.gold + b.cristal * 100 + b.position * 10;
+      const scoreA = a.gold + a.cristal * 100;
+      const scoreB = b.gold + b.cristal * 100;
       return scoreB - scoreA;
     });
 
@@ -55,8 +53,8 @@ export class RankingService {
     count: number = 3,
   ): PlayerRanking[] {
     const sortedPlayers = [...allPlayers].sort((a, b) => {
-      const scoreA = a.gold + a.cristal * 100 + a.position * 10;
-      const scoreB = b.gold + b.cristal * 100 + b.position * 10;
+      const scoreA = a.gold + a.cristal * 100;
+      const scoreB = b.gold + b.cristal * 100;
       return scoreB - scoreA;
     });
 

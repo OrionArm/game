@@ -5,7 +5,6 @@ import { use } from 'react';
 import Leaderboard from './leaderboard';
 import PlayerRanking from './player_ranking';
 
-// Кэш для Promise рейтинга
 const rankingCache = new Map<
   string,
   Promise<{
@@ -15,7 +14,6 @@ const rankingCache = new Map<
   }>
 >();
 
-// Компонент для загрузки данных рейтинга
 export default function RankingDataLoader({
   playerState,
 }: {

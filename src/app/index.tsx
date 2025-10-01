@@ -1,9 +1,9 @@
 import { GamePage, LoadingScreen, ProfilePage } from '@/pages';
 import BottomNavigation from '@/features/bottom_navigation';
 import type { PageType } from '../shared/types';
-import { GameProvider } from '@/entities/game/game_context.tsx';
 import { useGameContext } from '@/entities/game/use_game_context';
 import { useState } from 'react';
+import { GameProvider } from '@/entities/game/game_provider';
 
 function AppContent() {
   const { loading, loadingProgress, loadingText } = useGameContext();

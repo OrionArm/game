@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchPlayerState, fetchWorldState, movePlayer } from '@/shared/local_api';
+import { fetchPlayerState, fetchWorldState, movePlayer, getLogs } from '@/shared/local_api';
 import type { PlayerStateResponseDto } from '@/services/client_player_service';
 import type { DialogNode, Encounter, EncounterInfo, HappenedEffects } from '@/services/events/type';
 import { useResourceLoader, type ResourceConfig } from './use_resource_loader';
@@ -23,15 +23,14 @@ const RESOURCES_TO_PRELOAD: ResourceConfig[] = [
   { src: '/far.svg', priority: 'high' },
   { src: '/near.svg', priority: 'high' },
 ];
-const calculateCameraX = () => {
-  const viewHalf = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
-  const safeMargin = STEP_PX * 3;
-  return Math.max(START_X, viewHalf + safeMargin);
-};
 export function useGame() {
   const worldRef = useRef<HTMLDivElement>(null!);
   const [playerX, setPlayerX] = useState(START_X);
-  const [cameraX, setCameraX] = useState(calculateCameraX());
+  const [cameraX, setCameraX] = useState(() => {
+    const viewHalf = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+    const safeMargin = STEP_PX * 3;
+    return Math.max(START_X, viewHalf + safeMargin);
+  });
   const [log, setLog] = useState<string[]>(['Добро пожаловать в приключение!']);
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -75,7 +74,11 @@ export function useGame() {
         setLoadingProgress(60);
         setLoadingText('Загрузка данных игры...');
 
-        const [playerData, worldData] = await Promise.all([fetchPlayerState(), fetchWorldState()]);
+        const [playerData, worldData, savedLogs] = await Promise.all([
+          fetchPlayerState(),
+          fetchWorldState(),
+          getLogs(5),
+        ]);
 
         setLoadingProgress(80);
         setLoadingText('Настройка мира...');
@@ -85,12 +88,13 @@ export function useGame() {
         setEncounters(transformEncountersToPixels(worldData.encounters));
         setPlayerX(playerData.position * STEP_PX + START_X);
 
+        if (savedLogs.length > 0) {
+          const logMessages = savedLogs.map((logEntry) => logEntry.message);
+          setLog(['Добро пожаловать в приключение!', ...logMessages]);
+        }
+
         setLoadingProgress(100);
         setLoadingText('Готово!');
-
-        setLog((prev) => [...prev, 'Состояние игрока и мира загружено!']);
-
-        // задержка для показа финального состояния
         setTimeout(() => {
           setLoading(false);
         }, 500);
@@ -126,6 +130,7 @@ export function useGame() {
           setLog((prev) => [...prev, 'Ошибка перемещения!']);
         }
         console.error('Failed to move player:', error);
+        setLoading(false);
       })
       .finally(() => {
         setLoading(false);
@@ -152,35 +157,72 @@ export function useGame() {
   const worldStyle = useMemo(
     () =>
       ({
-        transform: `translateX(${-cameraX + window.innerWidth / 2}px)`,
+        transform: `translateX(${-cameraX + (typeof window !== 'undefined' ? window.innerWidth / 2 : 0)}px)`,
       }) as const,
     [cameraX],
   );
 
-  return {
-    worldRef,
-    viewportRef: parallaxViewportRef,
-    playerX,
-    cameraX,
-    log,
-    currentDialog,
-    loading: isOverallLoading,
-    loadingProgress,
-    loadingText,
-    playerState,
-    worldLength,
-    encounters,
-    worldStyle,
-    worldLengthPx,
-    dialog,
-    showDialog,
-    effectsResult,
-    currentEncounter,
-    resolveEncounter,
-    handleDialogOption,
-    handleCloseDialog,
+  const stableResolveEncounter = useCallback(resolveEncounter, [resolveEncounter]);
+  const stableHandleDialogOption = useCallback(handleDialogOption, [handleDialogOption]);
+  const stableHandleCloseDialog = useCallback(handleCloseDialog, [handleCloseDialog]);
+  const stableHandleCloseEffectsModal = useCallback(handleCloseEffectsModal, [
     handleCloseEffectsModal,
-    stepForward,
-    setCurrentDialog,
-  } as const;
+  ]);
+  const stableStepForward = useCallback(stepForward, [stepForward]);
+  const stableSetCurrentDialog = useCallback(setCurrentDialog, [setCurrentDialog]);
+
+  return useMemo(
+    () => ({
+      worldRef,
+      viewportRef: parallaxViewportRef,
+      playerX,
+      cameraX,
+      log,
+      currentDialog,
+      loading: isOverallLoading,
+      loadingProgress,
+      loadingText,
+      playerState,
+      worldLength,
+      encounters,
+      worldStyle,
+      worldLengthPx,
+      dialog,
+      showDialog,
+      effectsResult,
+      currentEncounter,
+      resolveEncounter: stableResolveEncounter,
+      handleDialogOption: stableHandleDialogOption,
+      handleCloseDialog: stableHandleCloseDialog,
+      handleCloseEffectsModal: stableHandleCloseEffectsModal,
+      stepForward: stableStepForward,
+      setCurrentDialog: stableSetCurrentDialog,
+    }),
+    [
+      worldRef,
+      parallaxViewportRef,
+      playerX,
+      cameraX,
+      log,
+      currentDialog,
+      isOverallLoading,
+      loadingProgress,
+      loadingText,
+      playerState,
+      worldLength,
+      encounters,
+      worldStyle,
+      worldLengthPx,
+      dialog,
+      showDialog,
+      effectsResult,
+      currentEncounter,
+      stableResolveEncounter,
+      stableHandleDialogOption,
+      stableHandleCloseDialog,
+      stableHandleCloseEffectsModal,
+      stableStepForward,
+      stableSetCurrentDialog,
+    ],
+  );
 }

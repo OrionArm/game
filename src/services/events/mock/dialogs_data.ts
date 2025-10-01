@@ -28,7 +28,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Перевести по ссылке в чате',
         effects: {
           gold: -150,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -144,7 +144,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Ввести данные и продолжить',
         effects: {
           gold: -200,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -236,7 +236,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Перевести деньги без вопросов',
         effects: {
           gold: -300,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -276,7 +276,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Перевести предоплату на карту',
         effects: {
           gold: -120,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -394,7 +394,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Смириться с потерей',
         effects: {
           gold: 0,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -791,7 +791,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'У частного продавца по объявлению',
         effects: {
           gold: -120,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -892,7 +892,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Оплатить переводом «как есть»',
         effects: {
           gold: -200,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -1142,7 +1142,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Оплатить по ссылке из СМС',
         effects: {
           gold: -200,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -1175,7 +1175,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         text: 'Позвонить «оператору» из СМС',
         effects: {
           gold: 0,
-          health: -1,
+          health: -5,
           cristal: 0,
           energy: 0,
           prize: {},

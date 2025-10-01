@@ -21,7 +21,7 @@
 }
 .logLine:last-child {
   margin-bottom: 0;
-  animation: newMessage 0.5s ease-out;
+  /* animation: newMessage 0.5s ease-out; */
 }
 
 @keyframes newMessage {
@@ -48,6 +48,12 @@
 .fadeOut {
   animation: fadeOut 1s ease-out forwards;
 }
+
+/* .logFade, .fadeOut {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+} */
 
 @keyframes fadeOut {
   from {

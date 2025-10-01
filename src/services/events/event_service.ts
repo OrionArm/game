@@ -34,6 +34,28 @@ export class EventService {
     this.encounterEvents = [...encounterData];
   }
 
+  private filterDialogOptions(
+    dialog: DialogNode,
+    currentState: PlayerStateResponseDto,
+  ): DialogNode {
+    if (!dialog || !dialog.options) {
+      return dialog;
+    }
+
+    const playerItemIds = currentState.items.map((item) => item.id);
+
+    const filteredOptions = dialog.options.filter((option) => {
+      if (!option.requires) return true;
+
+      return playerItemIds.includes(option.requires as ItemId);
+    });
+
+    return {
+      ...dialog,
+      options: filteredOptions,
+    };
+  }
+
   private async applyDialogEffects(
     effects: Partial<DialogEffects>,
     playerState: PlayerStateResponseDto,
@@ -105,8 +127,9 @@ export class EventService {
       if (option.nextDialogId) {
         const nextDialog = encounterDialogs[option.nextDialogId];
         if (nextDialog) {
+          const filteredNextDialog = this.filterDialogOptions(nextDialog, newState || playerState);
           return {
-            nextDialog,
+            nextDialog: filteredNextDialog,
             newState,
             isDialogComplete: false,
             happenedEffects,
@@ -146,8 +169,9 @@ export class EventService {
     if (option.nextDialogId) {
       const nextDialog = stepEvent.dialog.find((d: DialogNode) => d.id === option.nextDialogId);
       if (nextDialog) {
+        const filteredNextDialog = this.filterDialogOptions(nextDialog, newState || playerState);
         return {
-          nextDialog,
+          nextDialog: filteredNextDialog,
           newState,
           isDialogComplete: false,
           happenedEffects,

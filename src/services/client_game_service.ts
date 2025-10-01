@@ -41,6 +41,18 @@ export class ClientGameService {
   ): Promise<DialogChoiceResponseDto> {
     return this.playerService.processStepDialogChoice(dialogId, optionId);
   }
+
+  async addLogMessage(message: string): Promise<void> {
+    return this.playerService.addLogMessage(message);
+  }
+
+  async getLogs(limit?: number): Promise<Array<{ message: string; timestamp: string }>> {
+    return this.playerService.getLogs(limit);
+  }
+
+  async clearLogs(): Promise<void> {
+    return this.playerService.clearLogs();
+  }
 }
 
 export const clientGameService = new ClientGameService();

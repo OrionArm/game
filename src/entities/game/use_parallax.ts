@@ -30,11 +30,8 @@ export function useParallax({
   const [isManualControl, setIsManualControl] = useState(false);
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [targetCameraX, setTargetCameraX] = useState<number | null>(null);
-
-  // Вычисляем длину мира в пикселях
   const worldLengthPx = worldLength * STEP_PX;
 
-  // Функция для обновления параллакса
   const updateParallax = useCallback(() => {
     const vp = viewportRef.current;
     if (!vp) return;
@@ -44,18 +41,15 @@ export function useParallax({
     vp.style.setProperty('--para-near', `${near}px`);
   }, [cameraX]);
 
-  // Функция для анимации камеры
   const animateCamera = useCallback(() => {
     setCameraX((prev) => {
       let target: number;
       let smoothness: number;
 
       if (isManualControl && targetCameraX !== null) {
-        // Ручное управление - движемся к целевой позиции
         target = targetCameraX;
         smoothness = MANUAL_CAMERA_SMOOTHNESS;
       } else {
-        // Автоматическое следование за игроком
         const viewHalf = window.innerWidth / 2;
         const minTarget = viewHalf + SAFE_MARGIN_PX;
         target = Math.max(playerX, minTarget);
@@ -68,11 +62,10 @@ export function useParallax({
     });
   }, [playerX, worldLengthPx, setCameraX, isManualControl, targetCameraX]);
 
-  // Функции для ручного управления камерой
   const moveCameraLeft = useCallback(() => {
     setIsManualControl(true);
     setTargetCameraX((prev) => {
-      const step = STEP_PX * 2; // Движение на 2 тайла
+      const step = STEP_PX * 2;
       const newTarget = prev ? Math.max(0, prev - step) : Math.max(0, cameraX - step);
       return newTarget;
     });
@@ -81,7 +74,7 @@ export function useParallax({
   const moveCameraRight = useCallback(() => {
     setIsManualControl(true);
     setTargetCameraX((prev) => {
-      const step = STEP_PX * 2; // Движение на 2 тайла
+      const step = STEP_PX * 2;
       const newTarget = prev
         ? Math.min(worldLengthPx, prev + step)
         : Math.min(worldLengthPx, cameraX + step);
@@ -96,7 +89,7 @@ export function useParallax({
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (currentDialog || loading) return; // Не обрабатываем клавиши во время диалогов или загрузки
+      if (currentDialog || loading) return;
 
       switch (event.key) {
         case 'ArrowLeft':
@@ -123,7 +116,6 @@ export function useParallax({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentDialog, loading, moveCameraLeft, moveCameraRight, resetCameraToPlayer]);
 
-  // Обработчики касаний для управления камерой
   useEffect(() => {
     const handleTouchStart = (event: TouchEvent) => {
       if (currentDialog || loading) return;
@@ -137,7 +129,7 @@ export function useParallax({
       const touch = event.changedTouches[0];
       const touchEndX = touch.clientX;
       const deltaX = touchEndX - touchStartX;
-      const threshold = 50; // Минимальное расстояние для срабатывания
+      const threshold = 50;
 
       if (Math.abs(deltaX) > threshold) {
         if (deltaX > 0) {
@@ -167,7 +159,6 @@ export function useParallax({
     };
   }, [currentDialog, loading, touchStartX, moveCameraLeft, moveCameraRight, resetCameraToPlayer]);
 
-  // Анимация камеры
   useEffect(() => {
     let raf = 0;
     let lastCameraX = cameraX;
@@ -176,19 +167,16 @@ export function useParallax({
     const tick = () => {
       animateCamera();
 
-      // Проверяем, изменилась ли камера
       if (Math.abs(cameraX - lastCameraX) > 0.1) {
         lastCameraX = cameraX;
         isAnimating = true;
         raf = requestAnimationFrame(tick);
       } else {
-        // Останавливаем анимацию, если камера не движется
         isAnimating = false;
         raf = 0;
       }
     };
 
-    // Запускаем анимацию только если камера должна двигаться и не анимируется уже
     const shouldAnimate = (isManualControl || Math.abs(playerX - cameraX) > 1) && !isAnimating;
     if (shouldAnimate) {
       raf = requestAnimationFrame(tick);
@@ -202,7 +190,6 @@ export function useParallax({
     };
   }, [animateCamera, cameraX, playerX, isManualControl]);
 
-  // Обновление параллакса
   useEffect(() => {
     updateParallax();
   }, [updateParallax]);

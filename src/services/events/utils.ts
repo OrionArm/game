@@ -139,7 +139,20 @@ export function checkEventConditions(
   return true;
 }
 
-export const formatRewardsMessage = (rewards: Partial<DialogEffects> | undefined): string => {
+export const formatRewardsMessageWithNames = (
+  rewards:
+    | {
+        gold?: number;
+        health?: number;
+        energy?: number;
+        cristal?: number;
+        itemsGain?: string[];
+        itemsLose?: string[];
+        flagsSet?: string[];
+        note?: string;
+      }
+    | undefined,
+): string => {
   if (!rewards) return '';
 
   const parts: string[] = [];
@@ -168,12 +181,12 @@ export const formatRewardsMessage = (rewards: Partial<DialogEffects> | undefined
   }
 
   if (rewards.itemsGain && rewards.itemsGain.length > 0) {
-    const itemsText = `+${rewards.itemsGain.length} предметов`;
+    const itemsText = `+${rewards.itemsGain.join(', ')}`;
     parts.push(itemsText);
   }
 
   if (rewards.itemsLose && rewards.itemsLose.length > 0) {
-    const itemsText = `-${rewards.itemsLose.length} предметов`;
+    const itemsText = `-${rewards.itemsLose.join(', ')}`;
     parts.push(itemsText);
   }
 
@@ -190,5 +203,5 @@ export const formatRewardsMessage = (rewards: Partial<DialogEffects> | undefined
     return '';
   }
 
-  return `Изменение состояния: ${parts.join(', ')}`;
+  return parts.join(', ');
 };

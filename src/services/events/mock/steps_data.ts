@@ -293,7 +293,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Назвать код',
             effects: {
               gold: -200,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -458,7 +458,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Согласиться и перевести',
             effects: {
               gold: -300,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -558,7 +558,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Сразу перевести — вдруг там беда',
             effects: {
               gold: -300,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -628,7 +628,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Открыть ссылку',
             effects: {
               gold: -150,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -711,7 +711,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Оплатить по присланной ссылке',
             effects: {
               gold: -200,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -1082,7 +1082,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Отложить ремонт',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -1150,7 +1150,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Походить со старой трубкой',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -1250,7 +1250,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Игнорировать до последнего',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -2245,7 +2245,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Записать PIN на бумажке',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -2329,7 +2329,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Выключить уведомления',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -2462,7 +2462,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Ничего не делать',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -2642,7 +2642,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Оставить как есть и искать дальше',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -3178,14 +3178,15 @@ export const stepEventData: StepEvent[] = [
     eventId: 'E019',
     type: 'StepEvent',
     title: 'Абонемент с бонусами',
-    description: 'Фитнес-клуб предлагает подписку с привилегиями. Сравниваете выгоду и дисциплину.',
+    description:
+      'Фитнес-клуб предлагает абонемент с привилегиями. Сравниваете выгоду и дисциплину.',
     imageUrl: '/art/fitness.png',
     topic: 'Подписки/сервисы',
     dialog: [
       {
         id: 'E019-dialog',
         speaker: 'Система',
-        text: 'Фитнес-клуб предлагает подписку с привилегиями. Сравниваете выгоду и дисциплину.',
+        text: 'Фитнес-клуб предлагает абонемент с привилегиями. Сравниваете выгоду и дисциплину.',
         options: [
           {
             id: 'E019-option-a',
@@ -3491,7 +3492,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Ничего не готовить заранее',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},
@@ -3958,7 +3959,7 @@ export const stepEventData: StepEvent[] = [
             text: 'Отложить на потом',
             effects: {
               gold: 0,
-              health: -1,
+              health: -5,
               cristal: 0,
               energy: 0,
               prize: {},

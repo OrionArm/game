@@ -113,10 +113,31 @@ export class ClientPlayerService {
     return playerState.position;
   }
 
+  private filterDialogOptions(
+    dialog: DialogNode | null,
+    currentState: PlayerStateResponseDto,
+  ): DialogNode | null {
+    if (!dialog || !dialog.options) {
+      return dialog;
+    }
+
+    const playerItemIds = currentState.items.map((item) => item.id);
+
+    const filteredOptions = dialog.options.filter((option) => {
+      if (!option.requires) return true;
+
+      return playerItemIds.includes(option.requires as ItemId);
+    });
+
+    return {
+      ...dialog,
+      options: filteredOptions,
+    };
+  }
+
   async movePlayer(): Promise<MoveResponseDto> {
     const currentState = await this.getPlayerState();
 
-    // Ограничитель: не позволяем двигаться дальше позиции 50
     if (currentState.position >= MAX_POSITION) {
       throw new Error(
         `Достигнута максимальная позиция (${MAX_POSITION}). Дальше двигаться нельзя.`,
@@ -135,9 +156,8 @@ export class ClientPlayerService {
 
     let dialog: DialogNode | null = null;
     if (encounterAtPosition) {
-      console.log('🎯 Встреча на позиции', newPosition, ':', encounterAtPosition);
-      const dialogId = encounterAtPosition.dialogId;
-      dialog = encounterDialogs[dialogId];
+      dialog = encounterDialogs[encounterAtPosition.dialogId];
+      dialog = this.filterDialogOptions(dialog, currentState);
 
       return {
         dialog: dialog!,
@@ -150,7 +170,8 @@ export class ClientPlayerService {
       };
     } else {
       const event = this.eventService.getStepEvent(currentState);
-      dialog = event?.dialog?.[0] || null;
+      const rawDialog = event?.dialog?.[0] || null;
+      dialog = this.filterDialogOptions(rawDialog, currentState);
 
       return {
         dialog: dialog!,
@@ -174,5 +195,48 @@ export class ClientPlayerService {
 
   async processStepDialogChoice(dialogId: string, optionId: string) {
     return this.eventService.processStepDialogChoice(dialogId, optionId);
+  }
+
+  private getLogsKey(): string {
+    return `player_logs_${this.sessionId}`;
+  }
+
+  async addLogMessage(message: string): Promise<void> {
+    const logs = await this.getLogs();
+    logs.push({
+      message,
+      timestamp: new Date().toISOString(),
+    });
+
+    const maxLogs = 100;
+    if (logs.length > maxLogs) {
+      logs.splice(0, logs.length - maxLogs);
+    }
+
+    localStorage.setItem(this.getLogsKey(), JSON.stringify(logs));
+  }
+
+  async getLogs(limit?: number): Promise<Array<{ message: string; timestamp: string }>> {
+    const logsData = localStorage.getItem(this.getLogsKey());
+    let logs: Array<{ message: string; timestamp: string }> = [];
+
+    if (logsData) {
+      try {
+        logs = JSON.parse(logsData);
+      } catch (error) {
+        console.error('Ошибка парсинга логов:', error);
+        logs = [];
+      }
+    }
+
+    if (limit && limit > 0) {
+      return logs.slice(-limit);
+    }
+
+    return logs;
+  }
+
+  async clearLogs(): Promise<void> {
+    localStorage.removeItem(this.getLogsKey());
   }
 }

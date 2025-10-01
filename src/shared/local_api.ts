@@ -120,3 +120,33 @@ export async function fetchNearbyPlayers(
     throw new Error('Не удалось получить соседних игроков');
   }
 }
+
+// Логи
+export async function addLogMessage(message: string): Promise<void> {
+  try {
+    return await clientGameService.addLogMessage(message);
+  } catch (error) {
+    console.error('Ошибка добавления сообщения в лог:', error);
+    throw new Error('Не удалось добавить сообщение в лог');
+  }
+}
+
+export async function getLogs(
+  limit?: number,
+): Promise<Array<{ message: string; timestamp: string }>> {
+  try {
+    return await clientGameService.getLogs(limit);
+  } catch (error) {
+    console.error('Ошибка получения логов:', error);
+    throw new Error('Не удалось получить логи');
+  }
+}
+
+export async function clearLogs(): Promise<void> {
+  try {
+    return await clientGameService.clearLogs();
+  } catch (error) {
+    console.error('Ошибка очистки логов:', error);
+    throw new Error('Не удалось очистить логи');
+  }
+}

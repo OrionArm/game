@@ -95,7 +95,6 @@ export function useResourceLoader({
     }
   };
 
-  // Обновляем ref при изменении функции
   updateProgressRef.current = updateProgress;
 
   // Инициализация загрузки ресурсов
@@ -160,7 +159,6 @@ export function useResourceLoader({
             resolve();
           };
 
-          // Если изображение уже загружено в браузере, сразу резолвим
           if (img.complete) {
             globalResourceState.loadedResources.add(resource.src);
             setLoadedResources((prev) => new Set([...prev, resource.src]));
