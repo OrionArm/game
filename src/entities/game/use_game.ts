@@ -256,6 +256,7 @@ export function useGame() {
       stepForward: stableStepForward,
       setCurrentDialog: stableSetCurrentDialog,
       resetGame: stableResetGame,
+      setPlayerState,
       gameStatus,
     }),
     [
@@ -284,6 +285,7 @@ export function useGame() {
       stableStepForward,
       stableSetCurrentDialog,
       stableResetGame,
+      setPlayerState,
       gameStatus,
     ],
   );

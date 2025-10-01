@@ -1,4 +1,4 @@
-import { GamePage, LoadingScreen, ProfilePage } from '@/pages';
+import { GamePage, LoadingScreen, ProfilePage, ShopPage } from '@/pages';
 import BottomNavigation from '@/features/bottom_navigation';
 import type { PageType } from '../shared/types';
 import { useGameContext } from '@/entities/game/use_game_context';
@@ -22,15 +22,24 @@ function AppContent() {
   const handleTabChange = (tabId: string) => {
     if (tabId === 'profile') {
       setCurrentPage('profile');
+    } else if (tabId === 'shop') {
+      setCurrentPage('shop');
     } else if (tabId === 'home' && gameStatus !== 'won' && gameStatus !== 'lost') {
       setCurrentPage('game');
     }
   };
 
   const getActiveTab = (): string => {
-    if (actualCurrentPage === 'profile') return 'profile';
-    if (actualCurrentPage === 'game') return 'home';
-    return 'home';
+    switch (actualCurrentPage) {
+      case 'profile':
+        return 'profile';
+      case 'shop':
+        return 'shop';
+      case 'game':
+        return 'home';
+      default:
+        return 'home';
+    }
   };
 
   const getPageStyle = (pageType: PageType) => {
@@ -55,6 +64,12 @@ function AppContent() {
       {!loading && (
         <div style={getPageStyle('profile')}>
           <ProfilePage />
+        </div>
+      )}
+
+      {!loading && (
+        <div style={getPageStyle('shop')}>
+          <ShopPage />
         </div>
       )}
 

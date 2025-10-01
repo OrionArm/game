@@ -2,6 +2,7 @@ import { EventService } from './events/event_service';
 import { encounterDialogs } from './events/mock/dialogs_data';
 import type { Item, ItemId } from './events/mock/item_data';
 import { type DialogNode, type EncounterInfo } from './events/type';
+import { ShopService } from './shop_service';
 
 type PlayerFlags = Record<FlagName, boolean>;
 
@@ -47,10 +48,12 @@ const ENERGY_MAX = 200;
 export class ClientPlayerService {
   private sessionId: string;
   private eventService: EventService;
+  private shopService: ShopService;
 
   constructor(sessionId: string) {
     this.sessionId = sessionId;
     this.eventService = new EventService(this);
+    this.shopService = new ShopService(this);
   }
 
   private calculateEnergyRegeneration(playerState: PlayerStateResponseDto): PlayerStateResponseDto {
@@ -241,9 +244,9 @@ export class ClientPlayerService {
   }
 
   async resetPlayerState(): Promise<void> {
-    // Удаляем сохраненное состояние игрока
     localStorage.removeItem(`player_${this.sessionId}`);
-    // Очищаем логи
     await this.clearLogs();
+    this.eventService.resetEventStates();
+    this.shopService.resetAvailableItems();
   }
 }

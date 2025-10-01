@@ -4,16 +4,19 @@ import {
   type PlayerStateResponseDto,
 } from './client_player_service';
 import { ClientSessionService } from './client_session_service';
+import { ShopService } from './shop_service';
 import type { WorldStateResponseDto, DialogChoiceResponseDto } from './events/type';
 
 export class ClientGameService {
   private playerService: ClientPlayerService;
   private sessionService: ClientSessionService;
+  private shopService: ShopService;
 
   constructor() {
     this.sessionService = new ClientSessionService();
     const sessionId = this.sessionService.getCurrentSessionId();
     this.playerService = new ClientPlayerService(sessionId);
+    this.shopService = new ShopService(this.playerService);
   }
 
   async getWorldState(): Promise<WorldStateResponseDto> {
@@ -55,7 +58,20 @@ export class ClientGameService {
   }
 
   async resetPlayerState(): Promise<void> {
-    return this.playerService.resetPlayerState();
+    await this.playerService.resetPlayerState();
+    this.shopService.resetAvailableItems();
+  }
+
+  getShopService() {
+    return this.shopService;
+  }
+
+  async getShopItems() {
+    return this.shopService.getAvailableItems();
+  }
+
+  async purchaseShopItem(itemId: string) {
+    return this.shopService.applyItem(itemId);
   }
 }
 

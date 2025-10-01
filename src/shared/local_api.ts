@@ -3,6 +3,8 @@ import { clientGameService } from '../services/client_game_service';
 import type { MoveResponseDto, PlayerStateResponseDto } from '@/services/client_player_service';
 import { RankingService } from '@/services/ranking_service';
 import type { PlayerRanking } from './types';
+import type { ShopItem } from '@/services/events/mock/shop_data';
+import type { HappenedEffects } from '@/services/events/type';
 
 // GET player/state
 export async function fetchPlayerState(): Promise<PlayerStateResponseDto> {
@@ -158,5 +160,30 @@ export async function resetPlayerState(): Promise<void> {
   } catch (error) {
     console.error('Ошибка сброса состояния игрока:', error);
     throw new Error('Не удалось сбросить состояние игрока');
+  }
+}
+
+// GET shop/items
+export async function fetchShopItems(): Promise<ShopItem[]> {
+  try {
+    return await clientGameService.getShopItems();
+  } catch (error) {
+    console.error('Ошибка получения товаров магазина:', error);
+    throw new Error('Не удалось получить список товаров магазина');
+  }
+}
+
+// POST shop/purchase
+export async function purchaseShopItem(itemId: string): Promise<{
+  success: boolean;
+  message: string;
+  newState?: PlayerStateResponseDto;
+  happenedEffects?: HappenedEffects;
+}> {
+  try {
+    return await clientGameService.purchaseShopItem(itemId);
+  } catch (error) {
+    console.error('Ошибка покупки товара:', error);
+    throw new Error('Не удалось купить товар');
   }
 }

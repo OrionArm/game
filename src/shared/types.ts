@@ -1,4 +1,4 @@
-export type PageType = 'loading' | 'game' | 'menu' | 'settings' | 'profile';
+export type PageType = 'loading' | 'game' | 'menu' | 'settings' | 'profile' | 'shop';
 
 export interface AppState {
   currentPage: PageType;
