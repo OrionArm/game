@@ -40,7 +40,17 @@ export default function World({
         {encounters.map((e) => {
           const typeClass = getEncounterTypeClass(e.type);
           const encounterClass = `${styles.encounter} ${styles[`encounter-${typeClass}`]} ${e.resolved ? styles.resolved : ''}`;
-          return <div key={e.id} className={encounterClass} style={{ left: e.x }} aria-hidden />;
+          return (
+            <div
+              key={e.id}
+              className={encounterClass}
+              style={{
+                left: e.x,
+                backgroundImage: `url(${e.imageUrl})`,
+              }}
+              aria-hidden
+            />
+          );
         })}
         <div className={styles.ground} style={{ width: worldLengthPx }} />
         <div className={styles.player} style={{ left: playerX }} />

@@ -159,7 +159,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
       {
         id: 'CH01_S2B-option-c',
         text: 'Проверить ссылку через антифрод‑инструмент',
-        requires: 'Антифрод-токен',
+        requires: 'anti-fraud-token',
         effects: {
           gold: 40,
           health: 0,
@@ -217,7 +217,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
       {
         id: 'CH01_S3-option-c',
         text: 'Нажать «Сообщить о мошенничестве»',
-        requires: 'Антифрод-токен',
+        requires: 'anti-fraud-token',
         effects: {
           gold: 50,
           health: 0,
@@ -907,7 +907,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
       {
         id: 'CH04_S2B-option-c',
         text: 'Проверить продавца в чёрных списках',
-        requires: 'Антифрод-токен',
+        requires: 'anti-fraud-token',
         effects: {
           gold: 30,
           health: 0,
@@ -1064,7 +1064,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
       {
         id: 'CH05_S2A-option-a',
         text: 'Заправиться у партнёра',
-        requires: 'Бонус-карта партнёра',
+        requires: 'bonus-card',
         effects: {
           gold: 80,
           health: 0,
@@ -1156,7 +1156,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
       {
         id: 'CH05_S3-option-c',
         text: 'Отправить ссылку на проверку',
-        requires: 'Антифрод-токен',
+        requires: 'anti-fraud-token',
         effects: {
           gold: 30,
           health: 0,
@@ -1197,7 +1197,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
       {
         id: 'CH06_S1-option-a',
         text: 'Подключить и поставить напоминание',
-        requires: 'Смарт-автоплатёж',
+        requires: 'auto-payment',
         effects: {
           gold: 60,
           health: 0,

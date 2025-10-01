@@ -34,7 +34,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E004-option-b',
             text: 'Поделиться памяткой о фишинге',
-            requires: 'Финсоветник',
+            requires: 'fin-advisor',
             effects: {
               gold: 0,
               health: 0,
@@ -307,7 +307,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E017-option-c',
             text: 'Сообщить о мошенничестве',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 50,
               health: 0,
@@ -472,7 +472,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E049-option-c',
             text: 'Отметить номер как мошеннический',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 50,
               health: 0,
@@ -572,7 +572,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E003-option-d',
             text: 'Нажать «Сообщить о мошенничестве» в приложении',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 30,
               health: 0,
@@ -642,7 +642,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E007-option-c',
             text: 'Сообщить о фишинге',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 0,
               health: 0,
@@ -725,7 +725,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E028-option-c',
             text: 'Отправить ссылку на проверку в приложение',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 30,
               health: 0,
@@ -808,7 +808,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E044-option-c',
             text: 'Проверить ссылку через антифрод-инструмент',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 30,
               health: 0,
@@ -892,7 +892,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E002-option-c',
             text: 'Попросить номер заказа и оплатить напрямую в магазине',
-            requires: 'Антифрод-токен',
+            requires: 'anti-fraud-token',
             effects: {
               gold: 40,
               health: 0,
@@ -979,7 +979,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E005-option-c',
             text: 'Оплатить у партнёра и получить кэшбэк',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 160,
               health: 0,
@@ -1031,7 +1031,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E011-option-a',
             text: 'Оплатить из «подушки»',
-            requires: 'Подушка безопасности',
+            requires: 'safety-cushion',
             effects: {
               gold: -60,
               health: 0,
@@ -1115,7 +1115,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E015-option-a',
             text: 'Ремонт у партнёра со скидкой',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 120,
               health: 0,
@@ -1198,7 +1198,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E020-option-a',
             text: 'Оплатить из «подушки безопасности»',
-            requires: 'Подушка безопасности',
+            requires: 'safety-cushion',
             effects: {
               gold: -50,
               health: 0,
@@ -1231,7 +1231,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E020-option-c',
             text: 'Запросить рассрочку у партнёра',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 80,
               health: 0,
@@ -1330,7 +1330,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E026-option-d',
             text: 'Отложить решение на неделю (напоминание)',
-            requires: 'Смарт-автоплатёж',
+            requires: 'auto-payment',
             effects: {
               gold: 40,
               health: 0,
@@ -1397,7 +1397,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E036-option-c',
             text: 'Заказать у партнёра с кэшбэком',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 150,
               health: 0,
@@ -1480,7 +1480,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E038-option-c',
             text: 'Поездка через партнёрский сервис',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 100,
               health: 0,
@@ -1563,7 +1563,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E048-option-c',
             text: 'Только у партнёров с кэшбэком',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 160,
               health: 0,
@@ -1614,7 +1614,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E050-option-a',
             text: 'Создать цель и автопополнение',
-            requires: 'Целевой календарь',
+            requires: 'target-calendar',
             effects: {
               gold: 110,
               health: 0,
@@ -1992,7 +1992,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E039-option-d',
             text: 'Проверить страховку отмены поездки',
-            requires: 'Полис-щит',
+            requires: 'policy-shield',
             effects: {
               gold: 60,
               health: 0,
@@ -2028,7 +2028,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E040-option-a',
             text: 'Подключить и поставить напоминание',
-            requires: 'Смарт-автоплатёж',
+            requires: 'auto-payment',
             effects: {
               gold: 60,
               health: 0,
@@ -2226,7 +2226,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E010-option-c',
             text: 'Сменить PIN и пароль',
-            requires: 'Защитный PIN-чекер',
+            requires: 'pin-checker',
             effects: {
               gold: 0,
               health: 1,
@@ -2310,7 +2310,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E023-option-c',
             text: 'Установить PIN-чекер',
-            requires: 'Защитный PIN-чекер',
+            requires: 'pin-checker',
             effects: {
               gold: 0,
               health: 1,
@@ -2706,7 +2706,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E016-option-b',
             text: 'Отправить в копилку «мечта»',
-            requires: 'Целевой календарь',
+            requires: 'target-calendar',
             effects: {
               gold: 60,
               health: 0,
@@ -2806,7 +2806,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E021-option-c',
             text: 'Активировать бонус-карту',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 160,
               health: 0,
@@ -2857,7 +2857,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E029-option-a',
             text: 'Купить только по списку у партнёра',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 150,
               health: 0,
@@ -2940,7 +2940,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E034-option-a',
             text: 'Заплатить картой у партнёра — кэшбэк',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 140,
               health: 0,
@@ -3023,7 +3023,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E045-option-a',
             text: 'Заправиться у партнёра',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 140,
               health: 0,
@@ -3139,7 +3139,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E012-option-c',
             text: 'Включить умные напоминания',
-            requires: 'Смарт-автоплатёж',
+            requires: 'auto-payment',
             effects: {
               gold: 80,
               health: 0,
@@ -3190,7 +3190,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E019-option-a',
             text: 'Оплатить через партнёра — кэшбэк',
-            requires: 'Бонус-карта партнёра',
+            requires: 'bonus-card',
             effects: {
               gold: 140,
               health: 0,
@@ -3223,7 +3223,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E019-option-c',
             text: 'Поставить напоминания',
-            requires: 'Смарт-автоплатёж',
+            requires: 'auto-payment',
             effects: {
               gold: 80,
               health: 0,
@@ -3306,7 +3306,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E035-option-c',
             text: 'Поставить напоминание за 3 дня до списания',
-            requires: 'Смарт-автоплатёж',
+            requires: 'auto-payment',
             effects: {
               gold: 60,
               health: 0,
@@ -3357,7 +3357,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E047-option-a',
             text: 'Включить автоплатёж и напоминания',
-            requires: 'Смарт-автоплатёж',
+            requires: 'auto-payment',
             effects: {
               gold: 80,
               health: 0,
@@ -3555,7 +3555,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E022-option-c',
             text: 'Включить страховку поездки',
-            requires: 'Полис-щит',
+            requires: 'policy-shield',
             effects: {
               gold: 40,
               health: 1,
@@ -3705,7 +3705,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E006-option-b',
             text: 'Пополнить «мечту» и включить автопополнение',
-            requires: 'Целевой календарь',
+            requires: 'target-calendar',
             effects: {
               gold: 110,
               health: 0,
@@ -3805,7 +3805,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E018-option-c',
             text: 'Включить автопополнение цели',
-            requires: 'Целевой календарь',
+            requires: 'target-calendar',
             effects: {
               gold: 130,
               health: 0,
@@ -3856,7 +3856,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E030-option-a',
             text: 'Включить округление в «мечту»',
-            requires: 'Целевой календарь',
+            requires: 'target-calendar',
             effects: {
               gold: 100,
               health: 0,
@@ -3926,7 +3926,7 @@ export const stepEventData: StepEvent[] = [
   {
     eventId: 'E013',
     type: 'StepEvent',
-    title: 'Подушка безопасности для семьи',
+    title: 'safety-cushion для семьи',
     description:
       'История знакомого заставляет подумать о защите близких. Вы оцениваете базовые полисы.',
     imageUrl: '/public/art/insurance.png',
@@ -3971,8 +3971,8 @@ export const stepEventData: StepEvent[] = [
           },
           {
             id: 'E013-option-c',
-            text: 'Активировать «Полис-щит»',
-            requires: 'Полис-щит',
+            text: 'Активировать «policy-shield»',
+            requires: 'policy-shield',
             effects: {
               gold: 50,
               health: 1,
@@ -4039,7 +4039,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E031-option-b',
             text: 'Купить расширенный полис',
-            requires: 'Полис-щит',
+            requires: 'policy-shieldield',
             effects: {
               gold: 60,
               health: 1,
@@ -4106,7 +4106,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E046-option-a',
             text: 'Купить расширенную защиту',
-            requires: 'Полис-щит',
+            requires: 'policy-shield',
             effects: {
               gold: 40,
               health: 1,

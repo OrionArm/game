@@ -1,14 +1,10 @@
 import { EventService } from './events/event_service';
 import { encounterDialogs } from './events/mock/dialogs_data';
+import type { Item, ItemName } from './events/mock/item_data';
 import { type DialogNode, type EncounterInfo } from './events/type';
 
 type PlayerFlags = Record<FlagName, boolean>;
-type Item = {
-  id: string;
-  name: ItemName;
-  description: string;
-  image: string;
-};
+
 export type PlayerStateResponseDto = Points & {
   id: number;
   name: string;
@@ -20,15 +16,6 @@ export type PlayerStateResponseDto = Points & {
 };
 
 export type FlagName = 'friendContact' | 'friendScamSpotted' | 'friendFact' | 'friendLegitHint';
-export type ItemName =
-  | 'Защитный PIN-чекер'
-  | 'Полис-щит'
-  | 'Бонус-карта партнёра'
-  | 'Смарт-автоплатёж'
-  | 'Антифрод-токен'
-  | 'Подушка безопасности'
-  | 'Целевой календарь'
-  | 'Финсоветник';
 
 export type Points = {
   cristal: number;
@@ -52,6 +39,11 @@ export interface MoveResponseDto {
   encounter?: EncounterInfo;
 }
 
+const MAX_POSITION = 50;
+const ENERGY_COST_PER_STEP = 10;
+const ENERGY_REGENERATION_RATE = 10;
+const ENERGY_MAX = 200;
+
 export class ClientPlayerService {
   private sessionId: string;
   private eventService: EventService;
@@ -61,11 +53,37 @@ export class ClientPlayerService {
     this.eventService = new EventService(this);
   }
 
+  private calculateEnergyRegeneration(playerState: PlayerStateResponseDto): PlayerStateResponseDto {
+    const lastUpdate = new Date(playerState.updatedAt);
+    const now = new Date();
+    const timeDiffMs = now.getTime() - lastUpdate.getTime();
+    const timeDiffHours = Math.floor(timeDiffMs / (1000 * 60 * 60));
+
+    // Начисляем по 10 энергии за каждый час, но не более 200
+    if (timeDiffHours > 0) {
+      const energyToAdd = Math.min(timeDiffHours * ENERGY_REGENERATION_RATE, ENERGY_MAX);
+      return {
+        ...playerState,
+        energy: Math.min(playerState.energy + energyToAdd, ENERGY_MAX),
+        updatedAt: now.toISOString(),
+      };
+    }
+
+    return playerState;
+  }
+
   async getPlayerState(): Promise<PlayerStateResponseDto> {
     const storedData = localStorage.getItem(`player_${this.sessionId}`);
 
     if (storedData) {
-      return JSON.parse(storedData);
+      const playerState = JSON.parse(storedData);
+      const updatedState = this.calculateEnergyRegeneration(playerState);
+
+      if (updatedState !== playerState) {
+        this.savePlayerState(updatedState);
+      }
+
+      return updatedState;
     }
 
     const newPlayer: PlayerStateResponseDto = {
@@ -76,7 +94,7 @@ export class ClientPlayerService {
       position: 0,
       gold: 100,
       cristal: 0,
-      energy: 200,
+      energy: 100,
       updatedAt: new Date().toISOString(),
       items: [
         // {
@@ -94,7 +112,7 @@ export class ClientPlayerService {
       ],
       flags: {
         friendContact: false,
-        friendScamSpotted: true,
+        friendScamSpotted: false,
         friendFact: false,
         friendLegitHint: false,
       },
@@ -111,8 +129,15 @@ export class ClientPlayerService {
 
   async movePlayer(): Promise<MoveResponseDto> {
     const currentState = await this.getPlayerState();
+
+    // Ограничитель: не позволяем двигаться дальше позиции 50
+    if (currentState.position >= MAX_POSITION) {
+      throw new Error(
+        `Достигнута максимальная позиция (${MAX_POSITION}). Дальше двигаться нельзя.`,
+      );
+    }
+
     const newPosition = currentState.position + 1;
-    const ENERGY_COST_PER_STEP = 10;
     const encounterAtPosition = await this.eventService.getEncounterEvent(newPosition);
     const updatedState: PlayerStateResponseDto = {
       ...currentState,

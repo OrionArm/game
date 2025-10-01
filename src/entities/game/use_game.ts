@@ -20,15 +20,8 @@ const transformEncountersToPixels = (encounters: Encounter[]): Encounter[] => {
 
 const RESOURCES_TO_PRELOAD: ResourceConfig[] = [
   { src: '/player.svg', priority: 'high', type: 'character' },
-  { src: '/npc.svg', priority: 'high', type: 'npc' },
   { src: '/far.svg', priority: 'high', type: 'background' },
   { src: '/near.svg', priority: 'high', type: 'background' },
-  { src: '/near2.svg', priority: 'high', type: 'background' },
-
-  { src: '/monster.svg', priority: 'low', type: 'npc' },
-  { src: '/monster2.svg', priority: 'low', type: 'npc' },
-  { src: '/chest.svg', priority: 'low', type: 'interactive' },
-  { src: '/open-box.svg', priority: 'low', type: 'interactive' },
   { src: '/gold-dollar-coin.svg', priority: 'low', type: 'currency' },
 ];
 
@@ -127,7 +120,11 @@ export function useGame() {
         setCurrentEncounter(encounter || null);
       })
       .catch((error) => {
-        setLog((prev) => [...prev, 'Ошибка перемещения!']);
+        if (error.message.includes('максимальная позиция')) {
+          setLog((prev) => [...prev, error.message]);
+        } else {
+          setLog((prev) => [...prev, 'Ошибка перемещения!']);
+        }
         console.error('Failed to move player:', error);
       })
       .finally(() => {

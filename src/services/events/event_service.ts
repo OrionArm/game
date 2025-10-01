@@ -26,7 +26,7 @@ import { encounterData } from './mock/encounters_data';
 export class EventService {
   private encounterEvents: EncounterEvent[] = [];
   private completedEncounterEvents: EncounterEvent[] = [];
-  private readonly WORLD_LENGTH = 200;
+  private readonly WORLD_LENGTH = 70;
   private playerService: ClientPlayerService;
   private availableStepEvents: StepEvent[] = [...stepEventData];
   private completedStepEvents: StepEvent[] = [];
@@ -169,12 +169,12 @@ export class EventService {
       resolved: false,
       title: event.title,
       description: event.description,
+      imageUrl: event.imageUrl,
     }));
 
     return {
       encounters,
       worldLength: this.WORLD_LENGTH,
-      weight: 1,
     };
   }
 

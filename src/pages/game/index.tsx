@@ -57,10 +57,19 @@ export default function GamePage() {
 
         <Button
           onClick={stepForward}
-          disabled={!!currentDialog || loading}
-          ready={!currentDialog && !loading && (playerState?.energy || 0) >= 10}
+          disabled={!!currentDialog || loading || (playerState?.position || 0) >= 50}
+          ready={
+            !currentDialog &&
+            !loading &&
+            (playerState?.energy || 0) >= 10 &&
+            (playerState?.position || 0) < 50
+          }
         >
-          {(playerState?.energy || 0) < 10 ? 'Мало энергии' : 'Ход'}
+          {(playerState?.position || 0) >= 50
+            ? 'Финиш'
+            : (playerState?.energy || 0) < 10
+              ? 'Мало энергии'
+              : 'Ход'}
         </Button>
 
         <DialogModal

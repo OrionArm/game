@@ -171,6 +171,7 @@ export function useParallax({
   useEffect(() => {
     let raf = 0;
     let lastCameraX = cameraX;
+    let isAnimating = false;
 
     const tick = () => {
       animateCamera();
@@ -178,20 +179,26 @@ export function useParallax({
       // Проверяем, изменилась ли камера
       if (Math.abs(cameraX - lastCameraX) > 0.1) {
         lastCameraX = cameraX;
+        isAnimating = true;
         raf = requestAnimationFrame(tick);
       } else {
         // Останавливаем анимацию, если камера не движется
+        isAnimating = false;
         raf = 0;
       }
     };
 
-    // Запускаем анимацию только если камера должна двигаться
-    if (isManualControl || Math.abs(playerX - cameraX) > 1) {
+    // Запускаем анимацию только если камера должна двигаться и не анимируется уже
+    const shouldAnimate = (isManualControl || Math.abs(playerX - cameraX) > 1) && !isAnimating;
+    if (shouldAnimate) {
       raf = requestAnimationFrame(tick);
     }
 
     return () => {
-      if (raf) cancelAnimationFrame(raf);
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
     };
   }, [animateCamera, cameraX, playerX, isManualControl]);
 

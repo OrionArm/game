@@ -67,13 +67,13 @@ export default function Chest({
             src="/open-box.svg"
             alt="Closed chest"
             className={`${styles.chest} ${isOpen ? styles.chestHidden : ''}`}
-            loading="eager"
+            loading="lazy"
           />
           <img
             src="/open-box.svg"
             alt="Open chest"
             className={`${styles.chest} ${isOpen ? '' : styles.chestHidden}`}
-            loading="eager"
+            loading="lazy"
           />
         </div>
       </div>

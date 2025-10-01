@@ -136,22 +136,19 @@
   --black-a15: rgba(0, 0, 0, 0.15);
   --black-a20: rgba(0, 0, 0, 0.2);
 
-  /* z-index layers */
-  --z-bg: 0; /* viewport gradient */
-  --z-parallax-far: 1; /* far parallax layer */
-  --z-parallax-near: 2; /* near parallax layer */
-  --z-ground: 3; /* world and ground */
+  --z-bg: 0;
+  --z-parallax-far: 1;
+  --z-parallax-near: 2;
+  --z-ground: 3;
   --z-encounter: 4;
   --z-player: 5;
   --z-overlay: 6;
   --z-overlay-modal: 7;
-  /* asset urls */
+
   --img-parallax-far: url('/far.svg');
   --img-parallax-near: url('/near.svg');
   --img-player: url('/player.svg');
   --img-encounter-npc: url('/npc.svg');
-  --img-encounter-monster: url('/monster.svg');
-  --img-encounter-chest: url('/chest.svg');
 
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

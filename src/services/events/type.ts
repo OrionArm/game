@@ -1,9 +1,5 @@
-import type {
-  DialogEffects,
-  FlagName,
-  ItemName,
-  PlayerStateResponseDto,
-} from '../client_player_service';
+import type { DialogEffects, FlagName, PlayerStateResponseDto } from '../client_player_service';
+import type { ItemName } from './mock/item_data';
 
 export type EncounterAction = 'talk' | 'fight' | 'flee' | 'loot' | 'trade' | 'ignore';
 
@@ -35,6 +31,7 @@ type EncounterCoordinates = {
   id: string;
   x: number;
   resolved: boolean;
+  imageUrl: string;
 };
 export type EncounterInfo = {
   type: EncounterEventType;
@@ -74,6 +71,7 @@ export interface EncounterEvent extends BaseEvent {
   type: EncounterEventType;
   position: number;
   dialogId: string;
+  imageUrl: string;
 }
 
 export type WorldEventType = 'news' | 'disaster' | 'celebration' | 'mystery' | 'opportunity';
@@ -111,6 +109,5 @@ export interface StepEvent extends BaseEvent {
 export interface WorldStateResponseDto {
   encounters: Encounter[];
   worldLength: number;
-  weight: number;
 }
 export type GameEvent = EncounterEvent | WorldEvent | StepEvent;

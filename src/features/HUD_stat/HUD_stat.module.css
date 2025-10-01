@@ -7,7 +7,7 @@
   border-radius: 8px; /* Уменьшаем радиус для мобильных */
   border: 1px solid var(--color-overlay-border);
   color: var(--color-text-weak-2);
-  font-size: 16px; /* Увеличиваем размер шрифта */
+  font-size: 20px; /* Увеличиваем размер шрифта */
   line-height: 1;
   backdrop-filter: blur(8px);
   transition: all 0.3s ease;
@@ -23,7 +23,7 @@
 }
 
 .icon {
-  font-size: 20px; /* Увеличиваем размер иконки */
+  font-size: 24px; /* Увеличиваем размер иконки */
   transition: transform 0.3s ease;
 }
 
@@ -212,11 +212,11 @@
 @media (max-width: 768px) {
   .item {
     padding: 4px 8px; /* Еще больше уменьшаем padding */
-    font-size: 14px; /* Увеличиваем размер шрифта для мобильных */
+    font-size: 18px; /* Увеличиваем размер шрифта для мобильных */
     gap: 4px; /* Уменьшаем gap */
   }
 
   .icon {
-    font-size: 18px; /* Увеличиваем размер иконки для мобильных */
+    font-size: 22px; /* Увеличиваем размер иконки для мобильных */
   }
 }

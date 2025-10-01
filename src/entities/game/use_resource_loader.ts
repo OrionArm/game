@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { preload } from 'react-dom';
 
 type ResourcePriority = 'high' | 'low' | 'auto';
@@ -24,6 +24,14 @@ interface UseResourceLoaderReturn {
   isComplete: boolean;
 }
 
+// Глобальное состояние для отслеживания загрузки ресурсов
+const globalResourceState = {
+  loadedResources: new Set<string>(),
+  isComplete: false,
+  hasStarted: false,
+  preloadedResources: new Set<string>(),
+};
+
 export function useResourceLoader({
   resources,
   onProgress,
@@ -34,8 +42,26 @@ export function useResourceLoader({
   const [loadingText, setLoadingText] = useState('Инициализация...');
   const [loadedResources, setLoadedResources] = useState<Set<string>>(new Set());
   const [isComplete, setIsComplete] = useState(false);
+  const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasInitializedRef = useRef(false);
+  const updateProgressRef = useRef<() => void>(() => {});
 
-  const updateProgress = useCallback(() => {
+  // Мемоизируем ресурсы для предотвращения лишних перезагрузок
+  const memoizedResources = useMemo(() => resources, [resources]);
+
+  // Мемоизируем onComplete для предотвращения лишних перезагрузок
+  const memoizedOnComplete = useCallback(() => {
+    if (onComplete) {
+      onComplete();
+    }
+  }, [onComplete]);
+
+  const updateProgress = () => {
+    // Если загрузка уже завершена, не обновляем прогресс
+    if (globalResourceState.isComplete) {
+      return;
+    }
+
     const currentLoaded = loadedResources.size;
     const totalResources = resources.length;
     const newProgress = Math.round((currentLoaded / totalResources) * 100);
@@ -62,75 +88,154 @@ export function useResourceLoader({
       onProgress(newProgress, newLoadingText);
     }
 
-    if (currentLoaded === totalResources && !isComplete) {
-      setIsComplete(true);
-      setLoading(false);
-      if (onComplete) {
-        onComplete();
+    if (currentLoaded === totalResources) {
+      // Останавливаем интервал обновления прогресса
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
       }
-    }
-  }, [loadedResources, resources, onProgress, onComplete, isComplete]);
 
-  useEffect(() => {
-    if (resources.length === 0) {
-      setLoading(false);
       setIsComplete(true);
+      setLoading(false);
+      globalResourceState.isComplete = true;
+      memoizedOnComplete();
+    }
+  };
+
+  // Обновляем ref при изменении функции
+  updateProgressRef.current = updateProgress;
+
+  // Инициализация загрузки ресурсов
+  useEffect(() => {
+    // Предотвращаем повторную инициализацию
+    if (hasInitializedRef.current) {
       return;
     }
 
-    resources.forEach((resource) => {
+    hasInitializedRef.current = true;
+
+    // Если загрузка уже завершена глобально, сразу возвращаем результат
+    if (globalResourceState.isComplete) {
+      setLoadedResources(new Set(globalResourceState.loadedResources));
+      setProgress(100);
+      setLoadingText('Все ресурсы загружены');
+      setLoading(false);
+      setIsComplete(true);
+      memoizedOnComplete();
+      return;
+    }
+
+    if (memoizedResources.length === 0) {
+      setLoading(false);
+      setIsComplete(true);
+      globalResourceState.isComplete = true;
+      return;
+    }
+
+    // Если загрузка уже началась, ждем завершения
+    if (globalResourceState.hasStarted) {
+      return;
+    }
+
+    globalResourceState.hasStarted = true;
+
+    // Загружаем только те ресурсы, которые еще не загружены и не были предзагружены
+    const resourcesToPreload = memoizedResources.filter(
+      (resource) =>
+        !globalResourceState.loadedResources.has(resource.src) &&
+        !globalResourceState.preloadedResources.has(resource.src),
+    );
+
+    resourcesToPreload.forEach((resource) => {
       preload(resource.src, {
         as: 'image',
         fetchPriority: resource.priority,
       });
+      globalResourceState.preloadedResources.add(resource.src);
     });
 
-    const preloadPromises = resources.map((resource) => {
-      return new Promise<void>((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          setLoadedResources((prev) => new Set([...prev, resource.src]));
-          resolve();
-        };
-        img.onerror = () => {
-          setLoadedResources((prev) => new Set([...prev, resource.src]));
-          resolve();
-        };
-        img.src = resource.src;
+    const preloadPromises = memoizedResources
+      .filter((resource) => !globalResourceState.loadedResources.has(resource.src))
+      .map((resource) => {
+        return new Promise<void>((resolve) => {
+          // Проверяем, не загружен ли ресурс уже в браузере
+          const img = new Image();
+          img.onload = () => {
+            globalResourceState.loadedResources.add(resource.src);
+            setLoadedResources((prev) => new Set([...prev, resource.src]));
+            resolve();
+          };
+          img.onerror = () => {
+            globalResourceState.loadedResources.add(resource.src);
+            setLoadedResources((prev) => new Set([...prev, resource.src]));
+            resolve();
+          };
+
+          // Если изображение уже загружено в браузере, сразу резолвим
+          if (img.complete) {
+            globalResourceState.loadedResources.add(resource.src);
+            setLoadedResources((prev) => new Set([...prev, resource.src]));
+            resolve();
+            return;
+          }
+
+          img.src = resource.src;
+        });
       });
-    });
 
-    const progressInterval = setInterval(() => {
-      if (!isComplete) {
-        updateProgress();
+    // Если все ресурсы уже загружены, сразу завершаем
+    if (preloadPromises.length === 0) {
+      setLoadedResources(new Set(globalResourceState.loadedResources));
+      setProgress(100);
+      setLoadingText('Все ресурсы загружены');
+      setLoading(false);
+      setIsComplete(true);
+      globalResourceState.isComplete = true;
+      memoizedOnComplete();
+      return;
+    }
+
+    // Запускаем интервал обновления прогресса с увеличенным интервалом
+    progressIntervalRef.current = setInterval(() => {
+      if (!globalResourceState.isComplete && updateProgressRef.current) {
+        updateProgressRef.current();
       }
-    }, 200);
+    }, 500);
 
     Promise.all(preloadPromises)
       .then(() => {
-        clearInterval(progressInterval);
+        if (progressIntervalRef.current) {
+          clearInterval(progressIntervalRef.current);
+          progressIntervalRef.current = null;
+        }
         setProgress(100);
         setLoadingText('Все ресурсы загружены');
         setLoading(false);
         setIsComplete(true);
-        if (onComplete) {
-          onComplete();
-        }
+        globalResourceState.isComplete = true;
+        memoizedOnComplete();
       })
       .catch((error) => {
-        clearInterval(progressInterval);
+        if (progressIntervalRef.current) {
+          clearInterval(progressIntervalRef.current);
+          progressIntervalRef.current = null;
+        }
         console.warn('Некоторые ресурсы не удалось загрузить:', error);
         setProgress(100);
         setLoadingText('Ресурсы загружены');
         setLoading(false);
         setIsComplete(true);
-        if (onComplete) {
-          onComplete();
-        }
+        globalResourceState.isComplete = true;
+        memoizedOnComplete();
       });
 
-    return () => clearInterval(progressInterval);
-  }, [resources, updateProgress, onComplete, isComplete]);
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+    };
+  }, [memoizedResources, memoizedOnComplete]);
 
   return {
     loading,

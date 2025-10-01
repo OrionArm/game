@@ -26,15 +26,7 @@ export const stepEventData: StepEvent[] = [
               prize: {},
               note: 'Сделали мир каплей безопаснее',
               itemsGain: [],
-              itemsLose: [
-                'Защитный PIN-чекер',
-                'Полис-щит',
-                'Бонус-карта партнёра',
-                'Смарт-автоплатёж',
-                'Антифрод-токен',
-                'Подушка безопасности',
-                'Целевой календарь',
-              ],
+              itemsLose: [],
               flagsUnset: ['friendLegitHint', 'friendFact', 'friendContact', 'friendScamSpotted'],
               flagsSet: [],
             },
@@ -42,7 +34,7 @@ export const stepEventData: StepEvent[] = [
           {
             id: 'E004-option-b',
             text: 'Поделиться памяткой о фишинге',
-            requires: 'Финсоветник',
+            requires: 'fin-advisor',
             effects: {
               gold: 0,
               health: 0,
