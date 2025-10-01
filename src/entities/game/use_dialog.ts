@@ -6,6 +6,7 @@ import type {
   DialogChoiceResponseDto,
   EncounterAction,
   EncounterInfo,
+  HappenedEffects,
 } from '@/services/events/type';
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
   setCurrentEncounter: (encounter: EncounterInfo | null) => void;
   setLog: React.Dispatch<React.SetStateAction<string[]>>;
   setPlayerState: React.Dispatch<React.SetStateAction<PlayerStateResponseDto | null>>;
+  setEffectsResult: React.Dispatch<React.SetStateAction<HappenedEffects | undefined>>;
 };
 
 export function useDialog({
@@ -24,13 +26,16 @@ export function useDialog({
   setCurrentEncounter,
   setLog,
   setPlayerState,
+  setEffectsResult,
 }: Props) {
   const [showDialog, setShowDialog] = useState(false);
+  const [pendingNextDialog, setPendingNextDialog] = useState<DialogNode | null>(null);
 
   const closeDialog = useCallback(() => {
     setCurrentDialog(null);
     setCurrentEncounter(null);
     setShowDialog(false);
+    setPendingNextDialog(null);
   }, [setCurrentDialog, setCurrentEncounter]);
 
   const selectDialogOption = useCallback(
@@ -47,14 +52,20 @@ export function useDialog({
         }
 
         if (result) {
-          if (result.message) setLog((prev) => [...prev, result.message]);
+          if (result.happenedEffects) {
+            setEffectsResult(result.happenedEffects);
+          }
 
           if (result.newState) {
             setPlayerState(result.newState);
           }
 
           if (result.nextDialog) {
-            setCurrentDialog(result.nextDialog);
+            if (result.happenedEffects) {
+              setPendingNextDialog(result.nextDialog);
+            } else {
+              setCurrentDialog(result.nextDialog);
+            }
           } else {
             closeDialog();
             onDialogComplete();
@@ -84,6 +95,15 @@ export function useDialog({
     closeDialog();
   }, [closeDialog]);
 
+  const handleCloseEffectsModal = useCallback(() => {
+    setEffectsResult(undefined);
+
+    if (pendingNextDialog) {
+      setCurrentDialog(pendingNextDialog);
+      setPendingNextDialog(null);
+    }
+  }, [pendingNextDialog, setCurrentDialog]);
+
   const resolveEncounter = useCallback(
     async (action: EncounterAction) => {
       if (action === 'talk') {
@@ -102,6 +122,7 @@ export function useDialog({
     showDialog,
     handleDialogOption,
     handleCloseDialog,
+    handleCloseEffectsModal,
     resolveEncounter,
   };
 }

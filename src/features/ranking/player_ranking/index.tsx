@@ -8,14 +8,6 @@ type Props = {
 };
 
 export default function PlayerRanking({ currentPlayer, nearbyPlayers, currentPlayerRank }: Props) {
-  // Отладочная информация
-  console.log('PlayerRanking props:', {
-    currentPlayer: currentPlayer.name,
-    currentPlayerRank,
-    nearbyPlayersCount: nearbyPlayers.length,
-    nearbyPlayers: nearbyPlayers.map((p) => ({ id: p.id, name: p.name, position: p.position })),
-  });
-
   return (
     <div className={styles.playerRanking}>
       <h3 className={styles.title}>📊 Ваш рейтинг</h3>

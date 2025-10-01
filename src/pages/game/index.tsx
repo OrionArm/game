@@ -20,8 +20,10 @@ export default function GamePage() {
     encounters,
     dialog,
     showDialog,
+    effectsResult,
     handleDialogOption,
     handleCloseDialog,
+    handleCloseEffectsModal,
     stepForward,
     currentEncounter,
     resolveEncounter,
@@ -81,8 +83,10 @@ export default function GamePage() {
         <DialogModal
           dialog={dialog}
           showDialog={showDialog}
+          effectsResult={effectsResult}
           onSelectOption={handleDialogOption}
           onClose={handleCloseDialog}
+          onCloseEffects={handleCloseEffectsModal}
           onSelect={resolveEncounter}
           currentEncounter={currentEncounter}
         />

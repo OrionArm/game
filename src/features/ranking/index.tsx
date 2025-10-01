@@ -40,14 +40,6 @@ export default function RankingDataLoader({
 
   const rankingData = use(rankingCache.get(cacheKey)!);
 
-  // Отладочная информация
-  console.log('Ranking data:', {
-    allPlayers: rankingData.allPlayers.length,
-    currentPlayerRank: rankingData.currentPlayerRank,
-    nearbyPlayers: rankingData.nearbyPlayers.length,
-    nearbyPlayersData: rankingData.nearbyPlayers,
-  });
-
   return (
     <>
       <Leaderboard players={rankingData.allPlayers} />

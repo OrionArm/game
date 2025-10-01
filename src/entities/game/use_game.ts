@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { fetchPlayerState, fetchWorldState, movePlayer } from '@/shared/local_api';
 import type { PlayerStateResponseDto } from '@/services/client_player_service';
-import type { DialogNode, Encounter, EncounterInfo } from '@/services/events/type';
+import type { DialogNode, Encounter, EncounterInfo, HappenedEffects } from '@/services/events/type';
 import { useResourceLoader, type ResourceConfig } from './use_resource_loader';
 import { useParallax } from './use_parallax';
 import { useDialog } from './use_dialog';
@@ -23,15 +23,15 @@ const RESOURCES_TO_PRELOAD: ResourceConfig[] = [
   { src: '/far.svg', priority: 'high' },
   { src: '/near.svg', priority: 'high' },
 ];
-
+const calculateCameraX = () => {
+  const viewHalf = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+  const safeMargin = STEP_PX * 3;
+  return Math.max(START_X, viewHalf + safeMargin);
+};
 export function useGame() {
   const worldRef = useRef<HTMLDivElement>(null!);
   const [playerX, setPlayerX] = useState(START_X);
-  const [cameraX, setCameraX] = useState(() => {
-    const viewHalf = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
-    const safeMargin = STEP_PX * 3;
-    return Math.max(START_X, viewHalf + safeMargin);
-  });
+  const [cameraX, setCameraX] = useState(calculateCameraX());
   const [log, setLog] = useState<string[]>(['Добро пожаловать в приключение!']);
   const [loading, setLoading] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
@@ -41,6 +41,7 @@ export function useGame() {
   const [playerState, setPlayerState] = useState<PlayerStateResponseDto | null>(null);
   const [worldLength, setWorldLength] = useState<number>(200);
   const [encounters, setEncounters] = useState<Encounter[]>([]);
+  const [effectsResult, setEffectsResult] = useState<HappenedEffects | undefined>(undefined);
 
   const { loading: resourcesLoading, isComplete: resourcesComplete } = useResourceLoader({
     resources: RESOURCES_TO_PRELOAD,
@@ -136,6 +137,7 @@ export function useGame() {
     showDialog,
     handleDialogOption,
     handleCloseDialog,
+    handleCloseEffectsModal,
     resolveEncounter,
   } = useDialog({
     currentEncounter,
@@ -144,6 +146,7 @@ export function useGame() {
     setCurrentEncounter,
     setLog,
     setPlayerState,
+    setEffectsResult,
   });
 
   const worldStyle = useMemo(
@@ -171,10 +174,12 @@ export function useGame() {
     worldLengthPx,
     dialog,
     showDialog,
+    effectsResult,
     currentEncounter,
     resolveEncounter,
     handleDialogOption,
     handleCloseDialog,
+    handleCloseEffectsModal,
     stepForward,
     setCurrentDialog,
   } as const;

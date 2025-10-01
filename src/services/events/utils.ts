@@ -183,7 +183,7 @@ export const formatRewardsMessage = (rewards: Partial<DialogEffects> | undefined
   }
 
   if (rewards.note) {
-    parts.push(`Заметка: ${rewards.note}`);
+    parts.push(rewards.note);
   }
 
   if (parts.length === 0) {

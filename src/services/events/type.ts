@@ -1,5 +1,5 @@
 import type { DialogEffects, FlagName, PlayerStateResponseDto } from '../client_player_service';
-import type { ItemId } from './mock/item_data';
+import type { Item, ItemId } from './mock/item_data';
 
 export type EncounterAction = 'talk' | 'fight' | 'flee' | 'loot' | 'trade' | 'ignore';
 
@@ -18,11 +18,20 @@ export interface DialogNode {
   options: DialogOption[];
 }
 
+export type HappenedEffects = {
+  health: number;
+  gold: number;
+  cristal: number;
+  note: string;
+  itemsGain: Item[];
+  itemsLose: Item[];
+};
+
 export interface DialogChoiceResponseDto {
   nextDialog?: DialogNode;
   newState?: PlayerStateResponseDto;
   isDialogComplete: boolean;
-  message: string;
+  happenedEffects?: HappenedEffects;
 }
 
 export type Encounter = EncounterCoordinates & EncounterInfo;

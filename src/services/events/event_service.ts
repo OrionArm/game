@@ -12,16 +12,14 @@ import type {
   EncounterEvent,
   StepEvent,
   WorldStateResponseDto,
+  HappenedEffects,
 } from './type';
 import { stepEventData } from './mock/steps_data';
 import { encounterDialogs } from './mock/dialogs_data';
-import {
-  applyDialogEffectsToState,
-  checkEventConditions,
-  formatRewardsMessage,
-  selectWeightedEvent,
-} from './utils';
+import { applyDialogEffectsToState, checkEventConditions, selectWeightedEvent } from './utils';
 import { encounterData } from './mock/encounters_data';
+import { mockItems } from './mock/item_data';
+import type { ItemId, Item } from './mock/item_data';
 
 export class EventService {
   private encounterEvents: EncounterEvent[] = [];
@@ -51,6 +49,28 @@ export class EventService {
     }
   }
 
+  private convertItemIdsToItems(itemIds: ItemId[] | undefined): Item[] {
+    if (!itemIds) return [];
+    return itemIds
+      .map((id) => mockItems.find((item) => item.id === id))
+      .filter((item): item is Item => item !== undefined);
+  }
+
+  private createHappenedEffects(
+    effects: Partial<DialogEffects> | undefined,
+  ): HappenedEffects | undefined {
+    if (!effects) return undefined;
+
+    return {
+      health: effects.health || 0,
+      gold: effects.gold || 0,
+      cristal: effects.cristal || 0,
+      note: effects.note || '',
+      itemsGain: this.convertItemIdsToItems(effects.itemsGain),
+      itemsLose: this.convertItemIdsToItems(effects.itemsLose),
+    };
+  }
+
   private async processDialogChoice(
     dialogId: string,
     optionId: string,
@@ -67,18 +87,20 @@ export class EventService {
     if (eventType === 'encounter') {
       const dialog = encounterDialogs[dialogId];
       if (!dialog) {
-        return { isDialogComplete: true, message: '' };
+        return { isDialogComplete: true };
       }
 
       const option = dialog.options.find((o: DialogOption) => o.id === optionId);
       if (!option) {
-        return { isDialogComplete: true, message: '' };
+        return { isDialogComplete: true };
       }
 
       let newState: PlayerStateResponseDto | undefined;
       if (option.effects) {
         newState = await this.applyDialogEffects(option.effects, playerState);
       }
+
+      const happenedEffects = this.createHappenedEffects(option.effects);
 
       if (option.nextDialogId) {
         const nextDialog = encounterDialogs[option.nextDialogId];
@@ -87,7 +109,7 @@ export class EventService {
             nextDialog,
             newState,
             isDialogComplete: false,
-            message: formatRewardsMessage(option.effects),
+            happenedEffects,
           };
         }
       }
@@ -95,29 +117,31 @@ export class EventService {
       return {
         newState,
         isDialogComplete: true,
-        message: formatRewardsMessage(option.effects),
+        happenedEffects,
       };
     }
 
     const stepEvent = event as StepEvent;
     if (!stepEvent?.dialog) {
-      return { isDialogComplete: true, message: '' };
+      return { isDialogComplete: true };
     }
 
     const dialog = stepEvent.dialog.find((d: DialogNode) => d.id === dialogId);
     if (!dialog) {
-      return { isDialogComplete: true, message: '' };
+      return { isDialogComplete: true };
     }
 
     const option = dialog.options.find((o: DialogOption) => o.id === optionId);
     if (!option) {
-      return { isDialogComplete: true, message: '' };
+      return { isDialogComplete: true };
     }
 
     let newState: PlayerStateResponseDto | undefined;
     if (option.effects) {
       newState = await this.applyDialogEffects(option.effects, playerState);
     }
+
+    const happenedEffects = this.createHappenedEffects(option.effects);
 
     if (option.nextDialogId) {
       const nextDialog = stepEvent.dialog.find((d: DialogNode) => d.id === option.nextDialogId);
@@ -126,7 +150,7 @@ export class EventService {
           nextDialog,
           newState,
           isDialogComplete: false,
-          message: formatRewardsMessage(option.effects),
+          happenedEffects,
         };
       }
     }
@@ -134,7 +158,7 @@ export class EventService {
     return {
       newState,
       isDialogComplete: true,
-      message: formatRewardsMessage(option.effects),
+      happenedEffects,
     };
   }
 
