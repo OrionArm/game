@@ -8,9 +8,17 @@ type Props = {
   value: number | string;
   align?: 'left' | 'right';
   className?: string;
+  iconType?: 'emoji' | 'svg';
 };
 
-export default function HUDStat({ icon, label, value, align = 'left', className }: Props) {
+export default function HUDStat({
+  icon,
+  label,
+  value,
+  align = 'left',
+  className,
+  iconType = 'emoji',
+}: Props) {
   const [previousValue, setPreviousValue] = useState<number | string>(value);
   const [animationClass, setAnimationClass] = useState<string>('');
   const [isAnimating, setIsAnimating] = useState(false);
@@ -55,11 +63,28 @@ export default function HUDStat({ icon, label, value, align = 'left', className 
     };
   }, []);
 
-  return (
-    <div className={`${styles.item} ${alignClass} ${className ?? ''} ${animationClass}`}>
+  const renderIcon = () => {
+    if (iconType === 'svg') {
+      return (
+        <img
+          src={icon}
+          alt=""
+          className={styles.icon}
+          style={{ width: '24px', height: '24px' }}
+          aria-hidden
+        />
+      );
+    }
+    return (
       <span className={styles.icon} aria-hidden>
         {icon}
       </span>
+    );
+  };
+
+  return (
+    <div className={`${styles.item} ${alignClass} ${className ?? ''} ${animationClass}`}>
+      {renderIcon()}
       <span className={`${styles.text} ${isAnimating ? styles.textAnimating : ''}`}>
         {label}: {value}
       </span>

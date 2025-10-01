@@ -2,12 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { preload } from 'react-dom';
 
 type ResourcePriority = 'high' | 'low' | 'auto';
-type ResourceType = 'character' | 'enemy' | 'interactive' | 'currency' | 'background' | 'npc';
 
 export interface ResourceConfig {
   src: string;
   priority: ResourcePriority;
-  type: ResourceType;
 }
 
 interface UseResourceLoaderOptions {

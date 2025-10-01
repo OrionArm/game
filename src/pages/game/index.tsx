@@ -40,7 +40,13 @@ export default function GamePage() {
               align="left"
             />
             <HUDStat icon="⚡" label="Энергия" value={playerState?.energy || 0} align="left" />
-            <HUDStat icon="💰" label="Золото" value={playerState?.gold || 0} align="left" />
+            <HUDStat
+              icon="/gold-dollar-coin.svg"
+              label="Золото"
+              value={playerState?.gold || 0}
+              align="left"
+              iconType="svg"
+            />
             <HUDStat icon="💎" label="Кристаллы" value={playerState?.cristal || 0} align="left" />
           </div>
           <LogPanel lines={log} />

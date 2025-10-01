@@ -7,7 +7,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Старый друг: разговор начистоту',
     description:
       'Настоящий друг благодарит за осторожность. Вы делитесь выводами и договариваетесь быть внимательнее к звонкам и сообщениям.',
-    imageUrl: '/public/art/old_friend_safe.png',
+    imageUrl: '/art/old_friend_safe.png',
     topic: 'Антифрод/осознанность',
     dialog: [
       {
@@ -95,7 +95,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Финал мини‑саги: верный друг',
     description:
       'Друг зовёт в чат и шутит про зелёный чай. Вы фиксируете урок: проверка фактов экономит деньги.',
-    imageUrl: '/public/art/old_friend_final.png',
+    imageUrl: '/art/old_friend_final.png',
     topic: 'Антифрод/осознанность',
     dialog: [
       {
@@ -181,7 +181,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Старый друг: случайная встреча',
     description:
       'Вы встречаете одноклассника и обмениваетесь контактами. Запоминаете важную примету: он не пьёт кофе — предпочитает зелёный чай.',
-    imageUrl: '/public/art/old_friend.png',
+    imageUrl: '/art/old_friend.png',
     topic: 'Антифрод/социнжиниринг',
     dialog: [
       {
@@ -264,7 +264,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Звонок «службы безопасности»',
     description:
       'Неизвестный представляется сотрудником банка и просит код из СМС. Ситуация выглядит сомнительно.',
-    imageUrl: '/public/art/otp.png',
+    imageUrl: '/art/otp.png',
     topic: 'Антифрод/социнжиниринг',
     dialog: [
       {
@@ -347,7 +347,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Мастер просит предоплату',
     description: 'Мастер по ремонту предлагает скидку, если перевести аванс. Вы сомневаетесь.',
-    imageUrl: '/public/art/handyman.png',
+    imageUrl: '/art/handyman.png',
     topic: 'Антифрод/социнжиниринг',
     dialog: [
       {
@@ -429,7 +429,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: '«Перевод на безопасный счёт»',
     description: '«Сотрудник банка» убеждает перевести деньги «для защиты». Сценарий знакомый.',
-    imageUrl: '/public/art/safe_account.png',
+    imageUrl: '/art/safe_account.png',
     topic: 'Антифрод/социнжиниринг',
     dialog: [
       {
@@ -513,7 +513,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Старый друг: «новый номер»',
     description:
       'Приходит сообщение с неизвестного номера: «Сломался телефон, это я. Срочно нужен перевод». Вы сомневаетесь, что это друг.',
-    imageUrl: '/public/art/scam_sms.png',
+    imageUrl: '/art/scam_sms.png',
     topic: 'Антифрод/фишинг',
     dialog: [
       {
@@ -599,7 +599,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Письмо с «призом»',
     description: 'На почту приходит письмо о «выигрыше» с ссылкой. Выглядит подозрительно.',
-    imageUrl: '/public/art/phishing_mail.png',
+    imageUrl: '/art/phishing_mail.png',
     topic: 'Антифрод/фишинг',
     dialog: [
       {
@@ -682,7 +682,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Подозрительный курьер',
     description: 'Звонок: «Мы везём посылку, оплатите доставку через ссылку». Звучит странно.',
-    imageUrl: '/public/art/courier.png',
+    imageUrl: '/art/courier.png',
     topic: 'Антифрод/фишинг',
     dialog: [
       {
@@ -765,7 +765,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'QR на столе кафе',
     description: 'На столе стикер с QR для оплаты. Неясно, кто его разместил.',
-    imageUrl: '/public/art/qr_table.png',
+    imageUrl: '/art/qr_table.png',
     topic: 'Антифрод/фишинг',
     dialog: [
       {
@@ -849,7 +849,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Старый друг: мем и счёт',
     description:
       'Друг присылает мем и просит «скинуть половину за пиццу». Вы решаете проверить, что это точно он.',
-    imageUrl: '/public/art/chat.png',
+    imageUrl: '/art/chat.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -936,7 +936,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Список или распродажа',
     description:
       'В кошельке пустовато, но в магазине акция. Решаете, что важнее — план или скидка.',
-    imageUrl: '/public/art/budget.png',
+    imageUrl: '/art/budget.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1020,7 +1020,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Стиралка и бюджет',
     description:
       'Стиральная машина требует ремонта. Нужно решить, как это оплатить, не руша планы.',
-    imageUrl: '/public/art/appliance.png',
+    imageUrl: '/art/appliance.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1104,7 +1104,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Ремонт телефона',
     description:
       'Смартфон треснул и просит внимания. Решаете, что выгоднее: ремонт, замена или пауза.',
-    imageUrl: '/public/art/phone.png',
+    imageUrl: '/art/phone.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1187,7 +1187,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Незапланированный платёж',
     description: 'Вдруг всплывает крупный счёт. Нужно закрыть вопрос без ущерба целям.',
-    imageUrl: '/public/art/unexpected.png',
+    imageUrl: '/art/unexpected.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1271,7 +1271,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Премия без плана',
     description: 'Вы получили премию. Решаете, как распорядиться суммой без вреда для целей.',
-    imageUrl: '/public/art/bonus.png',
+    imageUrl: '/art/bonus.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1354,7 +1354,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Праздничный бюджет',
     description: 'Собираетесь отмечать праздник. Важно уложиться без долгов.',
-    imageUrl: '/public/art/celebration.png',
+    imageUrl: '/art/celebration.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1437,7 +1437,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Такси: наличные или карта',
     description: 'Таксист предлагает скидку за наличные. Считаете общую выгоду.',
-    imageUrl: '/public/art/taxi.png',
+    imageUrl: '/art/taxi.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1520,7 +1520,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Чёрная пятница',
     description: 'Скидки кажутся огромными. Вы решаете, как сохранить здравый смысл.',
-    imageUrl: '/public/art/black_friday.png',
+    imageUrl: '/art/black_friday.png',
     topic: 'Бюджет/расходы',
     dialog: [
       {
@@ -1603,7 +1603,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Копилка на отпуск',
     description: 'Решаете копить на отпуск заранее. Чем раньше начнёте, тем легче путь.',
-    imageUrl: '/public/art/vacation_goal.png',
+    imageUrl: '/art/vacation_goal.png',
     topic: 'Долгосрочные цели',
     dialog: [
       {
@@ -1687,7 +1687,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Привычка месяца',
     description:
       'Новый месяц — повод выбрать одну простую привычку и удержать её. Варианты разные, смысл один — стать чуть лучше.',
-    imageUrl: '/public/art/habits.png',
+    imageUrl: '/art/habits.png',
     topic: 'Знания/советы',
     dialog: [
       {
@@ -1769,7 +1769,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Найденная переплата',
     description: 'Разбираете чеки и находите лишнее списание. Небольшой порядок приносит деньги.',
-    imageUrl: '/public/art/receipts.png',
+    imageUrl: '/art/receipts.png',
     topic: 'Знания/советы',
     dialog: [
       {
@@ -1851,7 +1851,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Короткие уроки про деньги',
     description: 'В ленте стартует цикл мини-лекций. Выбираете одну и пробуете совет на практике.',
-    imageUrl: '/public/art/season_edu.png',
+    imageUrl: '/art/season_edu.png',
     topic: 'Знания/советы',
     dialog: [
       {
@@ -1933,7 +1933,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Возврат за билеты',
     description: 'Планы изменились, билеты нужно сдать. Выбираете, как вернуть средства.',
-    imageUrl: '/public/art/ticket_refund.png',
+    imageUrl: '/art/ticket_refund.png',
     topic: 'Знания/советы',
     dialog: [
       {
@@ -2017,7 +2017,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Пробная инвест-подписка',
     description:
       'Дают месяц бесплатных материалов по инвестициям. Полезно, если не забыть отключить вовремя.',
-    imageUrl: '/public/art/invest_trial.png',
+    imageUrl: '/art/invest_trial.png',
     topic: 'Инвестиции',
     dialog: [
       {
@@ -2100,7 +2100,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Брокерский старт',
     description: 'Вы оцениваете, стоит ли открывать брокерский счёт и с чего начать.',
-    imageUrl: '/public/art/broker.png',
+    imageUrl: '/art/broker.png',
     topic: 'Инвестиции',
     dialog: [
       {
@@ -2183,7 +2183,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Настройки, которые спасают',
     description:
       'Приложение напоминает про лимиты и уведомления по карте. Пара минут — меньше рисков.',
-    imageUrl: '/public/art/card_limits.png',
+    imageUrl: '/art/card_limits.png',
     topic: 'Карты/лимиты',
     dialog: [
       {
@@ -2267,7 +2267,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Быстрый чек-лист безопасности',
     description:
       'Приложение предлагает пройти короткую проверку настроек. Пять минут — и вы спокойнее.',
-    imageUrl: '/public/art/security_check.png',
+    imageUrl: '/art/security_check.png',
     topic: 'Карты/лимиты',
     dialog: [
       {
@@ -2351,7 +2351,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Карта для подписок',
     description:
       'Сервисы просят данные карты. Думаете, как снизить риски и контролировать списания.',
-    imageUrl: '/public/art/virtual_card.png',
+    imageUrl: '/art/virtual_card.png',
     topic: 'Карты/лимиты',
     dialog: [
       {
@@ -2433,7 +2433,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Подозрительный вход',
     description: 'Приходит уведомление о входе в аккаунт. Это были не вы.',
-    imageUrl: '/public/art/login_alert.png',
+    imageUrl: '/art/login_alert.png',
     topic: 'Карты/лимиты',
     dialog: [
       {
@@ -2515,7 +2515,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Задвоенное списание',
     description: 'На выписке два одинаковых платежа. Нужно разобраться.',
-    imageUrl: '/public/art/duplicate_charge.png',
+    imageUrl: '/art/duplicate_charge.png',
     topic: 'Карты/лимиты',
     dialog: [
       {
@@ -2597,7 +2597,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Карта потерялась',
     description: 'Не находите карту в кошельке. Возможно, она дома, но тревожно.',
-    imageUrl: '/public/art/lost_card.png',
+    imageUrl: '/art/lost_card.png',
     topic: 'Карты/лимиты',
     dialog: [
       {
@@ -2679,7 +2679,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Куда деть кэшбэк',
     description: 'На счёт упал кэшбэк — приятный бонус. Решаете, куда его направить.',
-    imageUrl: '/public/art/cashback.png',
+    imageUrl: '/art/cashback.png',
     topic: 'Партнёры/кэшбэк',
     dialog: [
       {
@@ -2763,7 +2763,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Неделя больших кэшбэков',
     description: 'Партнёры запускают акцию. Главное — купить нужное, а не лишнее.',
-    imageUrl: '/public/art/partner_week.png',
+    imageUrl: '/art/partner_week.png',
     topic: 'Партнёры/кэшбэк',
     dialog: [
       {
@@ -2846,7 +2846,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Аптечная неделя выгод',
     description: 'В аптеке акция и кэшбэк у партнёров. Нужные покупки — хороший момент.',
-    imageUrl: '/public/art/pharmacy.png',
+    imageUrl: '/art/pharmacy.png',
     topic: 'Партнёры/кэшбэк',
     dialog: [
       {
@@ -2929,7 +2929,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Покупка «наличкой или картой»',
     description: 'Продавец предлагает скидку за наличные. Считаете, что выгоднее с учётом кэшбэка.',
-    imageUrl: '/public/art/cash_or_card.png',
+    imageUrl: '/art/cash_or_card.png',
     topic: 'Партнёры/кэшбэк',
     dialog: [
       {
@@ -3012,7 +3012,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Акция на топливо',
     description: 'Заправки у партнёров дают кэшбэк по выходным. Вы как раз планируете поездку.',
-    imageUrl: '/public/art/fuel.png',
+    imageUrl: '/art/fuel.png',
     topic: 'Партнёры/кэшбэк',
     dialog: [
       {
@@ -3096,7 +3096,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Подписки под контролем',
     description:
       'Несколько сервисов списывают деньги автоматически. Наведите порядок, чтобы не платить лишнее.',
-    imageUrl: '/public/art/subscriptions.png',
+    imageUrl: '/art/subscriptions.png',
     topic: 'Подписки/сервисы',
     dialog: [
       {
@@ -3179,7 +3179,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Абонемент с бонусами',
     description: 'Фитнес-клуб предлагает подписку с привилегиями. Сравниваете выгоду и дисциплину.',
-    imageUrl: '/public/art/fitness.png',
+    imageUrl: '/art/fitness.png',
     topic: 'Подписки/сервисы',
     dialog: [
       {
@@ -3263,7 +3263,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Забытая игровая подписка',
     description: 'Списания за «игровой пакет» идут, а вы почти не играете.',
-    imageUrl: '/public/art/gaming_sub.png',
+    imageUrl: '/art/gaming_sub.png',
     topic: 'Подписки/сервисы',
     dialog: [
       {
@@ -3346,7 +3346,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Коммуналка без забывчивости',
     description: 'Ежемесячные платежи снова подкрались. Хотите навести порядок.',
-    imageUrl: '/public/art/utilities.png',
+    imageUrl: '/art/utilities.png',
     topic: 'Подписки/сервисы',
     dialog: [
       {
@@ -3430,7 +3430,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Как платить в поездке',
     description:
       'Собираетесь за границу и оцениваете расходы. Выбор способа оплаты влияет на итоговую сумму.',
-    imageUrl: '/public/art/travel.png',
+    imageUrl: '/art/travel.png',
     topic: 'Путешествия/валюта',
     dialog: [
       {
@@ -3512,7 +3512,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Платёжные решения для поездки',
     description: 'Планируете перелёты и отели. Условия оплаты влияют на бюджет и комфорт.',
-    imageUrl: '/public/art/travel_card.png',
+    imageUrl: '/art/travel_card.png',
     topic: 'Путешествия/валюта',
     dialog: [
       {
@@ -3595,7 +3595,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Обмен в аэропорту',
     description: 'Обмен в аэропорту выглядит удобно, но курс сомнительный.',
-    imageUrl: '/public/art/airport_fx.png',
+    imageUrl: '/art/airport_fx.png',
     topic: 'Путешествия/валюта',
     dialog: [
       {
@@ -3678,7 +3678,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Три копилки',
     description:
       'Перед вами три банки: «подушка», «мечта», «сюрпризы». Куда отправить сегодняшние монеты?',
-    imageUrl: '/public/art/savings.png',
+    imageUrl: '/art/savings.png',
     topic: 'Сбережения/вклад',
     dialog: [
       {
@@ -3762,7 +3762,7 @@ export const stepEventData: StepEvent[] = [
     title: 'Пусть деньги работают',
     description:
       'Свободные средства лежат без дела. Оцениваете варианты, чтобы они приносили доход.',
-    imageUrl: '/public/art/deposit.png',
+    imageUrl: '/art/deposit.png',
     topic: 'Сбережения/вклад',
     dialog: [
       {
@@ -3845,7 +3845,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Округление в копилку',
     description: 'Приложение предлагает округлять покупки до целых и отправлять разницу в цель.',
-    imageUrl: '/public/art/roundup.png',
+    imageUrl: '/art/roundup.png',
     topic: 'Сбережения/вклад',
     dialog: [
       {
@@ -3929,7 +3929,7 @@ export const stepEventData: StepEvent[] = [
     title: 'safety-cushion для семьи',
     description:
       'История знакомого заставляет подумать о защите близких. Вы оцениваете базовые полисы.',
-    imageUrl: '/public/art/insurance.png',
+    imageUrl: '/art/insurance.png',
     topic: 'Страхование жизни/НСЖ',
     dialog: [
       {
@@ -4012,7 +4012,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Защита квартиры',
     description: 'Соседи сверху затеяли ремонт. Раздумываете о полисе от протечек и прочих рисков.',
-    imageUrl: '/public/art/home_insurance.png',
+    imageUrl: '/art/home_insurance.png',
     topic: 'Страхование жизни/НСЖ',
     dialog: [
       {
@@ -4095,7 +4095,7 @@ export const stepEventData: StepEvent[] = [
     type: 'StepEvent',
     title: 'Страхование техники',
     description: 'Купили технику и предлагается расширенная защита. Считаете, стоит ли.',
-    imageUrl: '/public/art/device_protect.png',
+    imageUrl: '/art/device_protect.png',
     topic: 'Страхование жизни/НСЖ',
     dialog: [
       {

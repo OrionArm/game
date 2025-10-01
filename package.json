@@ -11,11 +11,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "analyze": "yarn build && yarn dlx vite-bundle-visualizer -t treemap && yarn dlx vite-bundle-visualizer -t sunburst && yarn dlx vite-bundle-visualizer -t network",
+    "analyze": "pnpm build && pnpm dlx vite-bundle-visualizer -t treemap && pnpm dlx vite-bundle-visualizer -t sunburst && pnpm dlx vite-bundle-visualizer -t network",
     "lint": "eslint \"src/**/*.{ts,tsx}\" --max-warnings=0",
     "format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "serve": "pnpm dlx serve dist -p 3000"
   },
   "dependencies": {
     "micromodal": "^0.6.1",

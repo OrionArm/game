@@ -30,23 +30,31 @@ function AppContent() {
     return 'home';
   };
 
-  const renderPage = () => {
-    switch (actualCurrentPage) {
-      case 'loading':
-        return <LoadingScreen progress={loadingProgress} loadingText={loadingText} />;
-      case 'game':
-        return <GamePage />;
-      case 'profile':
-        return <ProfilePage />;
-
-      default:
-        return <GamePage />;
-    }
+  const getPageStyle = (pageType: PageType) => {
+    const isVisible = actualCurrentPage === pageType;
+    return {
+      display: isVisible ? 'block' : 'none',
+      width: '100%',
+      height: '100%',
+    };
   };
 
   return (
     <>
-      {renderPage()}
+      {loading && <LoadingScreen progress={loadingProgress} loadingText={loadingText} />}
+
+      {!loading && (
+        <div style={getPageStyle('game')}>
+          <GamePage />
+        </div>
+      )}
+
+      {!loading && (
+        <div style={getPageStyle('profile')}>
+          <ProfilePage />
+        </div>
+      )}
+
       {!loading && <BottomNavigation activeTab={getActiveTab()} onTabChange={handleTabChange} />}
     </>
   );

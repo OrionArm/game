@@ -19,10 +19,9 @@ const transformEncountersToPixels = (encounters: Encounter[]): Encounter[] => {
 };
 
 const RESOURCES_TO_PRELOAD: ResourceConfig[] = [
-  { src: '/player.svg', priority: 'high', type: 'character' },
-  { src: '/far.svg', priority: 'high', type: 'background' },
-  { src: '/near.svg', priority: 'high', type: 'background' },
-  { src: '/gold-dollar-coin.svg', priority: 'low', type: 'currency' },
+  { src: '/player.svg', priority: 'high' },
+  { src: '/far.svg', priority: 'high' },
+  { src: '/near.svg', priority: 'high' },
 ];
 
 export function useGame() {

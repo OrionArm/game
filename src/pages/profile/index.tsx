@@ -46,7 +46,13 @@ export default function ProfilePage() {
               </div>
             </div>
             <div className={styles.statItem}>
-              <div className={styles.statIcon}>🪙</div>
+              <div className={styles.statIcon}>
+                <img
+                  src="/gold-dollar-coin.svg"
+                  alt="Золото"
+                  style={{ width: '24px', height: '24px' }}
+                />
+              </div>
               <div className={styles.statInfo}>
                 <div className={styles.statName}>Золото</div>
                 <div className={styles.statValue}>{playerState.gold}</div>
