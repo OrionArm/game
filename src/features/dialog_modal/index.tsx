@@ -1,7 +1,6 @@
 import Modal from '@/shared/ui/modal';
 import styles from './dialog_modal.module.css';
 import type { DialogNode, DialogOption, EncounterAction } from '@/services';
-import Chest from '../chest';
 import type { EncounterInfo } from '@/services/events/type';
 
 type Props = {
@@ -24,15 +23,6 @@ export default function DialogModal({
   const isOpen = Boolean(currentEncounter) || Boolean(dialog);
   const handleOptionClick = (option: DialogOption) => () => onSelectOption(option.id);
   const handleSelect = (action: EncounterAction) => () => onSelect(action);
-  const handleIgnore = () => onSelect('ignore');
-
-  if (currentEncounter && currentEncounter.type === 'treasure') {
-    return (
-      <Modal isOpen onClose={handleIgnore} closeOnOverlayClick={false}>
-        <Chest onClose={() => handleIgnore()} description={currentEncounter.description} />
-      </Modal>
-    );
-  }
 
   const getActionText = (action: EncounterAction): string => {
     const actionTexts: Record<EncounterAction, string> = {

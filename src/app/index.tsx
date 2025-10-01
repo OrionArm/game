@@ -52,7 +52,6 @@ function AppContent() {
   );
 }
 
-// Главный App компонент с провайдером контекста
 export default function App() {
   return (
     <GameProvider>

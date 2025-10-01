@@ -6,10 +6,10 @@ import { useResourceLoader, type ResourceConfig } from './use_resource_loader';
 import { useParallax } from './use_parallax';
 import { useDialog } from './use_dialog';
 
-const STEP_PX = 64; // distance per step
-const START_TILES = 6; // start this many tiles from the left edge
+const STEP_PX = 64;
+const START_TILES = 6;
 const START_X = STEP_PX * START_TILES;
-const ENERGY_COST_PER_STEP = 10; // затраты энергии на ход
+const ENERGY_COST_PER_STEP = 10;
 
 const transformEncountersToPixels = (encounters: Encounter[]): Encounter[] => {
   return encounters.map((encounter) => ({

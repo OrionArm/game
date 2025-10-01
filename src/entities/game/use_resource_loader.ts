@@ -24,7 +24,6 @@ interface UseResourceLoaderReturn {
   isComplete: boolean;
 }
 
-// Глобальное состояние для отслеживания загрузки ресурсов
 const globalResourceState = {
   loadedResources: new Set<string>(),
   isComplete: false,
@@ -46,10 +45,8 @@ export function useResourceLoader({
   const hasInitializedRef = useRef(false);
   const updateProgressRef = useRef<() => void>(() => {});
 
-  // Мемоизируем ресурсы для предотвращения лишних перезагрузок
   const memoizedResources = useMemo(() => resources, [resources]);
 
-  // Мемоизируем onComplete для предотвращения лишних перезагрузок
   const memoizedOnComplete = useCallback(() => {
     if (onComplete) {
       onComplete();
@@ -57,7 +54,6 @@ export function useResourceLoader({
   }, [onComplete]);
 
   const updateProgress = () => {
-    // Если загрузка уже завершена, не обновляем прогресс
     if (globalResourceState.isComplete) {
       return;
     }
@@ -89,7 +85,6 @@ export function useResourceLoader({
     }
 
     if (currentLoaded === totalResources) {
-      // Останавливаем интервал обновления прогресса
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
         progressIntervalRef.current = null;
@@ -108,9 +103,7 @@ export function useResourceLoader({
   // Инициализация загрузки ресурсов
   useEffect(() => {
     // Предотвращаем повторную инициализацию
-    if (hasInitializedRef.current) {
-      return;
-    }
+    if (hasInitializedRef.current) return;
 
     hasInitializedRef.current = true;
 
@@ -133,9 +126,7 @@ export function useResourceLoader({
     }
 
     // Если загрузка уже началась, ждем завершения
-    if (globalResourceState.hasStarted) {
-      return;
-    }
+    if (globalResourceState.hasStarted) return;
 
     globalResourceState.hasStarted = true;
 

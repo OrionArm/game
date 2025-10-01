@@ -1,5 +1,5 @@
 import type { DialogEffects, FlagName, PlayerStateResponseDto } from '../client_player_service';
-import type { ItemName } from './mock/item_data';
+import type { ItemId } from './mock/item_data';
 
 export type EncounterAction = 'talk' | 'fight' | 'flee' | 'loot' | 'trade' | 'ignore';
 
@@ -83,7 +83,7 @@ export type StepEventType = 'StepEvent';
 
 export interface EventConditions {
   requiresFlags?: FlagName[];
-  requiresItems?: ItemName[];
+  requiresItems?: ItemId[];
   minGold?: number;
   maxGold?: number;
   minHealth?: number;

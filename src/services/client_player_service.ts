@@ -1,6 +1,6 @@
 import { EventService } from './events/event_service';
 import { encounterDialogs } from './events/mock/dialogs_data';
-import type { Item, ItemName } from './events/mock/item_data';
+import type { Item, ItemId } from './events/mock/item_data';
 import { type DialogNode, type EncounterInfo } from './events/type';
 
 type PlayerFlags = Record<FlagName, boolean>;
@@ -27,8 +27,8 @@ export type Points = {
 export type DialogEffects = Points & {
   note: string;
   prize: object;
-  itemsGain: ItemName[];
-  itemsLose: ItemName[];
+  itemsGain: ItemId[];
+  itemsLose: ItemId[];
   flagsSet: FlagName[];
   flagsUnset: FlagName[];
 };
@@ -59,7 +59,6 @@ export class ClientPlayerService {
     const timeDiffMs = now.getTime() - lastUpdate.getTime();
     const timeDiffHours = Math.floor(timeDiffMs / (1000 * 60 * 60));
 
-    // Начисляем по 10 энергии за каждый час, но не более 200
     if (timeDiffHours > 0) {
       const energyToAdd = Math.min(timeDiffHours * ENERGY_REGENERATION_RATE, ENERGY_MAX);
       return {
@@ -96,20 +95,7 @@ export class ClientPlayerService {
       cristal: 0,
       energy: 100,
       updatedAt: new Date().toISOString(),
-      items: [
-        // {
-        //   name: 'Защитный PIN-чекер',
-        //   id: '1',
-        //   description: 'Классный Защитный PIN-чекер',
-        //   image: 'https://via.placeholder.com/150',
-        // },
-        // {
-        //   name: 'Полис-щит',
-        //   id: '2',
-        //   description: 'Классный Полис-щит',
-        //   image: 'https://via.placeholder.com/150',
-        // },
-      ],
+      items: [],
       flags: {
         friendContact: false,
         friendScamSpotted: false,

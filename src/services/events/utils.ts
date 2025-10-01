@@ -1,6 +1,7 @@
 import type { PlayerStateResponseDto, DialogEffects } from '../client_player_service';
 
 import type { StepEvent, EventConditions } from './type';
+import { mockItems, type Item } from './mock/item_data';
 
 export function applyDialogEffectsToState(
   currentState: PlayerStateResponseDto,
@@ -22,21 +23,23 @@ export function applyDialogEffectsToState(
   }
 
   if (effects.itemsGain && effects.itemsGain.length > 0) {
-    const newItems = effects.itemsGain.map((itemName) => ({
-      id: `item_${Date.now()}_${Math.random()}`,
-      name: itemName,
-      description: `Предмет: ${itemName}`,
-      image: `/icons/${itemName.toLowerCase().replace(/\s+/g, '_')}.png`,
-    }));
+    const newItems = effects.itemsGain
+      .map((itemId) => {
+        const existingItem = mockItems.find((item) => item.id === itemId);
+        if (existingItem) return existingItem;
+
+        console.warn(`Предмет с ID "${itemId}" не найден в mockItems`);
+        return null;
+      })
+      .filter((item): item is Item => item !== null);
     newState.items = [...newState.items, ...newItems];
   }
   if (effects.itemsLose && effects.itemsLose.length > 0) {
-    newState.items = newState.items.filter((item) => !effects.itemsLose!.includes(item.name));
+    newState.items = newState.items.filter((item) => !effects.itemsLose!.includes(item.id));
   }
 
   if (effects.flagsSet && effects.flagsSet.length > 0) {
     effects.flagsSet.forEach((flag) => {
-      console.log('🚀 ~ applyDialogEffectsToState ~ flag:', flag);
       newState.flags[flag] = true;
     });
   }
@@ -81,8 +84,8 @@ export function checkEventConditions(
   }
 
   if (conditions.requiresItems) {
-    for (const itemName of conditions.requiresItems) {
-      if (!playerState.items.some((item) => item.name === itemName)) {
+    for (const itemId of conditions.requiresItems) {
+      if (!playerState.items.some((item) => item.id === itemId)) {
         return false;
       }
     }
