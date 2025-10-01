@@ -1,15 +1,23 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { fetchPlayerState, fetchWorldState, movePlayer, getLogs } from '@/shared/local_api';
+import {
+  fetchPlayerState,
+  fetchWorldState,
+  movePlayer,
+  getLogs,
+  resetPlayerState,
+} from '@/shared/local_api';
 import type { PlayerStateResponseDto } from '@/services/client_player_service';
 import type { DialogNode, Encounter, EncounterInfo, HappenedEffects } from '@/services/events/type';
 import { useResourceLoader, type ResourceConfig } from './use_resource_loader';
 import { useParallax } from './use_parallax';
 import { useDialog } from './use_dialog';
 
+const WORLD_LENGTH = 200;
 const STEP_PX = 64;
 const START_TILES = 6;
 const START_X = STEP_PX * START_TILES;
-const ENERGY_COST_PER_STEP = 10;
+export const ENERGY_COST_PER_STEP = 6;
+export const MAX_POSITION = 50;
 
 const transformEncountersToPixels = (encounters: Encounter[]): Encounter[] => {
   return encounters.map((encounter) => ({
@@ -38,9 +46,10 @@ export function useGame() {
   const [currentDialog, setCurrentDialog] = useState<DialogNode | null>(null);
   const [currentEncounter, setCurrentEncounter] = useState<EncounterInfo | null>(null);
   const [playerState, setPlayerState] = useState<PlayerStateResponseDto | null>(null);
-  const [worldLength, setWorldLength] = useState<number>(200);
+  const [worldLength, setWorldLength] = useState<number>(WORLD_LENGTH);
   const [encounters, setEncounters] = useState<Encounter[]>([]);
   const [effectsResult, setEffectsResult] = useState<HappenedEffects | undefined>(undefined);
+  const [gameStatus, setGameStatus] = useState<'playing' | 'won' | 'lost' | null>(null);
 
   const { loading: resourcesLoading, isComplete: resourcesComplete } = useResourceLoader({
     resources: RESOURCES_TO_PRELOAD,
@@ -55,6 +64,18 @@ export function useGame() {
   });
 
   const isOverallLoading = loading || resourcesLoading;
+
+  const checkGameStatus = useCallback((playerState: PlayerStateResponseDto) => {
+    if (playerState.health <= 0) {
+      setGameStatus('lost');
+      return true;
+    }
+    if (playerState.position >= MAX_POSITION) {
+      setGameStatus('won');
+      return true;
+    }
+    return false;
+  }, []);
 
   const { viewportRef: parallaxViewportRef, worldLengthPx } = useParallax({
     playerX,
@@ -87,6 +108,7 @@ export function useGame() {
         setWorldLength(worldData.worldLength);
         setEncounters(transformEncountersToPixels(worldData.encounters));
         setPlayerX(playerData.position * STEP_PX + START_X);
+        checkGameStatus(playerData);
 
         if (savedLogs.length > 0) {
           const logMessages = savedLogs.map((logEntry) => logEntry.message);
@@ -105,7 +127,7 @@ export function useGame() {
       }
     }
     loadInitialData();
-  }, [resourcesComplete]);
+  }, [resourcesComplete, checkGameStatus]);
 
   const stepForward = useCallback(() => {
     if (currentDialog || loading) return;
@@ -122,6 +144,8 @@ export function useGame() {
         setPlayerX(playerState.position * STEP_PX + START_X);
         setCurrentDialog(dialog);
         setCurrentEncounter(encounter || null);
+
+        checkGameStatus(playerState);
       })
       .catch((error) => {
         if (error.message.includes('максимальная позиция')) {
@@ -135,7 +159,7 @@ export function useGame() {
       .finally(() => {
         setLoading(false);
       });
-  }, [currentDialog, loading, playerState]);
+  }, [currentDialog, loading, playerState, checkGameStatus]);
 
   const {
     currentDialog: dialog,
@@ -171,6 +195,40 @@ export function useGame() {
   const stableStepForward = useCallback(stepForward, [stepForward]);
   const stableSetCurrentDialog = useCallback(setCurrentDialog, [setCurrentDialog]);
 
+  const resetGame = useCallback(async () => {
+    try {
+      await resetPlayerState();
+      setPlayerState(null);
+      setPlayerX(START_X);
+      setCameraX(() => {
+        const viewHalf = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+        const safeMargin = STEP_PX * 3;
+        return Math.max(START_X, viewHalf + safeMargin);
+      });
+      setLog(['Добро пожаловать в приключение!']);
+      setCurrentDialog(null);
+      setCurrentEncounter(null);
+      setEffectsResult(undefined);
+      setEncounters([]);
+      setWorldLength(WORLD_LENGTH);
+      setGameStatus(null);
+
+      setLoading(true);
+      const [playerData, worldData] = await Promise.all([fetchPlayerState(), fetchWorldState()]);
+
+      setPlayerState(playerData);
+      setWorldLength(worldData.worldLength);
+      setEncounters(transformEncountersToPixels(worldData.encounters));
+      setPlayerX(playerData.position * STEP_PX + START_X);
+      setLoading(false);
+    } catch (error) {
+      console.error('Ошибка при сбросе игры:', error);
+      setLog((prev) => [...prev, 'Ошибка при сбросе игры!']);
+    }
+  }, []);
+
+  const stableResetGame = useCallback(resetGame, [resetGame]);
+
   return useMemo(
     () => ({
       worldRef,
@@ -197,6 +255,8 @@ export function useGame() {
       handleCloseEffectsModal: stableHandleCloseEffectsModal,
       stepForward: stableStepForward,
       setCurrentDialog: stableSetCurrentDialog,
+      resetGame: stableResetGame,
+      gameStatus,
     }),
     [
       worldRef,
@@ -223,6 +283,8 @@ export function useGame() {
       stableHandleCloseEffectsModal,
       stableStepForward,
       stableSetCurrentDialog,
+      stableResetGame,
+      gameStatus,
     ],
   );
 }

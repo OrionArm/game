@@ -15,8 +15,10 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .title {
@@ -283,6 +285,7 @@
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    justify-content: center;
   }
 }
 
@@ -302,5 +305,66 @@
 
   .content {
     padding-bottom: 100px;
+  }
+}
+
+/* Стили для сообщений о результате игры */
+.gameResult {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.gameResultMessage {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px 30px;
+  background: var(--color-dialog-bg);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--color-raspberry);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: gameResultPulse 2s infinite;
+}
+
+.gameResultIcon {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameResultText {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--color-white);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes gameResultPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (max-width: 768px) {
+  .gameResultMessage {
+    padding: 15px 20px;
+    gap: 10px;
+  }
+
+  .gameResultIcon {
+    font-size: 2rem;
+  }
+
+  .gameResultText {
+    font-size: 1.5rem;
   }
 }

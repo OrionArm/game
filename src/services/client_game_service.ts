@@ -53,6 +53,10 @@ export class ClientGameService {
   async clearLogs(): Promise<void> {
     return this.playerService.clearLogs();
   }
+
+  async resetPlayerState(): Promise<void> {
+    return this.playerService.resetPlayerState();
+  }
 }
 
 export const clientGameService = new ClientGameService();

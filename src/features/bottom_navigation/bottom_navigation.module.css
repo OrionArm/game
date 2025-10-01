@@ -147,3 +147,14 @@
   color: var(--color-white);
   background: var(--color-raspberry);
 }
+
+.navButton.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navButton.disabled:hover {
+  background: transparent;
+  color: var(--color-white);
+}

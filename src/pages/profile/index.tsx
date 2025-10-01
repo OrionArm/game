@@ -1,10 +1,11 @@
 import { useGameContext } from '@/entities/game/use_game_context';
 import RankingDataLoader from '@/features/ranking';
+import ResetGameButton from '@/features/reset_game_button';
 import { Suspense } from 'react';
 import styles from './profile.module.css';
 
 export default function ProfilePage() {
-  const { playerState } = useGameContext();
+  const { playerState, gameStatus } = useGameContext();
 
   if (!playerState) {
     return (
@@ -18,7 +19,26 @@ export default function ProfilePage() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.title}>Профиль игрока</h1>
+        <ResetGameButton />
       </div>
+
+      {gameStatus === 'lost' && (
+        <div className={styles.gameResult}>
+          <div className={styles.gameResultMessage}>
+            <span className={styles.gameResultIcon}>💀</span>
+            <span className={styles.gameResultText}>Вы проиграли!</span>
+          </div>
+        </div>
+      )}
+
+      {gameStatus === 'won' && (
+        <div className={styles.gameResult}>
+          <div className={styles.gameResultMessage}>
+            <span className={styles.gameResultIcon}>🏆</span>
+            <span className={styles.gameResultText}>Вы победили!</span>
+          </div>
+        </div>
+      )}
 
       <div className={styles.content}>
         <div className={styles.playerInfo}>

@@ -5,6 +5,7 @@ import HUDStat from '@/features/HUD_stat';
 import World from '@/features/world';
 import Button from '@/shared/ui/button';
 import { useGameContext } from '@/entities/game/use_game_context';
+import { ENERGY_COST_PER_STEP, MAX_POSITION } from '@/entities/game/use_game';
 
 export default function GamePage() {
   const {
@@ -65,17 +66,17 @@ export default function GamePage() {
 
         <Button
           onClick={stepForward}
-          disabled={!!currentDialog || loading || (playerState?.position || 0) >= 50}
+          disabled={!!currentDialog || loading || (playerState?.position || 0) >= MAX_POSITION}
           ready={
             !currentDialog &&
             !loading &&
-            (playerState?.energy || 0) >= 10 &&
-            (playerState?.position || 0) < 50
+            (playerState?.energy || 0) >= ENERGY_COST_PER_STEP &&
+            (playerState?.position || 0) < MAX_POSITION
           }
         >
-          {(playerState?.position || 0) >= 50
+          {(playerState?.position || 0) >= MAX_POSITION
             ? 'Финиш'
-            : (playerState?.energy || 0) < 10
+            : (playerState?.energy || 0) < ENERGY_COST_PER_STEP
               ? 'Мало энергии'
               : 'Ход'}
         </Button>

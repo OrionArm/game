@@ -239,4 +239,11 @@ export class ClientPlayerService {
   async clearLogs(): Promise<void> {
     localStorage.removeItem(this.getLogsKey());
   }
+
+  async resetPlayerState(): Promise<void> {
+    // Удаляем сохраненное состояние игрока
+    localStorage.removeItem(`player_${this.sessionId}`);
+    // Очищаем логи
+    await this.clearLogs();
+  }
 }

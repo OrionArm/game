@@ -150,3 +150,13 @@ export async function clearLogs(): Promise<void> {
     throw new Error('Не удалось очистить логи');
   }
 }
+
+// GET player/reset
+export async function resetPlayerState(): Promise<void> {
+  try {
+    return await clientGameService.resetPlayerState();
+  } catch (error) {
+    console.error('Ошибка сброса состояния игрока:', error);
+    throw new Error('Не удалось сбросить состояние игрока');
+  }
+}

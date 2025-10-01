@@ -11,15 +11,18 @@ type NavItem = {
 type Props = {
   activeTab?: string;
   onTabChange?: (tabId: string) => void;
+  gameStatus?: 'playing' | 'won' | 'lost' | null;
 };
 
-export default function BottomNavigation({ activeTab = 'home', onTabChange }: Props) {
+export default function BottomNavigation({ activeTab = 'home', onTabChange, gameStatus }: Props) {
+  const isGameFinished = gameStatus === 'won' || gameStatus === 'lost';
+
   const navItems: NavItem[] = [
     {
       id: 'home',
       label: 'Главная',
       icon: FaHome,
-      onClick: () => onTabChange?.('home'),
+      onClick: () => !isGameFinished && onTabChange?.('home'),
     },
     {
       id: 'profile',
@@ -43,21 +46,25 @@ export default function BottomNavigation({ activeTab = 'home', onTabChange }: Pr
 
   return (
     <nav className={styles.bottomNavigation}>
-      {navItems.map((item) => (
-        <button
-          key={item.id}
-          className={`${styles.navButton} ${activeTab === item.id ? styles.active : ''}`}
-          onClick={item.onClick}
-          aria-label={item.label}
-          data-tab={item.id}
-        >
-          <span className={styles.icon}>
-            <item.icon />
-          </span>
-          <span className={styles.label}>{item.label}</span>
-          {activeTab === item.id && <span className={styles.activeIndicator} />}
-        </button>
-      ))}
+      {navItems.map((item) => {
+        const isDisabled = item.id === 'home' && isGameFinished;
+        return (
+          <button
+            key={item.id}
+            className={`${styles.navButton} ${activeTab === item.id ? styles.active : ''} ${isDisabled ? styles.disabled : ''}`}
+            onClick={item.onClick}
+            disabled={isDisabled}
+            aria-label={item.label}
+            data-tab={item.id}
+          >
+            <span className={styles.icon}>
+              <item.icon />
+            </span>
+            <span className={styles.label}>{item.label}</span>
+            {activeTab === item.id && <span className={styles.activeIndicator} />}
+          </button>
+        );
+      })}
     </nav>
   );
 }

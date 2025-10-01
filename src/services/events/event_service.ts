@@ -263,4 +263,11 @@ export class EventService {
 
     this.completedEncounterEvents.push(event);
   }
+
+  resetEventStates(): void {
+    this.encounterEvents = [...encounterData];
+    this.completedEncounterEvents = [];
+    this.availableStepEvents = [...stepEventData];
+    this.completedStepEvents = [];
+  }
 }

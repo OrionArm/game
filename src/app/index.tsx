@@ -6,11 +6,14 @@ import { useState } from 'react';
 import { GameProvider } from '@/entities/game/game_provider';
 
 function AppContent() {
-  const { loading, loadingProgress, loadingText } = useGameContext();
+  const { loading, loadingProgress, loadingText, gameStatus } = useGameContext();
   const [currentPage, setCurrentPage] = useState<PageType>('loading');
 
   const getCurrentPage = (): PageType => {
     if (loading) return 'loading';
+    if (gameStatus === 'won' || gameStatus === 'lost') {
+      return 'profile';
+    }
     return currentPage === 'loading' ? 'game' : currentPage;
   };
 
@@ -19,7 +22,7 @@ function AppContent() {
   const handleTabChange = (tabId: string) => {
     if (tabId === 'profile') {
       setCurrentPage('profile');
-    } else if (tabId === 'home') {
+    } else if (tabId === 'home' && gameStatus !== 'won' && gameStatus !== 'lost') {
       setCurrentPage('game');
     }
   };
@@ -55,7 +58,13 @@ function AppContent() {
         </div>
       )}
 
-      {!loading && <BottomNavigation activeTab={getActiveTab()} onTabChange={handleTabChange} />}
+      {!loading && (
+        <BottomNavigation
+          activeTab={getActiveTab()}
+          onTabChange={handleTabChange}
+          gameStatus={gameStatus}
+        />
+      )}
     </>
   );
 }
