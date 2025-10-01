@@ -40,8 +40,8 @@ export interface MoveResponseDto {
 }
 
 const MAX_POSITION = 50;
-const ENERGY_COST_PER_STEP = 10;
-const ENERGY_REGENERATION_RATE = 10;
+const ENERGY_COST_PER_STEP = 6;
+const ENERGY_REGENERATION_RATE = 1;
 const ENERGY_MAX = 200;
 
 export class ClientPlayerService {

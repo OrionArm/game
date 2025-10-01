@@ -1,4 +1,6 @@
 import { useGameContext } from '@/entities/game/use_game_context';
+import RankingDataLoader from '@/features/ranking';
+import { Suspense } from 'react';
 import styles from './profile.module.css';
 
 export default function ProfilePage() {
@@ -95,6 +97,10 @@ export default function ProfilePage() {
             <div className={styles.emptyItems}>У вас пока нет предметов</div>
           )}
         </div>
+
+        <Suspense fallback={<div className={styles.loading}>Загрузка рейтинга...</div>}>
+          <RankingDataLoader playerState={playerState} />
+        </Suspense>
       </div>
     </div>
   );

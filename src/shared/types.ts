@@ -6,3 +6,11 @@ export interface AppState {
   loadingProgress: number;
   loadingText: string;
 }
+
+export type PlayerRanking = {
+  id: number;
+  name: string;
+  position: number;
+  gold: number;
+  cristal: number;
+};
