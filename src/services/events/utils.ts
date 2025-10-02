@@ -91,42 +91,14 @@ export function checkEventConditions(
     }
   }
 
-  if (conditions.minGold !== undefined && playerState.gold < conditions.minGold) {
-    return false;
-  }
-  if (conditions.maxGold !== undefined && playerState.gold > conditions.maxGold) {
-    return false;
-  }
-
-  if (conditions.minHealth !== undefined && playerState.health < conditions.minHealth) {
-    return false;
-  }
-  if (conditions.maxHealth !== undefined && playerState.health > conditions.maxHealth) {
-    return false;
-  }
-
-  if (conditions.minEnergy !== undefined && playerState.energy < conditions.minEnergy) {
-    return false;
-  }
-  if (conditions.maxEnergy !== undefined && playerState.energy > conditions.maxEnergy) {
-    return false;
-  }
-
-  if (conditions.minCristal !== undefined && playerState.cristal < conditions.minCristal) {
-    return false;
-  }
-  if (conditions.maxCristal !== undefined && playerState.cristal > conditions.maxCristal) {
-    return false;
-  }
-
-  if (conditions.position) {
-    if (conditions.position.min !== undefined && playerState.position < conditions.position.min) {
-      return false;
-    }
-    if (conditions.position.max !== undefined && playerState.position > conditions.position.max) {
-      return false;
-    }
-  }
+  // if (conditions.position) {
+  //   if (conditions.position.min !== undefined && playerState.position < conditions.position.min) {
+  //     return false;
+  //   }
+  //   if (conditions.position.max !== undefined && playerState.position > conditions.position.max) {
+  //     return false;
+  //   }
+  // }
 
   if (conditions.afterEvents) {
     for (const eventId of conditions.afterEvents) {

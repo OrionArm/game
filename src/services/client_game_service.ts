@@ -60,6 +60,7 @@ export class ClientGameService {
   async resetPlayerState(): Promise<void> {
     await this.playerService.resetPlayerState();
     this.shopService.resetAvailableItems();
+    this.playerService.resetEventStates();
   }
 
   getShopService() {

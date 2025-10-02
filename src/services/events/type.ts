@@ -115,26 +115,15 @@ export type StepEventType = 'StepEvent';
 export interface EventConditions {
   requiresFlags?: FlagName[];
   requiresItems?: ItemId[];
-  minGold?: number;
-  maxGold?: number;
-  minHealth?: number;
-  maxHealth?: number;
-  minEnergy?: number;
-  maxEnergy?: number;
-  minCristal?: number;
-  maxCristal?: number;
+  boostIf?: string; // это влияет только на вес
   afterEvents?: string[];
-  position?: {
-    min?: number;
-    max?: number;
-  };
 }
 
 export interface StepEvent extends BaseEvent {
   type: StepEventType;
   conditions?: EventConditions;
   weight: number;
-  dialog?: DialogNode[];
+  dialog?: DialogNode;
 }
 
 export interface WorldStateResponseDto {

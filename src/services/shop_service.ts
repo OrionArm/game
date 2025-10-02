@@ -11,11 +11,48 @@ import { mockItems, type Item } from './events/mock/item_data';
 
 export class ShopService {
   private playerService: ClientPlayerService;
-  private availableItems: ShopItem[] = [...shopData];
+  private availableItems: ShopItem[] = [];
   private usedItems: ShopItem[] = [];
+  private sessionId: string;
 
   constructor(playerService: ClientPlayerService) {
     this.playerService = playerService;
+    this.sessionId = playerService.getSessionId();
+    this.loadShopFromStorage();
+  }
+
+  private getShopStorageKey(): string {
+    return `shop_${this.sessionId}`;
+  }
+
+  private loadShopFromStorage(): void {
+    try {
+      const savedData = localStorage.getItem(this.getShopStorageKey());
+      if (savedData) {
+        const parsed = JSON.parse(savedData);
+        this.availableItems = parsed.availableItems || [...shopData];
+        this.usedItems = parsed.usedItems || [];
+      } else {
+        this.availableItems = [...shopData];
+        this.usedItems = [];
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки магазина из localStorage:', error);
+      this.availableItems = [...shopData];
+      this.usedItems = [];
+    }
+  }
+
+  private saveShopToStorage(): void {
+    try {
+      const dataToSave = {
+        availableItems: this.availableItems,
+        usedItems: this.usedItems,
+      };
+      localStorage.setItem(this.getShopStorageKey(), JSON.stringify(dataToSave));
+    } catch (error) {
+      console.error('Ошибка сохранения магазина в localStorage:', error);
+    }
   }
 
   private convertItemIdsToItems(itemIds: string[] | undefined): Item[] {
@@ -84,6 +121,7 @@ export class ShopService {
 
       this.availableItems.splice(itemIndex, 1);
       this.usedItems.push(item);
+      this.saveShopToStorage();
 
       const happenedEffects = this.createHappenedEffects(effects);
 
@@ -105,5 +143,6 @@ export class ShopService {
   resetAvailableItems(): void {
     this.availableItems = [...shopData];
     this.usedItems = [];
+    localStorage.removeItem(this.getShopStorageKey());
   }
 }

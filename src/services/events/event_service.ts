@@ -23,15 +23,52 @@ import type { ItemId, Item } from './mock/item_data';
 
 export class EventService {
   private encounterEvents: EncounterEvent[] = [];
-  private completedEncounterEvents: EncounterEvent[] = [];
-  private readonly WORLD_LENGTH = 70;
+  // private completedEncounterEvents: EncounterEvent[] = [];
+  private readonly WORLD_LENGTH = 50;
   private playerService: ClientPlayerService;
-  private availableStepEvents: StepEvent[] = [...stepData];
+  private availableStepEvents: StepEvent[] = [];
   private completedStepEvents: StepEvent[] = [];
+  private sessionId: string;
 
   constructor(playerService: ClientPlayerService) {
     this.playerService = playerService;
+    this.sessionId = playerService.getSessionId();
     this.encounterEvents = [...encounterData];
+    this.loadEventsFromStorage();
+  }
+
+  private getEventsStorageKey(): string {
+    return `events_${this.sessionId}`;
+  }
+
+  private loadEventsFromStorage(): void {
+    try {
+      const savedData = localStorage.getItem(this.getEventsStorageKey());
+      if (savedData) {
+        const parsed = JSON.parse(savedData);
+        this.availableStepEvents = parsed.availableStepEvents || [...stepData];
+        this.completedStepEvents = parsed.completedStepEvents || [];
+      } else {
+        this.availableStepEvents = [...stepData];
+        this.completedStepEvents = [];
+      }
+    } catch (error) {
+      console.error('Ошибка загрузки событий из localStorage:', error);
+      this.availableStepEvents = [...stepData];
+      this.completedStepEvents = [];
+    }
+  }
+
+  private saveEventsToStorage(): void {
+    try {
+      const dataToSave = {
+        availableStepEvents: this.availableStepEvents,
+        completedStepEvents: this.completedStepEvents,
+      };
+      localStorage.setItem(this.getEventsStorageKey(), JSON.stringify(dataToSave));
+    } catch (error) {
+      console.error('Ошибка сохранения событий в localStorage:', error);
+    }
   }
 
   private filterDialogOptions(
@@ -119,7 +156,7 @@ export class EventService {
     const playerState = await this.playerService.getPlayerState();
     let event: EncounterEvent | StepEvent | undefined;
     if (eventType === 'encounter') {
-      event = this.completedEncounterEvents.find((e) => e.position === playerState.position);
+      event = this.encounterEvents.find((e) => e.position === playerState.position);
     } else {
       event = this.completedStepEvents.find((e) => e.eventId === dialogId);
     }
@@ -167,7 +204,7 @@ export class EventService {
       return { isDialogComplete: true };
     }
 
-    const dialog = stepEvent.dialog.find((d: DialogNode) => d.id === dialogId);
+    const dialog = stepEvent.dialog;
     if (!dialog) {
       return { isDialogComplete: true };
     }
@@ -185,7 +222,7 @@ export class EventService {
     const happenedEffects = this.createHappenedEffects(option.effects);
 
     if (option.nextDialogId) {
-      const nextDialog = stepEvent.dialog.find((d: DialogNode) => d.id === option.nextDialogId);
+      const nextDialog = dialogData[option.nextDialogId];
       if (nextDialog) {
         const filteredNextDialog = this.filterDialogOptions(nextDialog, newState || playerState);
         return {
@@ -222,7 +259,7 @@ export class EventService {
     const encounterEvent = this.encounterEvents.find((event) => event.position === position);
     if (!encounterEvent) return null;
 
-    this.moveEncounterEventToCompleted(encounterEvent);
+    // this.moveEncounterEventToCompleted(encounterEvent);
 
     return encounterEvent;
   }
@@ -271,21 +308,23 @@ export class EventService {
     }
 
     this.completedStepEvents.push(event);
+    this.saveEventsToStorage();
   }
 
-  private moveEncounterEventToCompleted(event: EncounterEvent): void {
-    const availableIndex = this.encounterEvents.findIndex((e) => e.eventId === event.eventId);
-    if (availableIndex !== -1) {
-      this.encounterEvents.splice(availableIndex, 1);
-    }
+  // private moveEncounterEventToCompleted(event: EncounterEvent): void {
+  //   const availableIndex = this.encounterEvents.findIndex((e) => e.eventId === event.eventId);
+  //   if (availableIndex !== -1) {
+  //     this.encounterEvents.splice(availableIndex, 1);
+  //   }
 
-    this.completedEncounterEvents.push(event);
-  }
+  //   this.completedEncounterEvents.push(event);
+  // }
 
   resetEventStates(): void {
     this.encounterEvents = [...encounterData];
-    this.completedEncounterEvents = [];
+    // this.completedEncounterEvents = [];
     this.availableStepEvents = [...stepData];
     this.completedStepEvents = [];
+    localStorage.removeItem(this.getEventsStorageKey());
   }
 }

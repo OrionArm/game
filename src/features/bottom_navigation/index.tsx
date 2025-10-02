@@ -34,7 +34,7 @@ export default function BottomNavigation({ activeTab = 'home', onTabChange, game
       id: 'rewards',
       label: 'Призы',
       icon: FaGift,
-      onClick: () => onTabChange?.('rewards'),
+      onClick: () => {},
     },
     {
       id: 'shop',
@@ -47,7 +47,7 @@ export default function BottomNavigation({ activeTab = 'home', onTabChange, game
   return (
     <nav className={styles.bottomNavigation}>
       {navItems.map((item) => {
-        const isDisabled = item.id === 'home' && isGameFinished;
+        const isDisabled = (item.id === 'home' && isGameFinished) || item.id === 'rewards';
         return (
           <button
             key={item.id}

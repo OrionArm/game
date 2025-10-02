@@ -21,7 +21,7 @@ export const encounterData: EncounterEvent[] = [
     imageUrl: '/encounter/OBJ02.png',
     topic: 'Бюджет/антифрод',
     position: 10,
-    dialogId: 'CH01_S1',
+    dialogId: 'CH02_S1',
   },
   {
     eventId: 'OBJ06',
@@ -31,7 +31,7 @@ export const encounterData: EncounterEvent[] = [
       'Онлайн-курс с пробным периодом. Нужна дисциплина и настройка напоминаний, чтобы не переплачивать.',
     imageUrl: '/encounter/OBJ06.png',
     topic: 'Подписки/долгосрочные цели',
-    position: 20,
+    position: 15,
     dialogId: 'CH06_S1',
   },
   {
@@ -42,7 +42,7 @@ export const encounterData: EncounterEvent[] = [
       'Магазин техники, расширенная гарантия и возвраты. Важно читать условия и проверять продавца.',
     imageUrl: '/encounter/OBJ03.png',
     topic: 'Партнёры/страхование',
-    position: 30,
+    position: 20,
     dialogId: 'CH03_S1',
   },
   {
@@ -53,7 +53,7 @@ export const encounterData: EncounterEvent[] = [
       'Билеты, зарубежные платежи, связь и страховка. Подготовка экономит деньги и нервы.',
     imageUrl: '/encounter/OBJ04.png',
     topic: 'Платежи/валюта/страховка',
-    position: 38,
+    position: 26,
     dialogId: 'CH04_S1',
   },
   {
@@ -64,7 +64,7 @@ export const encounterData: EncounterEvent[] = [
       'План маршрута, платные дороги и топливо у партнёров. Осторожнее с фейковыми уведомлениями о штрафах.',
     imageUrl: '/encounter/OBJ05.png',
     topic: 'Партнёры/штрафы/QR',
-    position: 50,
+    position: 36,
     dialogId: 'CH05_S1',
   },
 ];

@@ -12,12 +12,12 @@ import { useResourceLoader, type ResourceConfig } from './use_resource_loader';
 import { useParallax } from './use_parallax';
 import { useDialog } from './use_dialog';
 
-const WORLD_LENGTH = 200;
+const WORLD_LENGTH = 50;
 const STEP_PX = 64;
 const START_TILES = 6;
 const START_X = STEP_PX * START_TILES;
 export const ENERGY_COST_PER_STEP = 6;
-export const MAX_POSITION = 50;
+export const MAX_POSITION = 36;
 
 const transformEncountersToPixels = (encounters: Encounter[]): Encounter[] => {
   return encounters.map((encounter) => ({

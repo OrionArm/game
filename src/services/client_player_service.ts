@@ -45,7 +45,7 @@ export interface MoveResponseDto {
   encounter?: EncounterInfo;
 }
 
-const MAX_POSITION = 50;
+const MAX_POSITION = 36;
 const ENERGY_COST_PER_STEP = 6;
 const ENERGY_REGENERATION_RATE = 1;
 const ENERGY_MAX = 200;
@@ -59,6 +59,10 @@ export class ClientPlayerService {
     this.sessionId = sessionId;
     this.eventService = new EventService(this);
     this.shopService = new ShopService(this);
+  }
+
+  getSessionId(): string {
+    return this.sessionId;
   }
 
   private calculateEnergyRegeneration(playerState: PlayerStateResponseDto): PlayerStateResponseDto {
@@ -101,7 +105,7 @@ export class ClientPlayerService {
       position: 0,
       gold: 100,
       cristal: 0,
-      energy: 100,
+      energy: 60,
       updatedAt: new Date().toISOString(),
       items: [],
       flags: {
@@ -179,7 +183,7 @@ export class ClientPlayerService {
       };
     } else {
       const event = this.eventService.getStepEvent(currentState);
-      const rawDialog = event?.dialog?.[0] || null;
+      const rawDialog = event?.dialog || null;
       dialog = this.filterDialogOptions(rawDialog, currentState);
 
       return {
@@ -254,5 +258,9 @@ export class ClientPlayerService {
     await this.clearLogs();
     this.eventService.resetEventStates();
     this.shopService.resetAvailableItems();
+  }
+
+  resetEventStates(): void {
+    this.eventService.resetEventStates();
   }
 }

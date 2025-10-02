@@ -18,9 +18,11 @@ export class ClientSessionService {
   }
 
   clearSession(): void {
-    localStorage.removeItem(ClientSessionService.SESSION_KEY);
     const sessionId = this.getCurrentSessionId();
+    localStorage.removeItem(ClientSessionService.SESSION_KEY);
     localStorage.removeItem(`player_${sessionId}`);
+    localStorage.removeItem(`events_${sessionId}`);
+    localStorage.removeItem(`shop_${sessionId}`);
   }
 
   private generateSessionId(): string {
