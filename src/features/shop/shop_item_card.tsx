@@ -71,7 +71,7 @@ export default function ShopItemCard({
           onClick={onPurchase}
           disabled={isButtonDisabled}
         >
-          <span>{isPurchasing ? 'Покупка...' : isConsumable ? 'Купить' : 'Бесплатно'}</span>
+          <span>{isPurchasing ? 'Покупка...' : isConsumable ? 'Купить' : 'Забрать'}</span>
 
           {item.cost > 0 && (
             <span className={`${styles.price} ${!canAfford ? styles.insufficient : ''}`}>

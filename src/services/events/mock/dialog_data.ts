@@ -1,18 +1,18 @@
 import type { DialogNode } from '../type';
 
-export const encounterDialogs: Record<string, DialogNode> = {
+export const dialogData: Record<string, DialogNode> = {
   CH01_S1: {
     id: 'CH01_S1',
     speaker: 'Система',
-    text: 'Друзья предлагают скинуться через ссылку в чате. Вы сомневаетесь, безопасно ли это.',
+    text: 'Вы входите в ТЦ и открываете карту этажей: вокруг витрины, баннеры акций и бесплатный Wi‑Fi. Главное — не терять бдительность и бюджет.',
     options: [
       {
-        id: 'CH01_S1-option-a',
+        id: 'a',
         text: 'Предложить оплату через официальный магазин',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Официальный способ прозрачен',
@@ -24,11 +24,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH01_S2A',
       },
       {
-        id: 'CH01_S1-option-b',
-        text: 'Перевести по ссылке в чате',
+        id: 'b',
+        text: 'Перевести по ссылке в стойке информации',
         effects: {
           gold: -150,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -41,12 +41,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH01_S2B',
       },
       {
-        id: 'CH01_S1-option-c',
+        id: 'c',
         text: 'Позвонить другу‑организатору и уточнить детали',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Подтвердили реквизиты',
@@ -62,15 +62,15 @@ export const encounterDialogs: Record<string, DialogNode> = {
   CH01_S2A: {
     id: 'CH01_S2A',
     speaker: 'Система',
-    text: 'Организатор присылает варианты: оплата в магазине, перевод по номеру, или наличными на встрече.',
+    text: 'На фуд‑корте и у стойки информации предлагают оплату по QR и выдают «купоны до конца дня». Проверенные способы экономят деньги и нервы.',
     options: [
       {
-        id: 'CH01_S2A-option-a',
+        id: 'a',
         text: 'Оплатить в магазине по официальной ссылке',
         effects: {
           gold: 60,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Чек придёт на почту',
@@ -82,7 +82,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH01_S3',
       },
       {
-        id: 'CH01_S2A-option-b',
+        id: 'b',
         text: 'Перевести по номеру',
         effects: {
           gold: -80,
@@ -99,12 +99,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH01_S3',
       },
       {
-        id: 'CH01_S2A-option-c',
+        id: 'c',
         text: 'Собраться и рассчитаться наличными',
         effects: {
           gold: 0,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 1,
           prize: {},
           note: 'Встреча заодно зарядила',
@@ -120,15 +120,15 @@ export const encounterDialogs: Record<string, DialogNode> = {
   CH01_S2B: {
     id: 'CH01_S2B',
     speaker: 'Система',
-    text: 'Сайт просит ввести лишнюю информацию. Это красный флаг.',
+    text: 'На фуд‑корте и у стойки информации предлагают оплату по QR и выдают «купоны до конца дня». Проверенные способы экономят деньги и нервы.',
     options: [
       {
-        id: 'CH01_S2B-option-a',
-        text: 'Закрыть форму и сообщить в чат',
+        id: 'a',
+        text: 'Закрыть форму и сообщить в стойке информации',
         effects: {
           gold: 30,
           health: 1,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Остановили сомнительную схему',
@@ -140,11 +140,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH01_S3',
       },
       {
-        id: 'CH01_S2B-option-b',
+        id: 'b',
         text: 'Ввести данные и продолжить',
         effects: {
           gold: -200,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -157,9 +157,9 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH01_S3',
       },
       {
-        id: 'CH01_S2B-option-c',
+        id: 'c',
         text: 'Проверить ссылку через антифрод‑инструмент',
-        requires: 'anti-fraud-token',
+        requires: 'Антифрод-токен',
         effects: {
           gold: 40,
           health: 0,
@@ -176,19 +176,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH01_S3: {
     id: 'CH01_S3',
     speaker: 'Система',
-    text: 'Приходит сообщение «от друга» с просьбой срочно вернуть долг. В тексте опечатка в фамилии.',
+    text: 'У касс решается финал похода: чек, гарантия и обмен — мелочи, которые определяют выгоду и спокойствие.',
     options: [
       {
-        id: 'CH01_S3-option-a',
+        id: 'a',
         text: 'Перезвонить по сохранённому номеру',
         effects: {
           gold: 60,
           health: 1,
-          cristal: 0,
+          cristal: 4,
           energy: 2,
           prize: {},
           note: 'Проверка спасла деньги',
@@ -199,12 +198,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH01_S3-option-b',
-        text: 'Ответить в чат с уточняющим вопросом',
+        id: 'b',
+        text: 'Ответить в стойке информации с уточняющим вопросом',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Мошенник не смог подтвердить детали',
@@ -215,13 +214,13 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH01_S3-option-c',
+        id: 'c',
         text: 'Нажать «Сообщить о мошенничестве»',
-        requires: 'anti-fraud-token',
+        requires: 'Антифрод-токен',
         effects: {
           gold: 50,
           health: 0,
-          cristal: 1,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Помогли и другим',
@@ -232,11 +231,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH01_S3-option-d',
+        id: 'd',
         text: 'Перевести деньги без вопросов',
         effects: {
           gold: -300,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -252,15 +251,15 @@ export const encounterDialogs: Record<string, DialogNode> = {
   CH02_S1: {
     id: 'CH02_S1',
     speaker: 'Система',
-    text: 'Находите исполнителя по объявлению. Он просит предоплату «для брони».',
+    text: 'Находите исполнителя по объявлению. Он просит предоплату «для брони». Двор встречает объявлениями и спорным чатом — важно отделять факты от слухов.',
     options: [
       {
-        id: 'CH02_S1-option-a',
+        id: 'a',
         text: 'Предложить безопасную оплату через платформу',
         effects: {
           gold: 50,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Деньги держит площадка',
@@ -272,11 +271,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH02_S2A',
       },
       {
-        id: 'CH02_S1-option-b',
+        id: 'b',
         text: 'Перевести предоплату на карту',
         effects: {
           gold: -120,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -289,12 +288,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH02_S2B',
       },
       {
-        id: 'CH02_S1-option-c',
+        id: 'c',
         text: 'Попросить договор и ИП/ООО данные',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Проверка повышает шанс успеха',
@@ -307,19 +306,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH02_S2A: {
     id: 'CH02_S2A',
     speaker: 'Система',
-    text: 'Исполнитель готов работать по договору, просит символический аванс с чеком.',
+    text: 'Исполнитель готов работать по договору, просит символический аванс с чеком. несколько шагов — и станет ясно, куда вы движетесь. Лифт, консьерж, УК — порядок начинается с документов и прозрачных платежей.',
     options: [
       {
-        id: 'CH02_S2A-option-a',
+        id: 'a',
         text: 'Оплатить аванс с чеком и распиской',
         effects: {
           gold: 60,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Бумаги на руках',
@@ -331,12 +329,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH02_S3',
       },
       {
-        id: 'CH02_S2A-option-b',
+        id: 'b',
         text: 'Настоять на полной оплате после работ',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Стороны согласились',
@@ -348,7 +346,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH02_S3',
       },
       {
-        id: 'CH02_S2A-option-c',
+        id: 'c',
         text: 'Отказаться и поискать другого',
         effects: {
           gold: 0,
@@ -366,19 +364,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH02_S2B: {
     id: 'CH02_S2B',
     speaker: 'Система',
-    text: 'После перевода «исполнитель» пропадает. Остались только переписка и чек перевода.',
+    text: 'После перевода «исполнитель» пропадает. Остались только переписка и чек перевода. несколько шагов — и станет ясно, куда вы движетесь. Лифт, консьерж, УК — порядок начинается с документов и прозрачных платежей.',
     options: [
       {
-        id: 'CH02_S2B-option-a',
+        id: 'a',
         text: 'Собрать доказательства и подать заявление',
         effects: {
           gold: 20,
           health: 1,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Есть шанс вернуть средства',
@@ -390,11 +387,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH02_S3',
       },
       {
-        id: 'CH02_S2B-option-b',
+        id: 'b',
         text: 'Смириться с потерей',
         effects: {
           gold: 0,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -407,12 +404,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH02_S3',
       },
       {
-        id: 'CH02_S2B-option-c',
+        id: 'c',
         text: 'Предупредить соседний чат района',
         effects: {
           gold: 0,
           health: 0,
-          cristal: 1,
+          cristal: 0,
           energy: 0,
           prize: {},
           note: 'Помогли другим не попасться',
@@ -425,19 +422,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH02_S3: {
     id: 'CH02_S3',
     speaker: 'Система',
-    text: 'Работа выполнена. Осталось рассчитаться и оставить отзыв.',
+    text: 'Работа выполнена. Осталось рассчитаться и оставить отзыв. итоги зависят от внимательности и дальновидности. Финал — квитанции и протоколы: аккуратность экономит и нервы, и деньги.',
     options: [
       {
-        id: 'CH02_S3-option-a',
+        id: 'a',
         text: 'Оплатить безналично и сохранить чек',
         effects: {
           gold: 70,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Чеки пригодятся в споре',
@@ -448,12 +444,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH02_S3-option-b',
+        id: 'b',
         text: 'Наличные с распиской',
         effects: {
           gold: 50,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Главное — расписка',
@@ -464,12 +460,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH02_S3-option-c',
+        id: 'c',
         text: 'Оставить отзыв о честном исполнителе',
         effects: {
           gold: 0,
           health: 0,
-          cristal: 1,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Полезная обратная связь',
@@ -480,7 +476,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH02_S3-option-d',
+        id: 'd',
         text: 'Заплатить сверх оговорённого без причины',
         effects: {
           gold: -40,
@@ -497,19 +493,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH03_S1: {
     id: 'CH03_S1',
     speaker: 'Система',
-    text: 'В одном магазине цена ниже, но отзывов мало. Другой — партнёр с бонусами.',
+    text: 'В одном магазине цена ниже, но отзывов мало. Другой — партнёр с бонусами. Витрины блестят, консультанты торопят решения — не всё «до конца дня» действительно выгодно.',
     options: [
       {
-        id: 'CH03_S1-option-a',
+        id: 'a',
         text: 'Купить у партнёра с бонусами',
         effects: {
           gold: 80,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Бонусы и гарантия',
@@ -521,12 +516,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH03_S2A',
       },
       {
-        id: 'CH03_S1-option-b',
+        id: 'b',
         text: 'Купить у неизвестного продавца подешевле',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Рискованный выбор',
@@ -538,12 +533,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH03_S2B',
       },
       {
-        id: 'CH03_S1-option-c',
+        id: 'c',
         text: 'Сравнить условия и доставку',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Взвешенное решение',
@@ -556,19 +551,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH03_S2A: {
     id: 'CH03_S2A',
     speaker: 'Система',
-    text: 'Продавец предлагает расширенную гарантию. Условия в мелком шрифте.',
+    text: 'Продавец предлагает расширенную гарантию. Условия в мелком шрифте. несколько шагов — и станет ясно, куда вы движетесь. Гарантия и возврат — щит от импульсной покупки; сравнение спасает бюджет.',
     options: [
       {
-        id: 'CH03_S2A-option-a',
+        id: 'a',
         text: 'Прочитать условия и купить осознанно',
         effects: {
           gold: 50,
           health: 1,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Подходит под сценарий',
@@ -580,12 +574,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH03_S3',
       },
       {
-        id: 'CH03_S2A-option-b',
+        id: 'b',
         text: 'Отказаться — не вижу смысла',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Экономия сейчас',
@@ -597,12 +591,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH03_S3',
       },
       {
-        id: 'CH03_S2A-option-c',
+        id: 'c',
         text: 'Сфотографировать условия, решить позже',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Решение после сравнения',
@@ -615,19 +609,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH03_S2B: {
     id: 'CH03_S2B',
     speaker: 'Система',
-    text: 'Курьер передаёт товар без кассового чека, только «накладная».',
+    text: 'Курьер передаёт товар без кассового чека, только «накладная». несколько шагов — и станет ясно, куда вы движетесь. Гарантия и возврат — щит от импульсной покупки; сравнение спасает бюджет.',
     options: [
       {
-        id: 'CH03_S2B-option-a',
+        id: 'a',
         text: 'Попросить кассовый чек и фирменную гарантию',
         effects: {
           gold: 40,
           health: 1,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Документы выдали',
@@ -639,7 +632,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH03_S3',
       },
       {
-        id: 'CH03_S2B-option-b',
+        id: 'b',
         text: 'Забрать как есть — лишь бы дешевле',
         effects: {
           gold: -60,
@@ -656,12 +649,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH03_S3',
       },
       {
-        id: 'CH03_S2B-option-c',
+        id: 'c',
         text: 'Оплатить картой и сфотографировать все бумаги',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Есть след оплаты',
@@ -674,19 +667,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH03_S3: {
     id: 'CH03_S3',
     speaker: 'Система',
-    text: 'Техника работает, но есть мелкий дефект. Думаете, как оформить возврат/обмен.',
+    text: 'Техника работает, но есть мелкий дефект. Думаете, как оформить возврат/обмен. итоги зависят от внимательности и дальновидности. На кассе важен чек и серийник: правильный шаг защитит от неприятных сюрпризов.',
     options: [
       {
-        id: 'CH03_S3-option-a',
+        id: 'a',
         text: 'Оформить обмен в срок и с чеком',
         effects: {
           gold: 70,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Всё по правилам',
@@ -697,12 +689,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH03_S3-option-b',
+        id: 'b',
         text: 'Оставить как есть — жить можно',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Сэкономили время',
@@ -713,12 +705,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH03_S3-option-c',
+        id: 'c',
         text: 'Связаться с поддержкой партнёра',
         effects: {
           gold: 40,
           health: 1,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Помогли оформить корректно',
@@ -729,7 +721,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH03_S3-option-d',
+        id: 'd',
         text: 'Продать в частном порядке без гарантий',
         effects: {
           gold: -20,
@@ -746,19 +738,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH04_S1: {
     id: 'CH04_S1',
     speaker: 'Система',
-    text: 'Выбираете, где покупать билеты и какой картой платить.',
+    text: 'Выбираете, где покупать билеты и какой картой платить. Чемодан, билеты, маршрут — заранее настроенные сервисы экономят время в дороге.',
     options: [
       {
-        id: 'CH04_S1-option-a',
+        id: 'a',
         text: 'Купить на официальном сайте с подходящей картой',
         effects: {
           gold: 60,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Меньше скрытых сборов',
@@ -770,12 +761,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH04_S2A',
       },
       {
-        id: 'CH04_S1-option-b',
+        id: 'b',
         text: 'Через агрегатор с непонятной комиссией',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Проверьте сборы',
@@ -787,11 +778,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH04_S2A',
       },
       {
-        id: 'CH04_S1-option-c',
+        id: 'c',
         text: 'У частного продавца по объявлению',
         effects: {
           gold: -120,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -805,19 +796,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH04_S2A: {
     id: 'CH04_S2A',
     speaker: 'Система',
-    text: 'Решаете, как подключить связь в поездке: eSIM‑пакет, роуминг или местная SIM.',
+    text: 'Решаете, как подключить связь в поездке: eSIM‑пакет, роуминг или местная SIM. несколько шагов — и станет ясно, куда вы движетесь. Регистрация, багаж, страховка: одна галочка в приложении убирает лишнюю очередь.',
     options: [
       {
-        id: 'CH04_S2A-option-a',
+        id: 'a',
         text: 'Купить eSIM‑пакет заранее',
         effects: {
           gold: 50,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Предсказуемые расходы',
@@ -829,12 +819,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH04_S3',
       },
       {
-        id: 'CH04_S2A-option-b',
+        id: 'b',
         text: 'Включить роуминг на ходу',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Может выйти дороже',
@@ -846,12 +836,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH04_S3',
       },
       {
-        id: 'CH04_S2A-option-c',
+        id: 'c',
         text: 'Купить местную SIM на месте',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Дешевле, но хлопотно',
@@ -864,19 +854,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH04_S2B: {
     id: 'CH04_S2B',
     speaker: 'Система',
-    text: 'Продавец просит оплату переводом и обещает «скидку», но отказывается от безопасной сделки.',
+    text: 'Продавец просит оплату переводом и обещает «скидку», но отказывается от безопасной сделки. несколько шагов — и станет ясно, куда вы движетесь. Регистрация, багаж, страховка: одна галочка в приложении убирает лишнюю очередь.',
     options: [
       {
-        id: 'CH04_S2B-option-a',
+        id: 'a',
         text: 'Отказаться и купить официально',
         effects: {
           gold: 40,
           health: 1,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Риск обошёл стороной',
@@ -888,11 +877,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH04_S3',
       },
       {
-        id: 'CH04_S2B-option-b',
+        id: 'b',
         text: 'Оплатить переводом «как есть»',
         effects: {
           gold: -200,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -905,9 +894,9 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH04_S3',
       },
       {
-        id: 'CH04_S2B-option-c',
+        id: 'c',
         text: 'Проверить продавца в чёрных списках',
-        requires: 'anti-fraud-token',
+        requires: 'Антифрод-токен',
         effects: {
           gold: 30,
           health: 0,
@@ -924,19 +913,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH04_S3: {
     id: 'CH04_S3',
     speaker: 'Система',
-    text: 'Подумайте о медстраховке и защите отмены. Это экономит деньги в непредвидённых ситуациях.',
+    text: 'Подумайте о медстраховке и защите отмены. Это экономит деньги в непредвидённых ситуациях. итоги зависят от внимательности и дальновидности. Перед посадкой — финальные штрихи; спокойствие дорожит каждой минутой.',
     options: [
       {
-        id: 'CH04_S3-option-a',
+        id: 'a',
         text: 'Оформить медстраховку путешественника',
         effects: {
           gold: 50,
           health: 1,
-          cristal: 0,
+          cristal: 4,
           energy: 2,
           prize: {},
           note: 'Спокойствие дороже',
@@ -947,12 +935,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH04_S3-option-b',
+        id: 'b',
         text: 'Добавить опцию отмены поездки',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Гибкость в планах',
@@ -963,7 +951,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH04_S3-option-c',
+        id: 'c',
         text: 'Ничего не оформлять',
         effects: {
           gold: 0,
@@ -979,12 +967,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH04_S3-option-d',
+        id: 'd',
         text: 'Прочитать условия и решить позже',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Осознанный подход',
@@ -996,19 +984,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH05_S1: {
     id: 'CH05_S1',
     speaker: 'Система',
-    text: 'Строите маршрут: есть вариант с платными участками и автоплатежом.',
+    text: 'Строите маршрут: есть вариант с платными участками и автоплатежом. Трасса и первая заправка — темп задаёт правильный выбор АЗС и перекуса.',
     options: [
       {
-        id: 'CH05_S1-option-a',
+        id: 'a',
         text: 'Включить автоплатёж за проезд',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Без очередей на подъезде',
@@ -1020,12 +1007,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH05_S2A',
       },
       {
-        id: 'CH05_S1-option-b',
+        id: 'b',
         text: 'Ехать бесплатным маршрутом дольше',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Сэкономили деньги, потратили время',
@@ -1037,12 +1024,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH05_S2A',
       },
       {
-        id: 'CH05_S1-option-c',
+        id: 'c',
         text: 'Наличными на месте',
         effects: {
           gold: 10,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Возможны очереди',
@@ -1055,20 +1042,19 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH05_S2A: {
     id: 'CH05_S2A',
     speaker: 'Система',
-    text: 'На пути сеть партнёров с кэшбэком и АЗС без бонусов.',
+    text: 'На пути сеть партнёров с кэшбэком и АЗС без бонусов. несколько шагов — и станет ясно, куда вы движетесь. Платные участки и паузы на кофе — балансируете деньги и время.',
     options: [
       {
-        id: 'CH05_S2A-option-a',
+        id: 'a',
         text: 'Заправиться у партнёра',
-        requires: 'bonus-card',
+        requires: 'Бонус-карта партнёра',
         effects: {
           gold: 80,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Вернётся часть расходов',
@@ -1080,12 +1066,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH05_S3',
       },
       {
-        id: 'CH05_S2A-option-b',
+        id: 'b',
         text: 'Заправиться где ближе',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Быстро, но без бонусов',
@@ -1097,12 +1083,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH05_S3',
       },
       {
-        id: 'CH05_S2A-option-c',
+        id: 'c',
         text: 'Сверить цены в приложении',
         effects: {
           gold: 50,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Нашли выгоднее по дороге',
@@ -1115,19 +1101,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH05_S3: {
     id: 'CH05_S3',
     speaker: 'Система',
-    text: 'Приходит СМС с требованием оплатить штраф по ссылке. Похоже на подмену.',
+    text: 'Приходит СМС с требованием оплатить штраф по ссылке. Похоже на подмену. итоги зависят от внимательности и дальновидности. Перед финишем — последняя остановка: выгодная заправка или короткий рывок.',
     options: [
       {
-        id: 'CH05_S3-option-a',
+        id: 'a',
         text: 'Проверить штраф на официальном портале',
         effects: {
           gold: 50,
           health: 1,
-          cristal: 0,
+          cristal: 4,
           energy: 2,
           prize: {},
           note: 'Подтвердили, что всё чисто',
@@ -1138,11 +1123,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH05_S3-option-b',
+        id: 'b',
         text: 'Оплатить по ссылке из СМС',
         effects: {
           gold: -200,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -1154,13 +1139,13 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH05_S3-option-c',
+        id: 'c',
         text: 'Отправить ссылку на проверку',
-        requires: 'anti-fraud-token',
+        requires: 'Антифрод-токен',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 1,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Пометили как опасную',
@@ -1171,11 +1156,11 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH05_S3-option-d',
+        id: 'd',
         text: 'Позвонить «оператору» из СМС',
         effects: {
           gold: 0,
-          health: -5,
+          health: -1,
           cristal: 0,
           energy: 0,
           prize: {},
@@ -1188,20 +1173,19 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH06_S1: {
     id: 'CH06_S1',
     speaker: 'Система',
-    text: 'Курс даёт 7 дней бесплатно. Важно не забыть про автосписание.',
+    text: 'Курс даёт 7 дней бесплатно. Важно не забыть про автосписание. Личный кабинет и дедлайны: короткий план — лучший инструмент концентрации.',
     options: [
       {
-        id: 'CH06_S1-option-a',
+        id: 'a',
         text: 'Подключить и поставить напоминание',
-        requires: 'auto-payment',
+        requires: 'Смарт-автоплатёж',
         effects: {
           gold: 60,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Будет напоминание о списании',
@@ -1213,12 +1197,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH06_S2A',
       },
       {
-        id: 'CH06_S1-option-b',
+        id: 'b',
         text: 'Подключить без напоминаний',
         effects: {
           gold: 20,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Риск забыть отключить',
@@ -1230,12 +1214,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH06_S2B',
       },
       {
-        id: 'CH06_S1-option-c',
+        id: 'c',
         text: 'Пока только изучить программу',
         effects: {
           gold: 0,
           health: 0,
-          cristal: 1,
+          cristal: 0,
           energy: 0,
           prize: {},
           note: 'Осознанный старт',
@@ -1248,19 +1232,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH06_S2A: {
     id: 'CH06_S2A',
     speaker: 'Система',
-    text: 'Нужно выбрать ритм занятий, чтобы не сорваться с графика.',
+    text: 'Нужно выбрать ритм занятий, чтобы не сорваться с графика. несколько шагов — и станет ясно, куда вы движетесь. Модули и тесты идут ровнее, если напоминания выставлены заранее.',
     options: [
       {
-        id: 'CH06_S2A-option-a',
+        id: 'a',
         text: 'Заниматься по 20 минут в день',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 1,
           prize: {},
           note: 'Привычка формируется быстрее',
@@ -1272,12 +1255,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH06_S3',
       },
       {
-        id: 'CH06_S2A-option-b',
+        id: 'b',
         text: 'Два долгих занятия в неделю',
         effects: {
           gold: 30,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Подходит при плотном графике',
@@ -1289,12 +1272,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH06_S3',
       },
       {
-        id: 'CH06_S2A-option-c',
+        id: 'c',
         text: 'Учиться «как получится»',
         effects: {
           gold: 10,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Есть риск пропусков',
@@ -1307,19 +1290,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH06_S2B: {
     id: 'CH06_S2B',
     speaker: 'Система',
-    text: 'Бесплатный период заканчивается сегодня, а напоминаний нет.',
+    text: 'Бесплатный период заканчивается сегодня, а напоминаний нет. несколько шагов — и станет ясно, куда вы движетесь. Модули и тесты идут ровнее, если напоминания выставлены заранее.',
     options: [
       {
-        id: 'CH06_S2B-option-a',
+        id: 'a',
         text: 'Продлить курс осознанно',
         effects: {
           gold: 50,
           health: 0,
-          cristal: 0,
+          cristal: 2,
           energy: 0,
           prize: {},
           note: 'Решение принято без спешки',
@@ -1331,12 +1313,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH06_S3',
       },
       {
-        id: 'CH06_S2B-option-b',
+        id: 'b',
         text: 'Отключить до списания',
         effects: {
           gold: 40,
           health: 0,
-          cristal: 0,
+          cristal: 1,
           energy: 0,
           prize: {},
           note: 'Избежали лишних трат',
@@ -1348,7 +1330,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         nextDialogId: 'CH06_S3',
       },
       {
-        id: 'CH06_S2B-option-c',
+        id: 'c',
         text: 'Пропустить уведомление',
         effects: {
           gold: -60,
@@ -1366,19 +1348,18 @@ export const encounterDialogs: Record<string, DialogNode> = {
       },
     ],
   },
-
   CH06_S3: {
     id: 'CH06_S3',
     speaker: 'Система',
-    text: 'Прошли модуль и получили сертификат. Осталось решить, как применить знания.',
+    text: 'Прошли модуль и получили сертификат. Осталось решить, как применить знания. итоги зависят от внимательности и дальновидности. Финальный зачёт: спокойный темп и подготовленные материалы делают разницу.',
     options: [
       {
-        id: 'CH06_S3-option-a',
+        id: 'a',
         text: 'Обновить резюме и откликнуться на вакансии',
         effects: {
           gold: 80,
           health: 0,
-          cristal: 1,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Первый шаг к росту',
@@ -1389,12 +1370,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH06_S3-option-b',
+        id: 'b',
         text: 'Попросить повышение на текущей работе',
         effects: {
           gold: 60,
           health: 0,
-          cristal: 0,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Разговор по делу',
@@ -1405,12 +1386,12 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH06_S3-option-c',
+        id: 'c',
         text: 'Продолжить учиться на следующем модуле',
         effects: {
           gold: 0,
           health: 0,
-          cristal: 1,
+          cristal: 3,
           energy: 2,
           prize: {},
           note: 'Инвестиция в себя',
@@ -1421,7 +1402,7 @@ export const encounterDialogs: Record<string, DialogNode> = {
         },
       },
       {
-        id: 'CH06_S3-option-d',
+        id: 'd',
         text: 'Отложить применение на потом',
         effects: {
           gold: 0,

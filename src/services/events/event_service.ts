@@ -14,8 +14,8 @@ import type {
   WorldStateResponseDto,
   HappenedEffects,
 } from './type';
-import { stepEventData } from './mock/steps_data';
-import { encounterDialogs } from './mock/dialogs_data';
+import { stepData } from './mock/step_data';
+import { dialogData } from './mock/dialog_data';
 import { applyDialogEffectsToState, checkEventConditions, selectWeightedEvent } from './utils';
 import { encounterData } from './mock/encounters_data';
 import { mockItems } from './mock/item_data';
@@ -26,7 +26,7 @@ export class EventService {
   private completedEncounterEvents: EncounterEvent[] = [];
   private readonly WORLD_LENGTH = 70;
   private playerService: ClientPlayerService;
-  private availableStepEvents: StepEvent[] = [...stepEventData];
+  private availableStepEvents: StepEvent[] = [...stepData];
   private completedStepEvents: StepEvent[] = [];
 
   constructor(playerService: ClientPlayerService) {
@@ -107,7 +107,7 @@ export class EventService {
     }
 
     if (eventType === 'encounter') {
-      const dialog = encounterDialogs[dialogId];
+      const dialog = dialogData[dialogId];
       if (!dialog) {
         return { isDialogComplete: true };
       }
@@ -125,7 +125,7 @@ export class EventService {
       const happenedEffects = this.createHappenedEffects(option.effects);
 
       if (option.nextDialogId) {
-        const nextDialog = encounterDialogs[option.nextDialogId];
+        const nextDialog = dialogData[option.nextDialogId];
         if (nextDialog) {
           const filteredNextDialog = this.filterDialogOptions(nextDialog, newState || playerState);
           return {
@@ -267,7 +267,7 @@ export class EventService {
   resetEventStates(): void {
     this.encounterEvents = [...encounterData];
     this.completedEncounterEvents = [];
-    this.availableStepEvents = [...stepEventData];
+    this.availableStepEvents = [...stepData];
     this.completedStepEvents = [];
   }
 }

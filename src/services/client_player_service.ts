@@ -1,5 +1,5 @@
 import { EventService } from './events/event_service';
-import { encounterDialogs } from './events/mock/dialogs_data';
+import { dialogData } from './events/mock/dialog_data';
 import type { Item, ItemId } from './events/mock/item_data';
 import { type DialogNode, type EncounterInfo } from './events/type';
 import { ShopService } from './shop_service';
@@ -16,7 +16,12 @@ export type PlayerStateResponseDto = Points & {
   flags: PlayerFlags;
 };
 
-export type FlagName = 'friendContact' | 'friendScamSpotted' | 'friendFact' | 'friendLegitHint';
+export type FlagName =
+  | 'friendFact'
+  | 'friendContactVerified'
+  | 'friendScamConfirmed'
+  | 'friendScamSuspected'
+  | 'friendScamBlockPrep';
 
 export type Points = {
   cristal: number;
@@ -100,10 +105,11 @@ export class ClientPlayerService {
       updatedAt: new Date().toISOString(),
       items: [],
       flags: {
-        friendContact: false,
-        friendScamSpotted: false,
+        friendContactVerified: false,
+        friendScamSuspected: false,
+        friendScamConfirmed: false,
+        friendScamBlockPrep: false,
         friendFact: false,
-        friendLegitHint: false,
       },
     };
 
@@ -159,7 +165,7 @@ export class ClientPlayerService {
 
     let dialog: DialogNode | null = null;
     if (encounterAtPosition) {
-      dialog = encounterDialogs[encounterAtPosition.dialogId];
+      dialog = dialogData[encounterAtPosition.dialogId];
       dialog = this.filterDialogOptions(dialog, currentState);
 
       return {

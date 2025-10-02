@@ -8,7 +8,7 @@ export const encounterData: EncounterEvent[] = [
     description:
       'Групповой чат друзей и сбор денег на подарок. Важна проверка личности и безопасный способ оплаты.',
     imageUrl: '/encounter/OBJ01.png',
-    topic: 'Антифрод/социнжиниринг',
+    topic: 'Антифрод/соц.инжиниринг',
     position: 5,
     dialogId: 'CH01_S1',
   },
