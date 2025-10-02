@@ -96,8 +96,8 @@ export class ClientPlayerService {
     const newPlayer: PlayerStateResponseDto = {
       id: Date.now(),
       name: `Player_${this.sessionId.slice(0, 8)}`,
-      health: 100,
-      maxHealth: 100,
+      health: 10,
+      maxHealth: 10,
       position: 0,
       gold: 100,
       cristal: 0,

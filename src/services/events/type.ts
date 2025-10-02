@@ -1,6 +1,8 @@
 import type { DialogEffects, FlagName, PlayerStateResponseDto } from '../client_player_service';
 import type { Item, ItemId } from './mock/item_data';
 
+export type { Item, ItemId };
+
 export type EncounterAction = 'talk' | 'fight' | 'flee' | 'loot' | 'trade' | 'ignore';
 
 export interface DialogOption {

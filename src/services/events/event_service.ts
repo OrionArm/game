@@ -83,13 +83,31 @@ export class EventService {
   ): HappenedEffects | undefined {
     if (!effects) return undefined;
 
+    const health = effects.health || 0;
+    const gold = effects.gold || 0;
+    const cristal = effects.cristal || 0;
+    const note = effects.note || '';
+    const itemsGain = this.convertItemIdsToItems(effects.itemsGain);
+    const itemsLose = this.convertItemIdsToItems(effects.itemsLose);
+
+    if (
+      health === 0 &&
+      gold === 0 &&
+      cristal === 0 &&
+      note === '' &&
+      itemsGain.length === 0 &&
+      itemsLose.length === 0
+    ) {
+      return undefined;
+    }
+
     return {
-      health: effects.health || 0,
-      gold: effects.gold || 0,
-      cristal: effects.cristal || 0,
-      note: effects.note || '',
-      itemsGain: this.convertItemIdsToItems(effects.itemsGain),
-      itemsLose: this.convertItemIdsToItems(effects.itemsLose),
+      health,
+      gold,
+      cristal,
+      note,
+      itemsGain,
+      itemsLose,
     };
   }
 
